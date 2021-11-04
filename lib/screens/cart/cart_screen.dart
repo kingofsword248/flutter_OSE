@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> implements CheckOutContract {
     } on Exception catch (_) {
       print('Lỗi check out');
     }
-
+    //1thuwef
     _checkOutPresenter.checkOut(cartRequest, a.token);
   }
 
