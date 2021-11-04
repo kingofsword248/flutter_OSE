@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+
+const Color primaryColor = Color.fromRGBO(213, 154, 34, 1);
+const Color primaryPromoColor = Color(0xFF3150B4);
+const Color secondaryPromoColor = Color(0xFF0F2C91);
+const Color tagBackgroundColor = Color.fromRGBO(177, 173, 173, 0.25);
+
+final RegExp emailValidatorRegExp = RegExp(r"^[a-zA-Z0-9.]+");
+const String kEmailNullError = "Please Enter your email";
+const String kInvalidEmailError = "Please Enter Valid Email";
+const String kPassNullError = "Please Enter your password";
+const String kShortPassError = "Password is too short";
+const String kMatchPassError = "Passwords don't match";
+const String kNamelNullError = "Please Enter your name";
+const String kPhoneNumberNullError = "Please Enter your phone number";
+const String kAddressNullError = "Please Enter your address";
