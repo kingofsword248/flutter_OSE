@@ -5,7 +5,7 @@ import 'package:old_change_app/models/cart_request.dart';
 
 abstract class CheckOutContract {
   void onPressCheckout(Result value);
-  void OnCheckOutError();
+  void OnCheckOutError(String error);
 }
 
 class CheckOutPresenter {
@@ -20,7 +20,8 @@ class CheckOutPresenter {
         .checkOut(token, cartRequest)
         .then((value) => _view.onPressCheckout(value))
         .catchError((onError) {
-      _view.OnCheckOutError();
+      print(onError);
+      _view.OnCheckOutError(onError.toString());
     });
   }
 }

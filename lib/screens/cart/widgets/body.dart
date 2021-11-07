@@ -14,7 +14,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
-    final cartList = Provider.of<CartList>(context, listen: false);
+    final cartList = Provider.of<CartList>(context);
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),

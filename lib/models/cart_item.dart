@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:old_change_app/models/product_real.dart';
 
+import 'cart_request.dart';
+
 class CartModels {
   final Product product;
   int numOfItems;
@@ -17,6 +19,11 @@ class CartList with ChangeNotifier {
 
   int get itemCount {
     return _carts.length;
+  }
+
+  void clearCart() {
+    _carts.clear();
+    notifyListeners();
   }
 
   bool check(int id) {
@@ -66,5 +73,20 @@ class CartList with ChangeNotifier {
 
   int sumOfOneItem(int index) {
     return _carts[index].numOfItems * _carts[index].product.price;
+  }
+
+  static CartRequest convertCart(List<CartModels> cartModels, int id) {
+    if (cartModels == null) {
+      return null;
+    }
+    List<ProductRequest> list = [];
+    CartRequest cartRequests = CartRequest(id: id, product: list);
+
+    for (int i = 0; i < cartModels.length; i++) {
+      cartRequests.product.add(ProductRequest(
+          idproduct: cartModels[i].product.idProduct,
+          quantity: cartModels[i].numOfItems));
+    }
+    return cartRequests;
   }
 }

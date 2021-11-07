@@ -1,44 +1,47 @@
+import 'package:old_change_app/models/cart_item.dart';
+
 class CartRequest {
-  String id;
+  int id;
   List<ProductRequest> product;
 
   CartRequest({this.id, this.product});
 
-  CartRequest.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    if (json['product'] != null) {
-      product = new List<ProductRequest>();
-      json['product'].forEach((v) {
-        product.add(new ProductRequest.fromJson(v));
-      });
-    }
+  factory CartRequest.fromJson(Map<String, dynamic> json) {
+    // var list = json['product'] as List;
+    // List<ProductRequest> productList =
+    //     list.map((i) => ProductRequest.fromJson(i)).toList();
+    return CartRequest(
+      id: json['id'] as int,
+      product: List<ProductRequest>.from(
+          json["product"].map((x) => ProductRequest.fromJson(x))),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.product != null) {
-      data['product'] = this.product.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    if (product != null) {
+      data['product'] = product.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class ProductRequest {
-  String idproduct;
-  String quantity;
+  int idproduct;
+  int quantity;
 
   ProductRequest({this.idproduct, this.quantity});
 
-  ProductRequest.fromJson(Map<String, dynamic> json) {
-    idproduct = json['idproduct'];
-    quantity = json['quantity'];
+  factory ProductRequest.fromJson(Map<String, dynamic> json) {
+    return ProductRequest(
+        idproduct: json['idproduct'], quantity: json['quantity']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['idproduct'] = this.idproduct;
-    data['quantity'] = this.quantity;
+    data['idproduct'] = idproduct;
+    data['quantity'] = quantity;
     return data;
   }
 }

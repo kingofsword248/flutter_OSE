@@ -197,8 +197,13 @@ class _SignFormState extends State<SignForm> implements LoginContract {
     setState(() {
       user = us;
       print("login thanh cong");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
     });
   }
 

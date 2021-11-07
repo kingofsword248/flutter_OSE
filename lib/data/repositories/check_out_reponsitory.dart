@@ -1,7 +1,6 @@
 import 'package:old_change_app/models/cart_request.dart';
 import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 abstract class CheckOutRepository {
   Future<Result> checkOut(String token, CartRequest cartRequest);
@@ -10,16 +9,23 @@ abstract class CheckOutRepository {
 class CheckOutRepositoryIml implements CheckOutRepository {
   @override
   Future<Result> checkOut(String token, CartRequest cartRequest) async {
-    String url = "https://old-stuff-exchange-api.herokuapp.com/api/order";
-    Map<String, String> header = {'Authorization': 'Bearer ' + token};
-    final reponse = await http.post(Uri.parse(url),
-        body: cartRequest.toJson(), headers: header);
+    var dio = Dio();
+    print(cartRequest.toJson());
+    String url = 'https://old-stuff-exchange-api.herokuapp.com/api/order';
+    dio.options.headers["authorization"] = "Bearer " + token.toString();
+    final reponse = await dio.post(
+      url,
+      data: cartRequest.toJson(),
+    );
     if (reponse.statusCode == 200) {
-      return Result.fromJson(json.decode(reponse.body));
+      return Result.fromJson(reponse.data);
     } else if (reponse.statusCode == 404) {
-      return Result.fromJson(json.decode(reponse.body));
+      return Result.fromJson(json.decode(reponse.data));
+    } else if (reponse.statusCode == 401) {
+      throw Exception("wrong token");
     } else {
-      throw Exception("Loi check out");
+      print(reponse.statusCode);
+      throw Exception("check out error");
     }
   }
 }
