@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/models/cart_item.dart';
+import 'package:old_change_app/models/providers/cart_item.dart';
 
 import 'package:old_change_app/widgets/size_config.dart';
 import 'package:provider/provider.dart';

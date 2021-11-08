@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:old_change_app/models/cart_item.dart';
+import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/models/cart_request.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/check_out_presenter.dart';
 import 'package:old_change_app/screens/cart/widgets/body.dart';
 import 'package:old_change_app/screens/cart/widgets/default_button.dart';
-import 'package:old_change_app/screens/detail_page/detail_page.dart';
 import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 import 'package:provider/provider.dart';

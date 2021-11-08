@@ -1,4 +1,4 @@
-import 'package:old_change_app/models/cart_item.dart';
+import 'package:old_change_app/models/providers/cart_item.dart';
 
 class CartRequest {
   int id;

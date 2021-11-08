@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/models/cart_item.dart';
+import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_select/smart_select.dart';

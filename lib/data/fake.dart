@@ -1,4 +1,3 @@
-import 'package:old_change_app/models/cart_item.dart';
 import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/models/item.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:old_change_app/models/product_real.dart';
 
-import 'cart_request.dart';
+import '../cart_request.dart';
 
 class CartModels {
   final Product product;
