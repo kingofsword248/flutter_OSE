@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class User {
   int id;
   String userName;
@@ -12,6 +10,7 @@ class User {
   String createdAt;
   String updatedAt;
   String token;
+  int balance;
 
   User(
       {this.id,
@@ -24,7 +23,8 @@ class User {
       this.dob,
       this.createdAt,
       this.updatedAt,
-      this.token});
+      this.token,
+      this.balance});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -38,6 +38,7 @@ class User {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     token = json['token'];
+    balance = json['balance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -53,6 +54,7 @@ class User {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['token'] = this.token;
+    data['balance'] = this.balance;
     return data;
   }
 }

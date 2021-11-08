@@ -46,8 +46,8 @@ class ProductInfo extends StatelessWidget {
             height: 5,
           ),
           Row(
-            children: [
-              const Text(
+            children: const [
+              Text(
                 'Rating ',
                 style: TextStyle(color: Colors.grey),
               ),
@@ -56,7 +56,7 @@ class ProductInfo extends StatelessWidget {
                 color: Colors.yellow,
               ),
               Text(
-                '${item.rating}',
+                '${0}',
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
               ),
