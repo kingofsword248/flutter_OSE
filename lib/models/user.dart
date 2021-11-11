@@ -3,6 +3,7 @@ class User {
   String userName;
   String role;
   String address;
+  String avatar;
   String phone;
   String fullName;
   String gender;
@@ -17,6 +18,7 @@ class User {
       this.userName,
       this.role,
       this.address,
+      this.avatar,
       this.phone,
       this.fullName,
       this.gender,
@@ -31,6 +33,7 @@ class User {
     userName = json['userName'];
     role = json['role'];
     address = json['address'];
+    avatar = json['avatar'];
     phone = json['phone'];
     fullName = json['fullName'];
     gender = json['gender'];
@@ -47,6 +50,7 @@ class User {
     data['userName'] = this.userName;
     data['role'] = this.role;
     data['address'] = this.address;
+    data['avatar'] = this.avatar;
     data['phone'] = this.phone;
     data['fullName'] = this.fullName;
     data['gender'] = this.gender;

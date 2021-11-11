@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color primaryColor = Color.fromRGBO(70, 100, 138, 1);
+const Color primaryFocusColor = Color(0xFF3150B4);
 const Color primaryPromoColor = Color(0xFF3150B4);
 const Color secondaryPromoColor = Color(0xFF0F2C91);
 const Color tagBackgroundColor = Color.fromRGBO(177, 173, 173, 0.25);
