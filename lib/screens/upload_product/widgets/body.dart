@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,10 +7,17 @@ import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/data/fake.dart';
 import 'package:old_change_app/models/input/category_request.dart';
 import 'package:old_change_app/models/input/post_image_result.dart';
+import 'package:old_change_app/models/input/post_product_result.dart';
+import 'package:old_change_app/models/input/product_form.dart';
+import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/categories_presenter.dart';
 import 'package:old_change_app/presenters/load_image_presenter.dart';
+import 'package:old_change_app/presenters/post_product_presenter.dart';
 import 'package:old_change_app/screens/cart/widgets/default_button.dart';
+import 'package:old_change_app/widgets/form_error.dart';
+import 'package:old_change_app/widgets/keyboard.dart';
 import 'package:old_change_app/widgets/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_select/smart_select.dart';
 
 class Body extends StatefulWidget {
@@ -20,7 +28,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body>
-    implements CategoryContract, LoadImageContract {
+    implements CategoryContract, LoadImageContract, PostProductContract {
+  //Postproduct
+  PostProductPresenter _postProductPresenter;
   //catefory
   CategoryPresenter _categoryPresenter;
   List<CategoryRequest> listCategories;
@@ -28,22 +38,56 @@ class _BodyState extends State<Body>
   var _isLoading = false;
   //load image
   List<XFile> _files = [];
-
-  List<ImageResult> imageResultList = [];
+  bool uploadImageLoading = false;
+  // List<ImageResult> imageResultList = [];
   LoadImagePresenter _imagePresenter;
   //form
   final _formKey = GlobalKey<FormState>();
+  //local var
+  List<ImageP> imageList = [];
+  // ProductPost productPost;
+  String name;
+  String description;
+  int quantity;
+  int price;
+  int categoryID;
+  int categoryChangeID;
+  //validate
+  final List<String> errors = [];
+  void addError({String error}) {
+    if (!errors.contains(error)) {
+      setState(() {
+        errors.add(error);
+      });
+    }
+  }
+
+  void removeError({String error}) {
+    if (errors.contains(error)) {
+      setState(() {
+        errors.remove(error);
+      });
+    }
+  }
+
+  void checkCategoryChange(String value) {
+    setState(() {
+      Fake.status = value;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _categoryPresenter = CategoryPresenter(this);
     _imagePresenter = LoadImagePresenter(this);
+    _postProductPresenter = PostProductPresenter(this);
     if (Fake.categoryFake.isEmpty) {
-      // setState(() {
-      //   _isLoading = true;
-      // });
-      // _categoryPresenter.loadCategory();
+      setState(() {
+        _isLoading = true;
+      });
+      _categoryPresenter.loadCategory();
     }
   }
 
@@ -89,29 +133,71 @@ class _BodyState extends State<Body>
                         height: 20,
                       ),
                       if (Fake.categoryFake.isNotEmpty) categoryForm(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      if (Fake.categoryFake.isNotEmpty &&
+                          !Fake.status.contains("SELL"))
+                        categoryWantedForm(),
                       imageWidgets(),
+                      FormError(errors: errors),
                       DefaultButton(
                         text: "Post Product",
-                        press: () {
-                          if (_files == null) return;
-                          for (var i = 0; i < _files.length; i++) {
-                            _imagePresenter.loadImage(File(_files[i].path));
+                        press: () async {
+                          //check validate
+                          if (imageList.isEmpty) {
+                            addError(error: pPictures);
+                            return;
+                          } else if (imageList.isNotEmpty) {
+                            removeError(error: pPictures);
                           }
-                          // if (_formKey.currentState.validate()) {
-                          //   _formKey.currentState.save();
+                          if (categoryID == null) {
+                            addError(error: pCategoryError);
+                            return;
+                          } else {
+                            removeError(error: pCategoryError);
+                          }
+                          if (!Fake.status.contains("SELL") &&
+                              categoryChangeID == null) {
+                            addError(error: pCategoryTrade);
+                            return;
+                          } else {
+                            removeError(error: pCategoryTrade);
+                          }
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            //thêm user
+                            final prefs = await SharedPreferences.getInstance();
+                            User a;
+                            String user = prefs.get('User');
+                            if (user != null) {
+                              a = User.fromJson(json.decode(user));
+                            }
+                            if (Fake.status == "SELL") {
+                              categoryChangeID = 0;
+                            }
+                            ProductPost productPost = ProductPost(
+                                name: name,
+                                description: description,
+                                quantity: quantity,
+                                price: price,
+                                image: imageList,
+                                own: a.id,
+                                status: Fake.status,
+                                categoryID: categoryID,
+                                categoryChangeID: categoryChangeID);
+                            //
 
-                          //   setState(() {
-                          //     // _isLoading = true;
-                          //     // _loginPresenter.login(LoginForm(
-                          //     //     userName: email, password: password));
-                          //   });
-                          //   for (var i = 0; i < _files.length; i++) {
-                          //     _imagePresenter.loadImage(File(_files[i].path));
-                          //   }
-                          //   // KeyboardUtil.hideKeyboard(context);
-
-                          // }
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            _postProductPresenter.postProduct(productPost);
+                            KeyboardUtil.hideKeyboard(context);
+                          }
                         },
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),
@@ -124,16 +210,22 @@ class _BodyState extends State<Body>
   Future pickImage() async {
     final image = await ImagePicker().pickMultiImage(imageQuality: 50);
     // if (image == null) return;
+    if (image.length >= 4) {
+      Fake.showErrorDialog("Maximun is 3", "Notification", context);
+      return;
+    }
     setState(() {
       _files = image;
+      imageList.clear();
     });
     try {} on PlatformException catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
   }
 
   Widget imageWidgets() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -163,6 +255,7 @@ class _BodyState extends State<Body>
                       onPressed: () {
                         setState(() {
                           _files.clear();
+                          imageList.clear();
                         });
                       }),
                 ],
@@ -170,6 +263,34 @@ class _BodyState extends State<Body>
             )
           ],
         ),
+        _files.isEmpty
+            ? Text("Upload your Image (Maximun is 3)")
+            : Wrap(
+                children: [
+                  if (uploadImageLoading == false)
+                    OutlineButton(
+                        child: Text(
+                          "Load Image to Server",
+                          style: TextStyle(color: primaryColor),
+                        ),
+                        onPressed: () {
+                          if (_files == null) return;
+                          if (_files.length == imageList.length) {
+                            Fake.showErrorDialog(
+                                "Loading is Complete", "notification", context);
+                            return;
+                          }
+                          setState(() {
+                            uploadImageLoading = true;
+                          });
+                          for (var i = 0; i < _files.length; i++) {
+                            _imagePresenter.loadImage(File(_files[i].path));
+                          }
+                        }),
+                  if (uploadImageLoading)
+                    Text("Loading... (${imageList.length}/${_files.length})")
+                ],
+              ),
         _files.isEmpty
             ? const Text("")
             : GridView.builder(
@@ -194,6 +315,20 @@ class _BodyState extends State<Body>
 
   TextFormField nameForm() {
     return TextFormField(
+      onSaved: (newValue) => name = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: pNameNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: pNameNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Name",
         hintText: "Enter name's product",
@@ -215,6 +350,20 @@ class _BodyState extends State<Body>
 
   TextFormField descriptionForm() {
     return TextFormField(
+      onSaved: (newValue) => description = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: pDesNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: pDesNullError);
+          return "";
+        }
+        return null;
+      },
       maxLines: null,
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
@@ -238,7 +387,32 @@ class _BodyState extends State<Body>
 
   TextFormField quantityForm() {
     return TextFormField(
-      keyboardType: TextInputType.number,
+      onSaved: (newValue) => quantity = int.parse(newValue),
+      // keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ],
+      onChanged: (value) {
+        // if (int.parse(value) > 0) {
+        //   removeError(error: pQuantityIFError);
+        // }
+        if (value.isNotEmpty) {
+          removeError(error: pQuantityNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        print(value);
+        // if (int.parse(value) <= 0) {
+        //   addError(error: pQuantityIFError);
+        //   return "";
+        // }
+        if (value.length == 0) {
+          addError(error: pQuantityIFError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Quantity",
         hintText: "Enter quantity's product",
@@ -260,7 +434,31 @@ class _BodyState extends State<Body>
 
   TextFormField priceForm() {
     return TextFormField(
+      onSaved: (newValue) => price = int.parse(newValue),
       keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly
+      ],
+      onChanged: (value) {
+        // if (int.parse(value) > 0) {
+        //   removeError(error: pPriceIFError);
+        // }
+        if (value.isNotEmpty) {
+          removeError(error: pPriceNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        // if (int.parse(value) <= 0) {
+        //   addError(error: pPriceIFError);
+        //   return "";
+        // }
+        if (value.length == 0) {
+          addError(error: pPriceNullError);
+          return "";
+        }
+        return null;
+      },
       decoration: InputDecoration(
         labelText: "Price",
         hintText: "Enter price's product",
@@ -281,28 +479,62 @@ class _BodyState extends State<Body>
   }
 
   SmartSelect statusForm() {
-    String value = 'BOTH';
     List<S2Choice<String>> options = [
-      S2Choice<String>(value: 'BOTH', title: 'Change and Trade'),
-      S2Choice<String>(value: 'Change', title: 'Change'),
-      S2Choice<String>(value: 'Trade', title: 'Trade'),
+      S2Choice<String>(value: 'BOTH', title: 'Sell and Exchange'),
+      S2Choice<String>(value: 'SELL', title: 'Sell'),
+      S2Choice<String>(value: 'EXCHANGE', title: 'Exchange'),
     ];
     return SmartSelect.single(
         title: "Choose a form of sale",
-        value: value,
-        onChange: (state) => value = state.value,
+        value: Fake.status,
+        onChange: (state) {
+          checkCategoryChange(state.value);
+        },
         choiceItems: options,
         modalType: S2ModalType.popupDialog);
   }
 
   SmartSelect categoryForm() {
-    String _car = '';
+    // String _car = '';
     // List<Map<String, dynamic>> a = list[1].;
     return SmartSelect<String>.single(
       title: 'Category',
       placeholder: 'Choose one',
-      value: _car,
-      onChange: (selected) => setState(() => _car = selected.value),
+      value: categoryID.toString(),
+      onChange: (selected) =>
+          setState(() => categoryID = int.parse(selected.value)),
+      choiceItems: S2Choice.listFrom<String, Map>(
+        source: Fake.categoryFake,
+        value: (index, item) => item['idcategory'].toString(),
+        title: (index, item) => item['name'],
+        group: (index, item) => item['brandname'],
+      ),
+      choiceGrouped: true,
+      modalFilter: true,
+      modalFilterAuto: true,
+      tileBuilder: (context, state) {
+        return S2Tile.fromState(
+          state,
+          isTwoLine: true,
+          // leading: const CircleAvatar(
+          //   backgroundImage: NetworkImage(
+          //     'https://source.unsplash.com/yeVtxxPxzbw/100x100',
+          //   ),
+          // ),
+        );
+      },
+    );
+  }
+
+  SmartSelect categoryWantedForm() {
+    // String _car = '';
+    // List<Map<String, dynamic>> a = list[1].;
+    return SmartSelect<String>.single(
+      title: 'The type of product you want to exchange',
+      placeholder: 'Choose one',
+      value: categoryChangeID.toString(),
+      onChange: (selected) =>
+          setState(() => categoryChangeID = int.parse(selected.value)),
       choiceItems: S2Choice.listFrom<String, Map>(
         source: Fake.categoryFake,
         value: (index, item) => item['idcategory'].toString(),
@@ -346,12 +578,35 @@ class _BodyState extends State<Body>
 
   @override
   void onLoadImageComplete(ImageResult result) {
-    imageResultList.add(result);
-    print(result.url);
+    setState(() {
+      imageList.add(ImageP(url: result.url));
+      if (imageList.length == _files.length) {
+        uploadImageLoading = false;
+      }
+    });
   }
 
   @override
   void onLoadImageError(String error) {
-    print(error);
+    Fake.showErrorDialog("Something wrong", "Notification Error", context);
+    setState(() {
+      uploadImageLoading = false;
+    });
+  }
+
+  @override
+  void onPostProductComplete(PostProductResult ppr) {
+    Fake.showErrorDialog(ppr.message, "Notification", context);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void onPostProductError(String error) {
+    Fake.showErrorDialog(error, "Notification Error", context);
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

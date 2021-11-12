@@ -15,3 +15,13 @@ const String kMatchPassError = "Passwords don't match";
 const String kNamelNullError = "Please Enter your name";
 const String kPhoneNumberNullError = "Please Enter your phone number";
 const String kAddressNullError = "Please Enter your address";
+
+const String pNameNullError = "Please Enter Name";
+const String pDesNullError = "Please Enter Description";
+const String pQuantityNullError = "Please Enter Quantity";
+const String pQuantityIFError = "Quantity must greater than 0";
+const String pPriceNullError = "Please Enter Price";
+const String pPriceIFError = "Price must greater than 0";
+const String pPictures = "Request pictures";
+const String pCategoryError = "Request Category";
+const String pCategoryTrade = "Request type of product, you want to change";

@@ -3,7 +3,7 @@ class ProductPost {
   String description;
   int quantity;
   int price;
-  List<Image> image;
+  List<ImageP> image;
   int own;
   String status;
   int categoryID;
@@ -26,9 +26,9 @@ class ProductPost {
     quantity = json['quantity'];
     price = json['price'];
     if (json['image'] != null) {
-      image = new List<Image>();
+      image = new List<ImageP>();
       json['image'].forEach((v) {
-        image.add(new Image.fromJson(v));
+        image.add(new ImageP.fromJson(v));
       });
     }
     own = json['own'];
@@ -54,12 +54,12 @@ class ProductPost {
   }
 }
 
-class Image {
+class ImageP {
   String url;
 
-  Image({this.url});
+  ImageP({this.url});
 
-  Image.fromJson(Map<String, dynamic> json) {
+  ImageP.fromJson(Map<String, dynamic> json) {
     url = json['url'];
   }
 

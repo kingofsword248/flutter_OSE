@@ -24,7 +24,7 @@ class LoadImageRepositoryIml implements LoadImageRepository {
 
     final reponse = await dio.post(url, data: formData);
     if (reponse.statusCode == 200) {
-      print(reponse.data.toString());
+      // print(reponse.data.toString());
       return ImageResult.fromJson(reponse.data);
     } else {
       throw Exception("load Image error");

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/models/item.dart';
 
@@ -103,6 +104,24 @@ class Fake {
         ]),
   ];
   static List<User> listuser = [];
-
+  static String status = "BOTH";
   static List<Map<String, dynamic>> categoryFake = [];
+  static void showErrorDialog(
+      String message, String title, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
 }
