@@ -63,34 +63,34 @@ class ProductGirdItem extends StatelessWidget {
                     )
                   ],
                 ),
-                Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        RatingBar.builder(
-                            initialRating: item.rating,
-                            itemSize: 12,
-                            ignoreGestures: true,
-                            itemCount: 5,
-                            allowHalfRating: true,
-                            minRating: 1,
-                            unratedColor: Colors.amber[100],
-                            itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  size: 2,
-                                  color: Colors.amber,
-                                ),
-                            onRatingUpdate: null),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '${item.rating}',
-                          style: TextStyle(fontSize: 12),
-                        )
-                      ],
-                    ))
+                // Container(
+                //     margin: EdgeInsets.only(top: 5),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         RatingBar.builder(
+                //             // initialRating: item.rating,
+                //             itemSize: 12,
+                //             ignoreGestures: true,
+                //             itemCount: 5,
+                //             allowHalfRating: true,
+                //             minRating: 1,
+                //             unratedColor: Colors.amber[100],
+                //             itemBuilder: (context, _) => Icon(
+                //                   Icons.star,
+                //                   size: 2,
+                //                   color: Colors.amber,
+                //                 ),
+                //             onRatingUpdate: null),
+                //         SizedBox(
+                //           width: 5,
+                //         ),
+                //         // Text(
+                //         //   '${item.rating}',
+                //         //   style: TextStyle(fontSize: 12),
+                //         // )
+                //       ],
+                //     ))
               ],
             ),
           )

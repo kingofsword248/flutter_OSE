@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/login_form.dart';
+import 'package:old_change_app/models/providers/menu_bottom.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/login_presenter.dart';
 import 'package:old_change_app/screens/cart/widgets/default_button.dart';
@@ -9,6 +10,7 @@ import 'package:old_change_app/widgets/custom_surfix_icon.dart';
 import 'package:old_change_app/widgets/form_error.dart';
 import 'package:old_change_app/widgets/keyboard.dart';
 import 'package:old_change_app/widgets/size_config.dart';
+import 'package:provider/provider.dart';
 
 class SignForm extends StatefulWidget {
   @override
@@ -24,6 +26,7 @@ class _SignFormState extends State<SignForm> implements LoginContract {
   String password;
   bool remember = false;
   final List<String> errors = [];
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -49,62 +52,67 @@ class _SignFormState extends State<SignForm> implements LoginContract {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          buildEmailFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildPasswordFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          Row(
-            children: [
-              Checkbox(
-                value: remember,
-                activeColor: primaryColor,
-                onChanged: (value) {
-                  setState(() {
-                    remember = value;
-                  });
-                },
-              ),
-              Text("Remember me"),
-              Spacer(),
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(context, null),
-                child: Text(
-                  "Forgot Password",
-                  style: TextStyle(decoration: TextDecoration.underline),
+      child: _isLoading
+          ? CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
+            )
+          : Column(
+              children: [
+                buildEmailFormField(),
+                SizedBox(height: getProportionateScreenHeight(30)),
+                buildPasswordFormField(),
+                SizedBox(height: getProportionateScreenHeight(30)),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: remember,
+                      activeColor: primaryColor,
+                      onChanged: (value) {
+                        setState(() {
+                          remember = value;
+                        });
+                      },
+                    ),
+                    Text("Remember me"),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, null),
+                      child: Text(
+                        "Forgot Password",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-          FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(20)),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                // if all are valid then go to success screen
-                // print(email);
-                // print(password);
-                setState(() {
-                  _loginPresenter
-                      .login(LoginForm(userName: email, password: password));
-                });
-                KeyboardUtil.hideKeyboard(context);
-                // if (user == null) {
-                //   addError(error: "your username or password is incorrect");
-                // } else {
-                //   print(user.fullName);
+                FormError(errors: errors),
+                SizedBox(height: getProportionateScreenHeight(20)),
+                DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      // if all are valid then go to success screen
+                      // print(email);
+                      // print(password);
+                      setState(() {
+                        _isLoading = true;
+                        _loginPresenter.login(
+                            LoginForm(userName: email, password: password));
+                      });
+                      KeyboardUtil.hideKeyboard(context);
+                      // if (user == null) {
+                      //   addError(error: "your username or password is incorrect");
+                      // } else {
+                      //   print(user.fullName);
 
-                //   Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => HomeScreen()));
-                // }
-              }
-            },
-          ),
-        ],
-      ),
+                      //   Navigator.push(context,
+                      //       MaterialPageRoute(builder: (context) => HomeScreen()));
+                      // }
+                    }
+                  },
+                ),
+              ],
+            ),
     );
   }
 
@@ -143,7 +151,7 @@ class _SignFormState extends State<SignForm> implements LoginContract {
             gapPadding: 10),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(28),
-            borderSide: BorderSide(color: primaryColor),
+            borderSide: BorderSide(color: primaryFocusColor),
             gapPadding: 10),
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -185,7 +193,7 @@ class _SignFormState extends State<SignForm> implements LoginContract {
             gapPadding: 10),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(28),
-            borderSide: BorderSide(color: primaryColor),
+            borderSide: BorderSide(color: primaryFocusColor),
             gapPadding: 10),
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
       ),
@@ -197,10 +205,12 @@ class _SignFormState extends State<SignForm> implements LoginContract {
     setState(() {
       user = us;
       print("login thanh cong");
-
+      _isLoading = false;
       if (Navigator.canPop(context)) {
         Navigator.pop(context);
       } else {
+        final value = Provider.of<MenuBottomDT>(context, listen: false);
+        value.setSelectedIndex(0);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }
@@ -211,6 +221,7 @@ class _SignFormState extends State<SignForm> implements LoginContract {
   void onLoginError() {
     setState(() {
       user = null;
+      _isLoading = false;
       addError(error: "your username or password is incorrect");
     });
   }

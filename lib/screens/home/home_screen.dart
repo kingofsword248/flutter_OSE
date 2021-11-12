@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      bottomNavigationBar: AppBottomNavigation(),
+      bottomNavigationBar: const AppBottomNavigation(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

@@ -1,7 +1,7 @@
-import 'package:old_change_app/models/cart_item.dart';
+import 'package:flutter/material.dart';
 import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/models/item.dart';
-import 'package:old_change_app/models/product.dart';
+
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/models/user.dart';
 
@@ -104,49 +104,24 @@ class Fake {
         ]),
   ];
   static List<User> listuser = [];
-
-  // static List<CartModels> demoCart = [
-  //   CartModels(
-  //       Product(
-  //           idProduct: 1,
-  //           name: 'MacBook Air Mac Book Air 13.3 inches M1 Chipset   ',
-  //           description:
-  //               'Khám phá nào đã làm bối rối những bộ óc khoa học vĩ đại nhất của thế kỷ qua, và tại sao nó lại khiến họ phải suy nghĩ lại về nguồn gốc vũ trụ của chúng ta?',
-  //           price: 80,
-  //           quantity: 1,
-  //           images: [
-  //             Images(
-  //                 address:
-  //                     'https://cdn.tgdd.vn/may-cu/Desktop/2021-06/5_33092555_dien-thoai-iphone-12-pro-256gb-graphite13062021205747.png'),
-  //             Images(
-  //                 address:
-  //                     'https://cdn.tgdd.vn/may-cu/Desktop/2021-06/5_33092555_dien-thoai-iphone-12-pro-256gb-graphite13062021205747.png'),
-  //           ]),
-  //       4),
-  //   CartModels(
-  //       Product(
-  //           idProduct: 2,
-  //           name: 'MacBook Air  ',
-  //           description:
-  //               'Khám phá nào đã làm bối rối những bộ óc khoa học vĩ đại nhất của thế kỷ qua, và tại sao nó lại khiến họ phải suy nghĩ lại về nguồn gốc vũ trụ của chúng ta?',
-  //           price: 80,
-  //           quantity: 1,
-  //           images: [
-  //             Images(
-  //                 address:
-  //                     'https://cdn.tgdd.vn/may-cu/Desktop/2021-06/5_33092555_dien-thoai-iphone-12-pro-256gb-graphite13062021205747.png'),
-  //             Images(
-  //                 address:
-  //                     'https://cdn.tgdd.vn/may-cu/Desktop/2021-06/5_33092555_dien-thoai-iphone-12-pro-256gb-graphite13062021205747.png'),
-  //           ]),
-  //       4),
-  // ];
-  // static int sum(List<CartModels> list) {
-  //   int total = 0;
-  //   if (list.isEmpty) return 0;
-  //   for (int i = 0; i < list.length; i++) {
-  //     total = total + list[i].product.price * list[i].numOfItems;
-  //   }
-  //   return total;
-  // }
+  static String status = "BOTH";
+  static List<Map<String, dynamic>> categoryFake = [];
+  static void showErrorDialog(
+      String message, String title, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
 }

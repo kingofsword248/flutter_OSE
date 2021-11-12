@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:old_change_app/models/providers/menu_bottom.dart';
 import '../screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import "constants/colors.dart";
-import 'models/cart_item.dart';
+import 'models/providers/cart_item.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: CartList())],
+      providers: [
+        ChangeNotifierProvider.value(value: CartList()),
+        ChangeNotifierProvider.value(value: MenuBottomDT())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Old change app",

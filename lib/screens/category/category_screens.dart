@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:old_change_app/data/fake.dart';
-import 'package:old_change_app/models/product.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/presenters/product_category_list_presentes.dart';
 import 'package:old_change_app/screens/category/widgets/header_sliver.dart';
 import 'package:old_change_app/screens/category/widgets/product_gird_item.dart';
 import 'package:old_change_app/screens/detail_page/detail_page.dart';
-import 'package:old_change_app/screens/detail_page/detail_screen.dart';
 import 'package:old_change_app/widgets/app_bottom_navigation.dart';
 
 class CategoryScreen extends StatefulWidget {
