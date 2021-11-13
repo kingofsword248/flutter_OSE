@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/presenters/product_category_list_presentes.dart';
 import 'package:old_change_app/screens/category/widgets/header_sliver.dart';
@@ -20,7 +21,7 @@ class _CategoryScreenState extends State<CategoryScreen>
   final String title;
   ProductListPresenters _listPresenters;
   List<Product> products = [];
-  bool isLoadingData = true;
+  bool _isLoadingData = true;
   String input = '1';
 
   @override
@@ -48,34 +49,45 @@ class _CategoryScreenState extends State<CategoryScreen>
       bottomNavigationBar: AppBottomNavigation(),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              floating: true,
-              delegate:
-                  HeaderSliver(minExtent: 60, maxExtent: 60, content: title),
-            ),
-            SliverGrid.count(
-              crossAxisCount: 2,
-              childAspectRatio: 0.65,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              children: products.asMap().entries.map((f) {
-                return InkWell(
-                  onTap: () {
-                    onProductSelected(f.value);
-                  },
-                  child: ProductGirdItem(
-                      item: f.value,
-                      margin: EdgeInsets.only(
-                          left: f.key.isEven ? 16 : 0,
-                          right: f.key.isOdd ? 16 : 0)),
-                );
-              }).toList(),
-            )
-          ],
-        ),
+        child: _isLoadingData
+            ? Center(
+                child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
+              ))
+            : products.isEmpty
+                ? OutlineButton(
+                    child: Text("List is empty, Back"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })
+                : CustomScrollView(
+                    slivers: [
+                      SliverPersistentHeader(
+                        pinned: true,
+                        floating: true,
+                        delegate: HeaderSliver(
+                            minExtent: 60, maxExtent: 60, content: title),
+                      ),
+                      SliverGrid.count(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.65,
+                        mainAxisSpacing: 16,
+                        crossAxisSpacing: 16,
+                        children: products.asMap().entries.map((f) {
+                          return InkWell(
+                            onTap: () {
+                              onProductSelected(f.value);
+                            },
+                            child: ProductGirdItem(
+                                item: f.value,
+                                margin: EdgeInsets.only(
+                                    left: f.key.isEven ? 16 : 0,
+                                    right: f.key.isOdd ? 16 : 0)),
+                          );
+                        }).toList(),
+                      )
+                    ],
+                  ),
       ),
     );
   }
@@ -84,14 +96,16 @@ class _CategoryScreenState extends State<CategoryScreen>
   void onLoadProductComplete(List<Product> products) {
     setState(() {
       this.products = products;
-      isLoadingData = false;
+      _isLoadingData = false;
     });
   }
 
   @override
   void onLoadProductError() {
-    isLoadingData = false;
-    products = [];
+    setState(() {
+      _isLoadingData = false;
+      products = [];
+    });
   }
 
   // Widget buildBody() {

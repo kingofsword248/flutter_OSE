@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/models/cart_request.dart';
 import 'package:old_change_app/models/user.dart';
@@ -101,7 +102,8 @@ class _CartScreenState extends State<CartScreen> implements CheckOutContract {
                           text: "Total:\n",
                           children: [
                             TextSpan(
-                              text: "\$ ${value.sum()}",
+                              text: NumberFormat.simpleCurrency(locale: 'vi')
+                                  .format(value.sum()),
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
                             ),
@@ -152,8 +154,10 @@ class _CartScreenState extends State<CartScreen> implements CheckOutContract {
   }
 
   @override
-  void OnCheckOutError(String error) {
+  Future<void> OnCheckOutError(String error) async {
     if (error.contains("token")) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => SignInScreen()));
     } else {

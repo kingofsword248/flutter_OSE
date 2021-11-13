@@ -4,17 +4,23 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/item.dart';
 import 'package:old_change_app/models/product_real.dart';
+import 'package:intl/intl.dart';
 
-class ProductGirdItem extends StatelessWidget {
+class ProductGirdItem extends StatefulWidget {
   final Product item;
   final EdgeInsets margin;
   const ProductGirdItem({Key key, @required this.item, this.margin})
       : super(key: key);
 
   @override
+  State<ProductGirdItem> createState() => _ProductGirdItemState();
+}
+
+class _ProductGirdItemState extends State<ProductGirdItem> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin == null ? EdgeInsets.zero : margin,
+      margin: widget.margin == null ? EdgeInsets.zero : widget.margin,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(7),
@@ -32,10 +38,13 @@ class ProductGirdItem extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 37),
-                  child: Image.network(
-                    item.images[0].address,
-                    fit: BoxFit.cover,
-                  ),
+                  child: widget.item.images.isEmpty
+                      ? Image.asset("assets/images/Not_Found.png",
+                          fit: BoxFit.cover)
+                      : Image.network(
+                          widget.item.images[0].address,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ],
             ),
@@ -46,7 +55,7 @@ class ProductGirdItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  item.name,
+                  widget.item.name,
                   overflow: TextOverflow.ellipsis,
                   // overflow: TextOverflow.ellipsis,
                   style:
@@ -57,13 +66,14 @@ class ProductGirdItem extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
-                      '${item.price}',
+                      NumberFormat.simpleCurrency(locale: 'vi')
+                          .format(widget.item.price),
                       style: TextStyle(
                           fontSize: 18, color: primaryColor, height: 1.5),
                     )
                   ],
                 ),
-                // Container(
+                // Container( '${widget.item.price}'
                 //     margin: EdgeInsets.only(top: 5),
                 //     child: Row(
                 //       mainAxisAlignment: MainAxisAlignment.center,

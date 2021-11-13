@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/models/providers/cart_item.dart';
+import 'package:old_change_app/screens/cart/cart_screen.dart';
 import 'package:old_change_app/screens/category/widgets/action_button.dart';
 import 'package:old_change_app/screens/category/widgets/filter_modal_bottom_sheet.dart';
 import 'package:old_change_app/widgets/cart.dart';
+import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   final String content;
@@ -43,7 +46,6 @@ class Header extends StatelessWidget {
                   style: TextStyle(fontSize: 18),
                 ),
                 Container(
-                  width: 120,
                   alignment: Alignment.centerRight,
                   child: Wrap(
                     spacing: 8,
@@ -53,7 +55,15 @@ class Header extends StatelessWidget {
                         'assets/icons/search.svg',
                         height: 18,
                       ),
-                      Cart(numberOfItemsInCart: Fake.numberOfItemsInCart),
+                      InkWell(onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CartScreen()));
+                      }, child:
+                          Consumer<CartList>(builder: (context, value, child) {
+                        return Cart(numberOfItemsInCart: value.itemCount);
+                      })),
                       ActionButton(
                         onTap: () {
                           _settingModalBottomSheet(context);

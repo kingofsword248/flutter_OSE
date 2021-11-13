@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/providers/cart_item.dart';
 
@@ -47,7 +48,6 @@ class CartCard extends StatelessWidget {
                 maxLines: 2,
               ),
             ),
-            SizedBox(height: 10),
             Row(
               children: [
                 ButtonTheme(
@@ -87,13 +87,14 @@ class CartCard extends StatelessWidget {
                     splashColor: Colors.grey,
                   ),
                 ),
-                Consumer<CartList>(
-                  builder: (context, value, ch) {
-                    return Text("Total : \$${cartList.sumOfOneItem(index)}",
-                        style: Theme.of(context).textTheme.bodyText1);
-                  },
-                )
               ],
+            ),
+            Consumer<CartList>(
+              builder: (context, value, ch) {
+                return Text(
+                    "Total : ${NumberFormat.simpleCurrency(locale: 'vi').format(cartList.sumOfOneItem(index))}",
+                    style: Theme.of(context).textTheme.bodyText1);
+              },
             )
           ],
         )

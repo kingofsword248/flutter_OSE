@@ -1,72 +1,92 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:old_change_app/constants/colors.dart';
+import 'package:old_change_app/data/fake.dart';
 import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/models/product_real.dart';
+import 'package:old_change_app/models/user.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_select/smart_select.dart';
 
 class AddCart extends StatelessWidget {
   final Product product;
   const AddCart({Key key, @required this.product}) : super(key: key);
+  void showDiaglog(BuildContext context, String mess) {
+    final snackbar = SnackBar(content: Text(mess));
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
 
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartList>(context, listen: false);
+    // final prefs = await SharedPreferences.getInstance().then((value) => null)
+    //                         User a;
+    //                         String user = prefs.get('User');
+    //                         if (user != null) {
+    //                           a = User.fromJson(json.decode(user));
+    //                         }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
         children: [
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.only(right: 10),
-              height: 60,
+          if (!product.status.contains("EXCHANGE"))
+            Container(
+              alignment: Alignment.center,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       elevation: 0,
-                      primary: Colors.amber),
-                  onPressed: () {
+                      primary: primaryColor),
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    User a;
+                    String user = prefs.get('User');
+                    if (user != null) {
+                      a = User.fromJson(json.decode(user));
+                      if (a.id == product.own) {
+                        Fake.showErrorDialog("Can't buy your product",
+                            "Notification Error", context);
+                        return;
+                      }
+                    }
+
                     cart.addItem(product);
-                    final snackbar =
-                        SnackBar(content: Text("Add to cart successfull"));
-                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    showDiaglog(context, "Add to cart successfull");
                   },
                   child: Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
                       Text('Add To Cart'),
                       Icon(Icons.add_shopping_cart_outlined)
                     ],
                   )),
             ),
+          const SizedBox(
+            height: 20,
           ),
-          Expanded(
-            child: Container(
-              height: 60,
+          if (!product.status.contains("SELL"))
+            Container(
+              alignment: Alignment.center,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       elevation: 0,
-                      primary: Colors.amber),
+                      primary: primaryColor),
                   onPressed: () {
                     _showOption(context);
                   },
                   child: Row(
-                    children: [
-                      SizedBox(
-                        width: 40,
-                      ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
                       Text('Trade'),
                       Icon(Icons.change_circle_outlined)
                     ],
                   )),
-            ),
-          )
+            )
         ],
       ),
     );

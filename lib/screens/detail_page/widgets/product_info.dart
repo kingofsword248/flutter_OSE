@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:old_change_app/constants/colors.dart';
 
 import 'package:old_change_app/models/product_real.dart';
@@ -21,6 +22,7 @@ class ProductInfo extends StatelessWidget {
         children: [
           Text(
             '${item.name}',
+            overflow: TextOverflow.visible,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           SizedBox(
@@ -34,7 +36,7 @@ class ProductInfo extends StatelessWidget {
                       fontSize: 20,
                       color: Colors.grey)),
               Text(
-                '\$${item.price}',
+                NumberFormat.simpleCurrency(locale: 'vi').format(item.price),
                 style: const TextStyle(
                     color: Colors.red,
                     fontWeight: FontWeight.w800,
