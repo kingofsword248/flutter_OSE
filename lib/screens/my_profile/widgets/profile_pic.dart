@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfilePic extends StatelessWidget {
+  final String address;
   const ProfilePic({
     Key key,
+    @required this.address,
   }) : super(key: key);
 
   @override
@@ -16,7 +18,9 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/user.png"),
+            backgroundImage: address != null
+                ? NetworkImage(address)
+                : AssetImage("assets/images/user.png"),
           ),
           Positioned(
             right: -16,

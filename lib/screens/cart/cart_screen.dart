@@ -178,8 +178,26 @@ class _CartScreenState extends State<CartScreen> implements CheckOutContract {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('An Error Occurred!'),
+        title: Text('Notification'),
         content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  void _showCheckOutDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Do you want to buy all of these products?'),
+        content: Text("Do"),
         actions: <Widget>[
           FlatButton(
             child: Text('Okay'),

@@ -92,7 +92,7 @@ class Fake {
           Images(address: 'assets/images/furniture/items/laptop2.png'),
         ]),
     Product(
-        idProduct: 2,
+        idProduct: 3,
         name: 'Mac Book Air 13.3 inches M1 Chipset ',
         description:
             'Khám phá nào đã làm bối rối những bộ óc khoa học vĩ đại nhất của thế kỷ qua, và tại sao nó lại khiến họ phải suy nghĩ lại về nguồn gốc vũ trụ của chúng ta?',

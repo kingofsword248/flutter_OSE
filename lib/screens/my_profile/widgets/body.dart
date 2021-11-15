@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:old_change_app/models/user.dart';
+import 'package:old_change_app/screens/purchase_order/purchase_order_screen.dart';
 import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
 import 'package:old_change_app/screens/upload_product/upload_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,12 +37,22 @@ class _BodyState extends State<Body> {
       padding: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          ProfilePic(),
+          if (_a != null)
+            ProfilePic(
+              address: _a.avatar ?? null,
+            ),
           SizedBox(height: 20),
           if (_a != null)
             Text(
               _a.fullName,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+          SizedBox(height: 10),
+          if (_a != null)
+            Text(
+              "Balance: " +
+                  NumberFormat.simpleCurrency(locale: 'vi').format(_a.balance),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
           SizedBox(height: 20),
           ProfileMenu(
@@ -49,8 +61,18 @@ class _BodyState extends State<Body> {
             press: () => {},
           ),
           ProfileMenu(
-            text: "Notifications",
-            icon: "assets/icons/User Icon.svg",
+            text: "Purchase order",
+            icon: "assets/icons/notepad-svgrepo-com.svg",
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PurchaseOrderScreen()));
+            },
+          ),
+          ProfileMenu(
+            text: "Sales order",
+            icon: "assets/icons/notepad-svgrepo-com.svg",
             press: () {},
           ),
           ProfileMenu(
