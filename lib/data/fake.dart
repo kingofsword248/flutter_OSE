@@ -104,6 +104,11 @@ class Fake {
         ]),
   ];
   static List<User> listuser = [];
+  static void showDiaglog(BuildContext context, String mess) {
+    final snackbar = SnackBar(content: Text(mess));
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
   static String status = "BOTH";
   static List<Map<String, dynamic>> categoryFake = [];
   static void showErrorDialog(

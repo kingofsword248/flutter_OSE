@@ -13,10 +13,6 @@ import 'package:smart_select/smart_select.dart';
 class AddCart extends StatelessWidget {
   final Product product;
   const AddCart({Key key, @required this.product}) : super(key: key);
-  void showDiaglog(BuildContext context, String mess) {
-    final snackbar = SnackBar(content: Text(mess));
-    ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +50,7 @@ class AddCart extends StatelessWidget {
                     }
 
                     cart.addItem(product);
-                    showDiaglog(context, "Add to cart successfull");
+                    Fake.showDiaglog(context, "Add to cart successfull");
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

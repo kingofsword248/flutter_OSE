@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/screens/purchase_order/tap/cancell_tap.dart';
-import 'package:old_change_app/screens/purchase_order/tap/complete_tap.dart';
 import 'package:old_change_app/screens/purchase_order/tap/confirm_screen/confirm_tap.dart';
-import 'package:old_change_app/screens/purchase_order/tap/delivery_tap.dart';
+import 'package:old_change_app/screens/purchase_order/tap/delivery_screen/delivery_tap.dart';
 import 'package:old_change_app/screens/purchase_order/tap/return_tap.dart';
-import 'package:old_change_app/screens/purchase_order/tap/waiting_tap.dart';
 
 class PurchaseOrderScreen extends StatefulWidget {
   const PurchaseOrderScreen({Key key}) : super(key: key);
@@ -79,13 +76,23 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            ConfirmTap(),
-            WaitingTap(),
-            DeliveryTap(),
-            CompletedTap(),
-            CancelledTap(),
+            ConfirmTap(
+              index: "1",
+            ),
+            ConfirmTap(
+              index: "2",
+            ),
+            DeliveryTap(
+              index: "3",
+            ),
+            DeliveryTap(
+              index: "4",
+            ),
+            DeliveryTap(
+              index: "5",
+            ),
             ReturnTap(),
           ],
         ),

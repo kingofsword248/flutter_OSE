@@ -14,21 +14,9 @@ class Body extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: SizeConfig.screenHeight * 0.04), // 4%
-                Text(
-                  "Register Account",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(28),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    height: 1.5,
-                  ),
-                ),
-                Text(
-                  "Complete your details or continue \nwith social media",
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: SizeConfig.screenHeight * 0.08),
+                // SizedBox(height: SizeConfig.screenHeight * 0.03), // 4%
+
+                SizedBox(height: SizeConfig.screenHeight * 0.04),
                 SignUpForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
               ],

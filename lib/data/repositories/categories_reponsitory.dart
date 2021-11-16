@@ -8,12 +8,12 @@ abstract class CategoriesRepository {
 }
 
 class CategoriesRepositoryIml implements CategoriesRepository {
-  List<CategoryRequest> parseCategories(String responseBody) {
-    final parsed = json.decode(responseBody);
-    return parsed
-        .map<CategoryRequest>((json) => CategoryRequest.fromJson(json))
-        .toList();
-  }
+  // List<CategoryRequest> parseCategories(String responseBody) {
+  //   final parsed = json.decode(responseBody);
+  //   return parsed
+  //       .map<CategoryRequest>((json) => CategoryRequest.fromJson(json))
+  //       .toList();
+  // }
 
   @override
   Future<List<CategoryRequest>> fetchCategory() async {

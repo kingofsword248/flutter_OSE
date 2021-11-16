@@ -3,15 +3,18 @@ import 'package:intl/intl.dart';
 import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/data/fake.dart';
 import 'package:old_change_app/models/providers/cart_item.dart';
+import 'package:old_change_app/models/purchase_dto.dart';
 
 import 'package:old_change_app/widgets/size_config.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmBody extends StatelessWidget {
-  final index;
+  final PurchaseDTO dto;
+  final String indexPage;
   const ConfirmBody({
     Key key,
-    @required this.index,
+    this.dto,
+    this.indexPage,
   }) : super(key: key);
 
   @override
@@ -29,7 +32,7 @@ class ConfirmBody extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset(Fake.product2[index].images[0].address),
+              child: Image.network(dto.product[0].images[0].address),
             ),
           ),
         ),
@@ -40,19 +43,39 @@ class ConfirmBody extends StatelessWidget {
             Container(
               width: getProportionateScreenWidth(220),
               child: Text(
-                Fake.product2[index].name,
+                dto.product[0].name,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: Colors.black, fontSize: 18),
                 maxLines: 2,
               ),
             ),
             Text(
-              "Quantity : " + Fake.product2[index].quantity.toString(),
+              "Quantity : " + dto.quantity.toString(),
               style: TextStyle(fontSize: 16),
             ),
             Text(
-                "Total : ${NumberFormat.simpleCurrency(locale: 'vi').format(Fake.product2[index].price)}",
-                style: Theme.of(context).textTheme.bodyText1)
+                "Total : ${NumberFormat.simpleCurrency(locale: 'vi').format(dto.price)}",
+                style: Theme.of(context).textTheme.bodyText1),
+            if (indexPage.contains("4"))
+              Wrap(
+                spacing: 5,
+                runSpacing: 5,
+                direction: Axis.horizontal,
+                children: [
+                  RaisedButton(
+                      child: Text("Feedback"),
+                      textColor: Colors.white,
+                      color: primaryColor,
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      onPressed: () {}),
+                  RaisedButton(
+                      child: Text("Return"),
+                      textColor: Colors.white,
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      color: Colors.red,
+                      onPressed: () {})
+                ],
+              )
           ],
         )
       ],

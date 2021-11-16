@@ -10,15 +10,15 @@ import 'package:old_change_app/screens/purchase_order/tap/confirm_screen/confirm
 import 'package:old_change_app/widgets/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ConfirmTap extends StatefulWidget {
+class DeliveryTap extends StatefulWidget {
   final String index;
-  const ConfirmTap({Key key, this.index}) : super(key: key);
+  const DeliveryTap({Key key, this.index}) : super(key: key);
 
   @override
-  _ConfirmTapState createState() => _ConfirmTapState();
+  _DeliveryTapState createState() => _DeliveryTapState();
 }
 
-class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
+class _DeliveryTapState extends State<DeliveryTap> implements PurchaseContract {
   PurchasePresenter _purchasePresenter;
   bool isLoading = true;
   // User _user;
@@ -59,42 +59,7 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: Dismissible(
                           key: Key(_list[index].idOrderDetail.toString()),
-                          onDismissed: null,
-                          direction: DismissDirection.endToStart,
-                          confirmDismiss: (direction) {
-                            return showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text('Cancelled'),
-                                  content:
-                                      Text('Do you want to cancel your order?'),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      onPressed: () {
-                                        // Navigator.pop(context, false);
-                                        Navigator.of(
-                                          context,
-                                          // rootNavigator: true,
-                                        ).pop(false);
-                                      },
-                                      child: Text('No'),
-                                    ),
-                                    FlatButton(
-                                      onPressed: () {
-                                        // Navigator.pop(context, true);
-                                        Navigator.of(
-                                          context,
-                                          // rootNavigator: true,
-                                        ).pop(true);
-                                      },
-                                      child: Text('Yes'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
+                          direction: DismissDirection.none,
                           background: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
@@ -110,7 +75,7 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
                           ),
                           child: ConfirmBody(
                             dto: _list[index],
-                            indexPage: "4",
+                            indexPage: widget.index,
                           ),
                         ),
                       )),
@@ -127,6 +92,7 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
 
   @override
   void onLoadError(String error) {
+    print(error.toString());
     setState(() {
       _list = [];
       isLoading = false;
