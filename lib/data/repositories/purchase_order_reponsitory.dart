@@ -4,7 +4,7 @@ import 'package:old_change_app/models/purchase_dto.dart';
 import 'package:http/http.dart' as http;
 
 abstract class PurchaseOrderRepository {
-  Future<List<PurchaseDTO>> getPurchase(int id, String status);
+  Future<List<PurchaseDTO>> getPurchase(int id, String status, String model);
 }
 
 class PurchaseOrderRepositoryIml implements PurchaseOrderRepository {
@@ -16,9 +16,10 @@ class PurchaseOrderRepositoryIml implements PurchaseOrderRepository {
   }
 
   @override
-  Future<List<PurchaseDTO>> getPurchase(int id, String status) async {
+  Future<List<PurchaseDTO>> getPurchase(
+      int id, String status, String model) async {
     String url =
-        "https://old-stuff-exchange-api.herokuapp.com/api/order/mobile/purchase/?id=${id}&status=${status}";
+        "https://old-stuff-exchange-api.herokuapp.com/api/order/mobile/${model}/?id=${id}&status=${status}";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       return parsePurchaseDTO(response.body);

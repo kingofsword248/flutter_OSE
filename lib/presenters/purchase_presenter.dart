@@ -13,10 +13,10 @@ class PurchasePresenter {
   PurchasePresenter(this._view) {
     _repository = Injector().getPurchaseList();
   }
-  void loadPurchaseList(int id, String status) {
+  void loadPurchaseList(int id, String status, String model) {
     assert(_view != null && _repository != null);
     _repository
-        .getPurchase(id, status)
+        .getPurchase(id, status, model)
         .then((value) => _view.onLoadComplte(value))
         .catchError((onError) => _view.onLoadError(onError.toString()));
   }

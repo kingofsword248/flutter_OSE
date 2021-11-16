@@ -14,7 +14,9 @@ class SignUpScreen extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => null,
+          onPressed: () {
+            if (Navigator.canPop(context)) Navigator.pop(context);
+          },
         ),
         backgroundColor: Colors.white,
         centerTitle: true,

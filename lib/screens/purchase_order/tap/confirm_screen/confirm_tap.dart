@@ -34,8 +34,10 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
     // TODO: implement initState
     super.initState();
     _purchasePresenter = PurchasePresenter(this);
-    getSharedPrefs().then((value) =>
-        {_purchasePresenter.loadPurchaseList(value.id, widget.index)});
+    getSharedPrefs().then((value) => {
+          _purchasePresenter.loadPurchaseList(
+              value.id, widget.index, "purchase")
+        });
   }
 
   @override

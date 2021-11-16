@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/screens/purchase_order/purchase_order_screen.dart';
+import 'package:old_change_app/screens/sell_order/sell_order_srceen.dart';
 import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
 import 'package:old_change_app/screens/upload_product/upload_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,7 +74,10 @@ class _BodyState extends State<Body> {
           ProfileMenu(
             text: "Sales order",
             icon: "assets/icons/notepad-svgrepo-com.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SellOrderScreen()));
+            },
           ),
           ProfileMenu(
             text: "Post Products",

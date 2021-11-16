@@ -1,3 +1,4 @@
+import 'package:old_change_app/data/repositories/accept_request_sell_reponsitory.dart';
 import 'package:old_change_app/data/repositories/categories_reponsitory.dart';
 import 'package:old_change_app/data/repositories/check_out_reponsitory.dart';
 import 'package:old_change_app/data/repositories/load_image_reponsitory.dart';
@@ -23,4 +24,5 @@ class Injector {
   PostProductRepository postProduct() => PostProductRepositoryIml();
   PurchaseOrderRepository getPurchaseList() => PurchaseOrderRepositoryIml();
   SignUpRepository signUp() => SignUpRepositoryIml();
+  AcceptReuqestRepository acceptRequest() => AcceptReuqestRepositoryIml();
 }
