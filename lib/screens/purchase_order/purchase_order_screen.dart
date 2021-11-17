@@ -81,7 +81,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
             ConfirmTap(
               index: "1",
             ),
-            ConfirmTap(
+            DeliveryTap(
               index: "2",
             ),
             DeliveryTap(

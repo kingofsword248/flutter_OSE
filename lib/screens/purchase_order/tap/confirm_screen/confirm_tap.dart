@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:old_change_app/constants/colors.dart';
+import 'package:old_change_app/data/fake.dart';
 import 'package:old_change_app/models/purchase_dto.dart';
 import 'package:old_change_app/models/user.dart';
+import 'package:old_change_app/presenters/cancel_presenter.dart';
 import 'package:old_change_app/presenters/purchase_presenter.dart';
 import 'package:old_change_app/screens/purchase_order/tap/confirm_screen/confirm_body.dart';
 import 'package:old_change_app/widgets/size_config.dart';
@@ -18,8 +20,10 @@ class ConfirmTap extends StatefulWidget {
   _ConfirmTapState createState() => _ConfirmTapState();
 }
 
-class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
+class _ConfirmTapState extends State<ConfirmTap>
+    implements PurchaseContract, CancelOrderDetailContract {
   PurchasePresenter _purchasePresenter;
+  CancelOrderDetailPresenter _cancelOrderDetailPresenter;
   bool isLoading = true;
   // User _user;
   List<PurchaseDTO> _list = [];
@@ -33,6 +37,7 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _cancelOrderDetailPresenter = CancelOrderDetailPresenter(this);
     _purchasePresenter = PurchasePresenter(this);
     getSharedPrefs().then((value) => {
           _purchasePresenter.loadPurchaseList(
@@ -61,7 +66,13 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: Dismissible(
                           key: Key(_list[index].idOrderDetail.toString()),
-                          onDismissed: null,
+                          onDismissed: (direction) => {
+                            _cancelOrderDetailPresenter.cancelOrder(
+                                _list[index].idOrderDetail.toString()),
+                            setState(() {
+                              isLoading = true;
+                            })
+                          },
                           direction: DismissDirection.endToStart,
                           confirmDismiss: (direction) {
                             return showDialog(
@@ -112,7 +123,7 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
                           ),
                           child: ConfirmBody(
                             dto: _list[index],
-                            indexPage: "4",
+                            indexPage: index.toString(),
                           ),
                         ),
                       )),
@@ -133,5 +144,20 @@ class _ConfirmTapState extends State<ConfirmTap> implements PurchaseContract {
       _list = [];
       isLoading = false;
     });
+  }
+
+  @override
+  void onCancelOrderComplete(bool isSuccess) {
+    if (isSuccess) {
+      getSharedPrefs().then((value) => {
+            _purchasePresenter.loadPurchaseList(
+                value.id, widget.index, "purchase")
+          });
+    }
+  }
+
+  @override
+  void onCancelOrderError(String error) {
+    Fake.showErrorDialog(error, "An Error Occured", context);
   }
 }
