@@ -13,8 +13,8 @@ import 'package:old_change_app/widgets/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfirmTap extends StatefulWidget {
-  final String index;
-  const ConfirmTap({Key key, this.index}) : super(key: key);
+  final String indexPage;
+  const ConfirmTap({Key key, this.indexPage}) : super(key: key);
 
   @override
   _ConfirmTapState createState() => _ConfirmTapState();
@@ -41,7 +41,7 @@ class _ConfirmTapState extends State<ConfirmTap>
     _purchasePresenter = PurchasePresenter(this);
     getSharedPrefs().then((value) => {
           _purchasePresenter.loadPurchaseList(
-              value.id, widget.index, "purchase")
+              value.id, widget.indexPage, "purchase")
         });
   }
 
@@ -123,7 +123,7 @@ class _ConfirmTapState extends State<ConfirmTap>
                           ),
                           child: ConfirmBody(
                             dto: _list[index],
-                            indexPage: index.toString(),
+                            indexPage: widget.indexPage,
                           ),
                         ),
                       )),
@@ -151,7 +151,7 @@ class _ConfirmTapState extends State<ConfirmTap>
     if (isSuccess) {
       getSharedPrefs().then((value) => {
             _purchasePresenter.loadPurchaseList(
-                value.id, widget.index, "purchase")
+                value.id, widget.indexPage, "purchase")
           });
     }
   }

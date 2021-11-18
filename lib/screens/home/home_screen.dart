@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/data/fake.dart';
-import 'package:old_change_app/models/product_real.dart';
+
 import 'package:old_change_app/screens/category/category_screens.dart';
-import 'package:old_change_app/screens/detail_page/detail_page.dart';
+import 'package:old_change_app/screens/category/test/test.dart';
+
 import 'package:old_change_app/screens/home/widgets/category_card.dart';
 import 'package:old_change_app/screens/home/widgets/header.dart';
 import 'package:old_change_app/screens/home/widgets/image_card.dart';
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => CategoryScreen(
+            builder: (context) => Test(
                   title: title,
                 )));
   }

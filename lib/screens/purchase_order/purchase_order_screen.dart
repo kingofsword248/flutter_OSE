@@ -79,19 +79,23 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
         body: const TabBarView(
           children: [
             ConfirmTap(
-              index: "1",
+              indexPage: "1",
             ),
             DeliveryTap(
-              index: "2",
+              indexPage: "2",
+              mode: "purchase",
             ),
             DeliveryTap(
-              index: "3",
+              indexPage: "3",
+              mode: "purchase",
             ),
             DeliveryTap(
-              index: "4",
+              indexPage: "4",
+              mode: "purchase",
             ),
             DeliveryTap(
-              index: "5",
+              indexPage: "5",
+              mode: "purchase",
             ),
             ReturnTap(),
           ],

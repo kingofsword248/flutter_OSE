@@ -11,8 +11,10 @@ import 'package:old_change_app/widgets/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeliveryTap extends StatefulWidget {
-  final String index;
-  const DeliveryTap({Key key, this.index}) : super(key: key);
+  final String indexPage;
+  final String mode;
+  const DeliveryTap({Key key, this.indexPage, @required this.mode})
+      : super(key: key);
 
   @override
   _DeliveryTapState createState() => _DeliveryTapState();
@@ -23,6 +25,8 @@ class _DeliveryTapState extends State<DeliveryTap> implements PurchaseContract {
   bool isLoading = true;
   // User _user;
   List<PurchaseDTO> _list = [];
+
+  _DeliveryTapState();
   Future<User> getSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String user = prefs.get('User');
@@ -36,7 +40,7 @@ class _DeliveryTapState extends State<DeliveryTap> implements PurchaseContract {
     _purchasePresenter = PurchasePresenter(this);
     getSharedPrefs().then((value) => {
           _purchasePresenter.loadPurchaseList(
-              value.id, widget.index, "purchase")
+              value.id, widget.indexPage, widget.mode)
         });
   }
 
@@ -77,7 +81,7 @@ class _DeliveryTapState extends State<DeliveryTap> implements PurchaseContract {
                           ),
                           child: ConfirmBody(
                             dto: _list[index],
-                            indexPage: widget.index,
+                            indexPage: widget.indexPage,
                           ),
                         ),
                       )),

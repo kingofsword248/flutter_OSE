@@ -86,13 +86,16 @@ class _SellOrderScreenState extends State<SellOrderScreen>
               index: "2",
             ),
             DeliveryTap(
-              index: "3",
+              indexPage: "3",
+              mode: "sell",
             ),
             DeliveryTap(
-              index: "4",
+              indexPage: "4",
+              mode: "sell",
             ),
             DeliveryTap(
-              index: "5",
+              indexPage: "5",
+              mode: "sell",
             ),
             ReturnTap(),
           ],

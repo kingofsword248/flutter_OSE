@@ -20,7 +20,7 @@ class ProductListReponsitoryIml implements ProductListReponsitory {
       final String jsonBody = response.body;
       final int statusCode = response.statusCode;
       if (statusCode != 200 || jsonBody == null) {
-        print(response.reasonPhrase);
+        // print(response.reasonPhrase);
         throw new Exception("Lỗi load api");
       }
       // final JsonDecoder _decoder = new JsonDecoder();

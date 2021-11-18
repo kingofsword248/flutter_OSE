@@ -99,9 +99,11 @@ class _BodyState extends State<Body> {
             icon: "assets/icons/Log out.svg",
             press: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.clear();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()));
+              prefs.clear().then((value) {
+                if (value)
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignInScreen()));
+              });
             },
           ),
         ],

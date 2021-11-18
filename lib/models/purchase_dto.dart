@@ -3,8 +3,14 @@ class PurchaseDTO {
   int quantity;
   int price;
   List<Product> product;
+  String transport;
 
-  PurchaseDTO({this.idOrderDetail, this.quantity, this.price, this.product});
+  PurchaseDTO(
+      {this.idOrderDetail,
+      this.quantity,
+      this.price,
+      this.product,
+      this.transport});
 
   PurchaseDTO.fromJson(Map<String, dynamic> json) {
     idOrderDetail = json['idOrderDetail'];
@@ -16,6 +22,7 @@ class PurchaseDTO {
         product.add(new Product.fromJson(v));
       });
     }
+    transport = json['transport'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +33,7 @@ class PurchaseDTO {
     if (this.product != null) {
       data['product'] = this.product.map((v) => v.toJson()).toList();
     }
+    data['transport'] = this.transport;
     return data;
   }
 }

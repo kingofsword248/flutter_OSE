@@ -19,7 +19,7 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> implements LoginContract {
   LoginPresenter _loginPresenter;
-  User user;
+  // User user;
 
   final _formKey = GlobalKey<FormState>();
   String email;
@@ -203,24 +203,20 @@ class _SignFormState extends State<SignForm> implements LoginContract {
   @override
   void onLoginComplete(User us) {
     setState(() {
-      user = us;
-      print("login thanh cong");
+      // user = us;
+      // print("login thanh cong");
       _isLoading = false;
-      if (Navigator.canPop(context)) {
-        Navigator.pop(context);
-      } else {
-        final value = Provider.of<MenuBottomDT>(context, listen: false);
-        value.setSelectedIndex(0);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      }
+      final value = Provider.of<MenuBottomDT>(context, listen: false);
+      value.setSelectedIndex(0);
+
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => HomeScreen()), (_) => false);
     });
   }
 
   @override
   void onLoginError() {
     setState(() {
-      user = null;
       _isLoading = false;
       addError(error: "your username or password is incorrect");
     });

@@ -56,7 +56,13 @@ class ConfirmBody extends StatelessWidget {
             Text(
                 "Total : ${NumberFormat.simpleCurrency(locale: 'vi').format(dto.price)}",
                 style: Theme.of(context).textTheme.bodyText1),
-            if (indexPage.contains("4"))
+            if (indexPage.contains("3"))
+              Text(
+                dto.transport ?? "",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+            if (indexPage == "4")
               Wrap(
                 spacing: 5,
                 runSpacing: 5,
