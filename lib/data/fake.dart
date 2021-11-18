@@ -8,11 +8,13 @@ import 'package:old_change_app/models/user.dart';
 class Fake {
   static int numberOfItemsInCart = 2;
   static int selectedIndex = 0;
-  static List<Category> categories = [
-    Category('assets/icons/desktop-computer-svgrepo-com.svg', 'Computer'),
-    Category('assets/icons/clothes-svgrepo-com.svg', 'Clothes'),
-    Category('assets/icons/phone-svgrepo-com.svg', 'Phone'),
-    Category('assets/icons/laptop-svgrepo-com.svg', 'Laptop'),
+  static String phone = "assets/icons/phone-svgrepo-com.svg";
+  static String laptop = "assets/icons/laptop-svgrepo-com.svg";
+  static List<Category2> categories = [
+    Category2('assets/icons/desktop-computer-svgrepo-com.svg', 'Computer'),
+    Category2('assets/icons/clothes-svgrepo-com.svg', 'Clothes'),
+    Category2('assets/icons/phone-svgrepo-com.svg', 'Phone'),
+    Category2('assets/icons/laptop-svgrepo-com.svg', 'Laptop'),
   ];
   static List<String> trending = [
     'assets/images/furniture/jacalyn-beales-435629-unsplash.png',

@@ -23,7 +23,7 @@ class UploadProductScreen extends StatelessWidget {
         elevation: 0,
         brightness: Brightness.light,
       ),
-      body: Body(),
+      body: const Body(),
     );
   }
 }

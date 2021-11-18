@@ -2,6 +2,7 @@ import 'package:old_change_app/data/repositories/accept_request_sell_reponsitory
 import 'package:old_change_app/data/repositories/cancel_order_detail_reponsitory.dart';
 import 'package:old_change_app/data/repositories/categories_reponsitory.dart';
 import 'package:old_change_app/data/repositories/check_out_reponsitory.dart';
+import 'package:old_change_app/data/repositories/load_category_reponsitory.dart';
 import 'package:old_change_app/data/repositories/load_image_reponsitory.dart';
 import 'package:old_change_app/data/repositories/login_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_product_reponsitory.dart';
@@ -28,4 +29,5 @@ class Injector {
   AcceptReuqestRepository acceptRequest() => AcceptReuqestRepositoryIml();
   CancelOrderDetailRepository cancelOrderDetail() =>
       CancelOrderDetailRepositoryIml();
+  LoadCategoryRepository loadCategory() => LoadCategoryRepositoryIml();
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/item.dart';
 import 'package:old_change_app/models/product_real.dart';
@@ -23,10 +24,10 @@ class _ProductGirdItemState extends State<ProductGirdItem> {
       margin: widget.margin == null ? EdgeInsets.zero : widget.margin,
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(7),
+          borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withOpacity(0.11),
                 offset: Offset.zero,
                 blurRadius: 15)
           ]),
@@ -37,15 +38,39 @@ class _ProductGirdItemState extends State<ProductGirdItem> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 37),
+                  decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20))),
+                  width: double.infinity,
+                  margin: EdgeInsets.only(top: 20),
                   child: widget.item.images.isEmpty
-                      ? Image.asset("assets/images/Not_Found.png",
-                          fit: BoxFit.cover)
+                      ? Image.asset("assets/images/not.png", fit: BoxFit.cover)
                       : Image.network(
                           widget.item.images[0].address,
                           fit: BoxFit.cover,
                         ),
                 ),
+                if (widget.item.status != "BOTH")
+                  Positioned(
+                    top: 13,
+                    right: 13,
+                    child: Container(
+                        width: 40,
+                        height: 40,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: SvgPicture.asset(
+                          widget.item.status == "SELL"
+                              ? "assets/icons/money-cards-svgrepo-com.svg"
+                              : "assets/icons/exchange-funds-svgrepo-com.svg",
+                          color: Colors.white,
+                          width: 30,
+                          height: 30,
+                        )),
+                  ),
               ],
             ),
           ),

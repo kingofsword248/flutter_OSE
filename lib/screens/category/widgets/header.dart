@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/screens/cart/cart_screen.dart';
 import 'package:old_change_app/screens/category/widgets/action_button.dart';
@@ -10,7 +11,8 @@ import 'package:provider/provider.dart';
 
 class Header extends StatelessWidget {
   final String content;
-  const Header({Key key, this.content}) : super(key: key);
+  final List<Categories> list;
+  const Header({Key key, this.content, @required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class Header extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 120,
+                  width: 60,
                   alignment: Alignment.centerLeft,
                   child: InkWell(
                     child: SvgPicture.asset('assets/icons/back.svg'),
@@ -51,10 +53,10 @@ class Header extends StatelessWidget {
                     spacing: 8,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        'assets/icons/search.svg',
-                        height: 18,
-                      ),
+                      // SvgPicture.asset(
+                      //   'assets/icons/search.svg',
+                      //   height: 18,
+                      // ),
                       InkWell(onTap: () {
                         Navigator.push(
                             context,
@@ -66,7 +68,7 @@ class Header extends StatelessWidget {
                       })),
                       ActionButton(
                         onTap: () {
-                          _settingModalBottomSheet(context);
+                          _settingModalBottomSheet(context, list);
                         },
                         active: true,
                       )
@@ -81,7 +83,7 @@ class Header extends StatelessWidget {
     );
   }
 
-  void _settingModalBottomSheet(context) {
+  void _settingModalBottomSheet(context, List<Categories> list) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.white,
@@ -90,7 +92,9 @@ class Header extends StatelessWidget {
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         context: context,
         builder: (BuildContext bc) {
-          return FilterModalBottomSheet();
+          return FilterModalBottomSheet(
+            list: list,
+          );
         });
   }
 }

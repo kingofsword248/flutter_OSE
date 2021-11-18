@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:old_change_app/constants/colors.dart';
+import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/presenters/product_category_list_presentes.dart';
 import 'package:old_change_app/screens/category/test/sliver_grid_bloc.dart';
@@ -13,8 +14,8 @@ import 'package:old_change_app/widgets/app_bottom_navigation.dart';
 
 class Test extends StatefulWidget {
   final String title;
-
-  const Test({Key key, this.title}) : super(key: key);
+  final List<Categories> list;
+  const Test({Key key, this.title, this.list}) : super(key: key);
   @override
   // ignore: no_logic_in_create_state
   _TestState createState() => _TestState(title);
@@ -81,8 +82,11 @@ class _TestState extends State<Test> implements ProductListViewContrat {
             SliverPersistentHeader(
               pinned: true,
               floating: true,
-              delegate:
-                  HeaderSliver(minExtent: 60, maxExtent: 60, content: title),
+              delegate: HeaderSliver(
+                  minExtent: 60,
+                  maxExtent: 60,
+                  content: title,
+                  list: widget.list),
             ),
             // SliverGrid.count(
             //   crossAxisCount: 2,
