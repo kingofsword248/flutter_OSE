@@ -11,17 +11,19 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DetailAppBar(
-              item: item,
-            ),
-            ProductInfo(
-              item: item,
-            ),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DetailAppBar(
+                item: item,
+              ),
+              ProductInfo(
+                item: item,
+              ),
+            ],
+          ),
         ),
       ),
     );

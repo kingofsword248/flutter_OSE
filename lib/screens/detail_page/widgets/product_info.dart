@@ -7,6 +7,7 @@ import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/screens/detail_page/widgets/add_cart.dart';
 import 'package:old_change_app/screens/detail_page/widgets/owner_card.dart';
+import 'package:old_change_app/screens/feedback/feedback.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductInfo extends StatelessWidget {
@@ -48,42 +49,56 @@ class ProductInfo extends StatelessWidget {
             height: 5,
           ),
           Row(
-            children: const [
-              Text(
-                'Rating ',
-                style: TextStyle(color: Colors.grey),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: const [
+                  Text(
+                    'Rating ',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Icon(
+                    Icons.star_border,
+                    color: Colors.yellow,
+                  ),
+                  Text(
+                    '${0}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.grey),
+                  ),
+                ],
               ),
-              Icon(
-                Icons.star_border,
-                color: Colors.yellow,
-              ),
-              Text(
-                '${0}',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-              ),
+              OutlineButton(
+                textColor: primaryColor,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FeedBack()));
+                },
+                child: Text("Feedback"),
+              )
             ],
           ),
           const SizedBox(
             height: 5,
           ),
           Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    offset: Offset.zero,
-                    blurRadius: 15.0,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10)),
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10),
+            // decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.black.withOpacity(0.1),
+            //         offset: Offset.zero,
+            //         blurRadius: 15.0,
+            //       ),
+            //     ],
+            //     borderRadius: BorderRadius.circular(10)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Description :',
+                  'Description ',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(

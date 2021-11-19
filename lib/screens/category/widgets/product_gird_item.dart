@@ -38,11 +38,8 @@ class _ProductGirdItemState extends State<ProductGirdItem> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20))),
                   width: double.infinity,
-                  margin: EdgeInsets.only(top: 20),
+                  margin: EdgeInsets.only(top: 30),
                   child: widget.item.images.isEmpty
                       ? Image.asset("assets/images/not.png", fit: BoxFit.cover)
                       : Image.network(

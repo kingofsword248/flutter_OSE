@@ -23,6 +23,7 @@ class DeliveryTap extends StatefulWidget {
 class _DeliveryTapState extends State<DeliveryTap> implements PurchaseContract {
   PurchasePresenter _purchasePresenter;
   bool isLoading = true;
+  int count = 0;
   // User _user;
   List<PurchaseDTO> _list = [];
 
@@ -91,7 +92,16 @@ class _DeliveryTapState extends State<DeliveryTap> implements PurchaseContract {
   @override
   void onLoadComplte(List<PurchaseDTO> list) {
     setState(() {
-      _list = list;
+      _list = _list + list;
+      if (widget.indexPage.contains("3")) {
+        count++;
+        if (count == 1) {
+          getSharedPrefs().then((value) => {
+                _purchasePresenter.loadPurchaseList(value.id, "7", widget.mode)
+              });
+        }
+      }
+
       isLoading = false;
     });
   }
