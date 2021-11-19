@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:old_change_app/screens/sign_up/widgets/sign_up_body.dart';
+import 'package:old_change_app/models/user.dart';
+import 'package:old_change_app/screens/edit_profile/widgets/body.dart';
 
 class EditScreen extends StatelessWidget {
-  static String routeName = "/sign_up";
+  final User user;
+
+  const EditScreen({Key key, this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +24,9 @@ class EditScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: Body(),
+      body: Body(
+        user: user,
+      ),
     );
   }
 }

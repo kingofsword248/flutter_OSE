@@ -12,10 +12,14 @@ import 'package:provider/provider.dart';
 class ConfirmBody extends StatelessWidget {
   final PurchaseDTO dto;
   final String indexPage;
+  final String mode;
+  final Function confirm;
   const ConfirmBody({
     Key key,
     this.dto,
     this.indexPage,
+    this.mode,
+    this.confirm,
   }) : super(key: key);
 
   @override
@@ -23,20 +27,7 @@ class ConfirmBody extends StatelessWidget {
     // final cartList = Provider.of<CartList>(context, listen: false);
     return Row(
       children: [
-        SizedBox(
-          width: 88,
-          child: AspectRatio(
-            aspectRatio: 0.88,
-            child: Container(
-              padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-              decoration: BoxDecoration(
-                color: Color(0xFFF5F6F9),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Image.network(dto.product[0].images[0].address),
-            ),
-          ),
-        ),
+        image(),
         SizedBox(width: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +36,7 @@ class ConfirmBody extends StatelessWidget {
               width: getProportionateScreenWidth(220),
               child: Text(
                 dto.product[0].name,
-                overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.visible,
                 style: TextStyle(color: Colors.black, fontSize: 18),
                 maxLines: 2,
               ),
@@ -58,34 +49,67 @@ class ConfirmBody extends StatelessWidget {
                 "Total : ${NumberFormat.simpleCurrency(locale: 'vi').format(dto.price)}",
                 style: Theme.of(context).textTheme.bodyText1),
             if (indexPage.contains("3"))
-              Text(
-                dto.transport ?? "",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+              Container(
+                width: getProportionateScreenWidth(220),
+                child: Text(
+                  dto.transport ?? "",
+                  overflow: TextOverflow.visible,
+                  maxLines: 3,
+                ),
               ),
-            Wrap(
-              spacing: 5,
-              runSpacing: 5,
-              direction: Axis.horizontal,
-              children: [
-                if (indexPage == "4")
-                  RaisedButton(
-                      child: Text("Feedback"),
-                      textColor: Colors.white,
-                      color: primaryColor,
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      onPressed: () => _settingModalBottomSheet(context)),
-                if (indexPage == "3")
-                  RaisedButton(
-                      child: Text("Return"),
-                      textColor: Colors.white,
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      color: Colors.red,
-                      onPressed: () {})
-              ],
-            )
+            if (dto.timeLimitAccept != null)
+              Text("Confirm before date " + dto.timeLimitAccept),
+            if (mode == "purchase") buttom(context)
           ],
         )
+      ],
+    );
+  }
+
+  Widget image() {
+    return SizedBox(
+      width: 80,
+      child: AspectRatio(
+        aspectRatio: 0.88,
+        child: Container(
+          padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+          decoration: BoxDecoration(
+            color: Color(0xFFF5F6F9),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Image.network(dto.product[0].images[0].address),
+        ),
+      ),
+    );
+  }
+
+  Widget buttom(BuildContext context) {
+    return Wrap(
+      spacing: 5,
+      runSpacing: 5,
+      direction: Axis.horizontal,
+      children: [
+        if (indexPage == "4")
+          RaisedButton(
+              child: Text("Feedback"),
+              textColor: Colors.white,
+              color: primaryColor,
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              onPressed: () => _settingModalBottomSheet(context)),
+        if (dto.timeLimitAccept != null)
+          RaisedButton(
+              child: Text("Refund"),
+              textColor: Colors.white,
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              color: Colors.red,
+              onPressed: () {}),
+        if (dto.timeLimitAccept != null)
+          RaisedButton(
+              child: Text("Confirm"),
+              textColor: Colors.white,
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              color: primaryColor,
+              onPressed: () => confirm(dto.idOrderDetail.toString()))
       ],
     );
   }

@@ -7,6 +7,7 @@ import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/data/fake.dart';
 import 'package:old_change_app/models/input/post_image_result.dart';
 import 'package:old_change_app/models/input/sign_up_form.dart';
+import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/load_image_presenter.dart';
 import 'package:old_change_app/presenters/sign_up_presenter.dart';
 import 'package:old_change_app/screens/cart/widgets/default_button.dart';
@@ -16,6 +17,9 @@ import 'package:old_change_app/widgets/size_config.dart';
 import 'package:smart_select/smart_select.dart';
 
 class EditUpForm extends StatefulWidget {
+  final User user;
+
+  const EditUpForm({Key key, this.user}) : super(key: key);
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
@@ -33,16 +37,22 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
   String phone;
   String address;
   String avatar;
+  String avatar2;
   String fullname;
   String gender = "male";
   bool remember = false;
-  String date;
+  // String date;
   // TextEditingController _dateController = TextEditingController();
   DateTime selectedDate;
   final List<String> errors = [];
 
   @override
   void initState() {
+    fullname = widget.user.fullName;
+    phone = widget.user.phone;
+    address = widget.user.address;
+    avatar2 = widget.user.avatar;
+
     // TODO: implement initState
     super.initState();
     _loadImagePresenter = LoadImagePresenter(this);
@@ -83,11 +93,11 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
                 buildAddressFormField(),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 buildPhoneFormField(),
-                SizedBox(height: getProportionateScreenHeight(30)),
+                SizedBox(height: getProportionateScreenHeight(10)),
                 FormError(errors: errors),
-                SizedBox(height: getProportionateScreenHeight(40)),
+                SizedBox(height: getProportionateScreenHeight(30)),
                 DefaultButton(
-                  text: "Continue",
+                  text: "Save",
                   press: () {
                     if (avatar == null) {
                       addError(error: pPictures);
@@ -124,7 +134,7 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
           CircleAvatar(
             backgroundImage: avatar != null
                 ? FileImage(File(avatar))
-                : AssetImage("assets/images/user.png"),
+                : NetworkImage(avatar2),
           ),
           Positioned(
             right: -16,
@@ -160,6 +170,7 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
 
   TextFormField buildFullNameFormField() {
     return TextFormField(
+      initialValue: fullname,
       onSaved: (newValue) => fullname = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -189,6 +200,7 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
 
   TextFormField buildAddressFormField() {
     return TextFormField(
+      initialValue: address,
       onSaved: (newValue) => address = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -218,6 +230,7 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
 
   TextFormField buildPhoneFormField() {
     return TextFormField(
+      initialValue: phone,
       onSaved: (newValue) => phone = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

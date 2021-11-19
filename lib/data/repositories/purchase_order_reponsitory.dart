@@ -19,7 +19,7 @@ class PurchaseOrderRepositoryIml implements PurchaseOrderRepository {
   Future<List<PurchaseDTO>> getPurchase(
       int id, String status, String model) async {
     String url =
-        "https://old-stuff-exchange-api.herokuapp.com/api/order/mobile/${model}/?id=${id}&status=${status}";
+        "https://old-stuff-exchange-api.herokuapp.com/api/order/mobile/${model}/?id=${id}&status=${status}&limit=1000";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       return parsePurchaseDTO(response.body);

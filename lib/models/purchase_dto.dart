@@ -4,13 +4,15 @@ class PurchaseDTO {
   int price;
   List<Product> product;
   String transport;
+  String timeLimitAccept;
 
   PurchaseDTO(
       {this.idOrderDetail,
       this.quantity,
       this.price,
       this.product,
-      this.transport});
+      this.transport,
+      this.timeLimitAccept});
 
   PurchaseDTO.fromJson(Map<String, dynamic> json) {
     idOrderDetail = json['idOrderDetail'];
@@ -23,6 +25,7 @@ class PurchaseDTO {
       });
     }
     transport = json['transport'];
+    timeLimitAccept = json['timeLimitAccept'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,6 +37,7 @@ class PurchaseDTO {
       data['product'] = this.product.map((v) => v.toJson()).toList();
     }
     data['transport'] = this.transport;
+    data['timeLimitAccept'] = this.timeLimitAccept;
     return data;
   }
 }
