@@ -133,8 +133,15 @@ class _BodyState extends State<Body> implements FetchUserContract {
   }
 
   @override
-  void onFetchUserError(String onError) {
-    Fake.showErrorDialog(onError, "Error", context);
+  Future<void> onFetchUserError(String onError) async {
+    if (onError.contains("Unauthorized")) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignInScreen()));
+    } else {
+      Fake.showErrorDialog(onError, "Error", context);
+    }
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:old_change_app/data/repositories/load_category_reponsitory.dart'
 import 'package:old_change_app/data/repositories/load_image_reponsitory.dart';
 import 'package:old_change_app/data/repositories/login_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_product_reponsitory.dart';
+import 'package:old_change_app/data/repositories/post_review_repository.dart';
 import 'package:old_change_app/data/repositories/product_list_reponsitory.dart';
 import 'package:old_change_app/data/repositories/purchase_order_reponsitory.dart';
 import 'package:old_change_app/data/repositories/sign_up_reponsitory.dart';
@@ -34,4 +35,5 @@ class Injector {
   LoadCategoryRepository loadCategory() => LoadCategoryRepositoryIml();
   ConfirmPurchaseRepository confirmPurchase() => ConfirmPurchaseRepositoryIml();
   FetchUserRepositoty fetchUser() => FetchUserRepositotyIml();
+  PostReviewRepository postReview() => PostReviewRepositoryIml();
 }
