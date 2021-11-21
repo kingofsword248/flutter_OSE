@@ -62,7 +62,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
                     style: TextStyle(color: Colors.black, fontSize: 18.0)),
               ),
               Tab(
-                child: Text("Completed delivery",
+                child: Text("Completed transaction",
                     style: TextStyle(color: Colors.black, fontSize: 18.0)),
               ),
               Tab(

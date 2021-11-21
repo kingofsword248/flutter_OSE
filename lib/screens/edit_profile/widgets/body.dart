@@ -4,7 +4,7 @@ import 'package:old_change_app/screens/edit_profile/widgets/edit_form.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 
 class Body extends StatelessWidget {
-  final User user;
+  final Userr user;
 
   const Body({Key key, this.user}) : super(key: key);
   @override

@@ -16,14 +16,17 @@ import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/load_image_presenter.dart';
 import 'package:old_change_app/presenters/post_review.dart';
 import 'package:old_change_app/screens/category/widgets/fliter_list.dart';
+import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_select/smart_select.dart';
 
 class RatingModalBottomSheet extends StatefulWidget {
+  final int idOrderDetail;
   final int productID;
   RatingModalBottomSheet({
     Key key,
     this.productID,
+    this.idOrderDetail,
   }) : super(key: key);
 
   @override
@@ -163,17 +166,18 @@ class _RatingModalBottomSheetState extends State<RatingModalBottomSheet>
               //       "Loading is Complete", "notification", context);
               //   return;
               // }
-              print("submit co hinh step1");
+              // print("submit co hinh step1");
               for (var i = 0; i < _files.length; i++) {
                 _imagePresenter.loadImage(File(_files[i].path));
               }
             } else {
-              print("submit ko hinh step1");
+              // print("submit ko hinh step1");
               ReviewsForm reviewsForm = ReviewsForm(
                   content: content,
                   image: imageList,
                   star: rateScore,
-                  productId: widget.productID);
+                  productId: widget.productID,
+                  orderDetailId: widget.idOrderDetail);
               getSharedPrefs().then((_) =>
                   _postReviewPresenter.onPostReview(reviewsForm, _a.token));
             }
@@ -361,15 +365,29 @@ class _RatingModalBottomSheetState extends State<RatingModalBottomSheet>
   }
 
   @override
-  void onLoadImageError(String error) {
+  Future<void> onLoadImageError(String error) async {
     Fake.showErrorDialog(error, "Notification Error", context);
+
+    if (error.contains("Unauthorized")) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignInScreen()));
+    }
     setState(() {
       isLoading = false;
     });
   }
 
   @override
-  void onPostReviewError(String error) {
+  Future<void> onPostReviewError(String error) async {
+    if (error.contains("Unauthorized")) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignInScreen()));
+      return;
+    }
     Fake.showErrorDialog(error, "Notification Error", context);
     setState(() {
       isLoading = false;

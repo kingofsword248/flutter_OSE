@@ -62,3 +62,48 @@ class User {
     return data;
   }
 }
+
+class Userr {
+  int id;
+  String fullName;
+  String userName;
+  String avatar;
+  String phone;
+  String address;
+  int balance;
+  String role;
+
+  Userr(
+      {this.id,
+      this.fullName,
+      this.userName,
+      this.avatar,
+      this.phone,
+      this.address,
+      this.balance,
+      this.role});
+
+  Userr.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fullName = json['fullName'];
+    userName = json['userName'];
+    avatar = json['avatar'];
+    phone = json['phone'];
+    address = json['address'];
+    balance = json['balance'];
+    role = json['role'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['fullName'] = this.fullName;
+    data['userName'] = this.userName;
+    data['avatar'] = this.avatar;
+    data['phone'] = this.phone;
+    data['address'] = this.address;
+    data['balance'] = this.balance;
+    data['role'] = this.role;
+    return data;
+  }
+}

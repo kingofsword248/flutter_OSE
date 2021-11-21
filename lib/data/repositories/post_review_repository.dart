@@ -20,7 +20,11 @@ class PostReviewRepositoryIml implements PostReviewRepository {
         return false;
       }
     } on DioError catch (e) {
-      throw Exception(e.toString());
+      if (!e.response.statusMessage.contains("Unauthorized")) {
+        throw Exception("You have feedback on this product");
+      } else {
+        throw Exception("Unauthorized");
+      }
     }
   }
 }

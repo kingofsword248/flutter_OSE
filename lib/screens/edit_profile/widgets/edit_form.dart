@@ -17,7 +17,7 @@ import 'package:old_change_app/widgets/size_config.dart';
 import 'package:smart_select/smart_select.dart';
 
 class EditUpForm extends StatefulWidget {
-  final User user;
+  final Userr user;
 
   const EditUpForm({Key key, this.user}) : super(key: key);
   @override

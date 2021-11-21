@@ -3,7 +3,7 @@ import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/screens/edit_profile/widgets/body.dart';
 
 class EditScreen extends StatelessWidget {
-  final User user;
+  final Userr user;
 
   const EditScreen({Key key, this.user}) : super(key: key);
   @override

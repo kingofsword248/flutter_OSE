@@ -3,7 +3,7 @@ import 'package:old_change_app/data/repositories/fetch_user_repository.dart';
 import 'package:old_change_app/models/user.dart';
 
 abstract class FetchUserContract {
-  void onFetchUserSuccess(User user);
+  void onFetchUserSuccess(Userr user);
   void onFetchUserError(String onError);
 }
 
@@ -18,6 +18,6 @@ class FetchUserPresenter {
     _repositoty
         .fetchUser(token)
         .then((value) => _view.onFetchUserSuccess(value))
-        .catchError((onError) => _view.onFetchUserError(onError));
+        .catchError((onError) => _view.onFetchUserError(onError.toString()));
   }
 }

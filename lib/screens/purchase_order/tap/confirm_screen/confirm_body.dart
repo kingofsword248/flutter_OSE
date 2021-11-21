@@ -95,8 +95,8 @@ class ConfirmBody extends StatelessWidget {
               textColor: Colors.white,
               color: primaryColor,
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              onPressed: () =>
-                  _settingModalBottomSheet(context, dto.product[0].idProduct)),
+              onPressed: () => _settingModalBottomSheet(
+                  context, dto.product[0].idProduct, dto.idOrderDetail)),
         if (dto.timeLimitAccept != null)
           RaisedButton(
               child: Text("Refund"),
@@ -115,7 +115,7 @@ class ConfirmBody extends StatelessWidget {
     );
   }
 
-  void _settingModalBottomSheet(context, int id) {
+  void _settingModalBottomSheet(context, int id, int idOrderDetail) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.white,
@@ -126,6 +126,7 @@ class ConfirmBody extends StatelessWidget {
         builder: (BuildContext bc) {
           return RatingModalBottomSheet(
             productID: id,
+            idOrderDetail: idOrderDetail,
           );
         });
   }

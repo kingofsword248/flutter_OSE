@@ -38,13 +38,14 @@ class _BodyState extends State<Body>
   var _isLoading = false;
   //load image
   List<XFile> _files = [];
-  bool uploadImageLoading = false;
+
   // List<ImageResult> imageResultList = [];
   LoadImagePresenter _imagePresenter;
   //form
   final _formKey = GlobalKey<FormState>();
   //local var
   List<ImageP> imageList = [];
+  User _a;
   // ProductPost productPost;
   String name;
   String description;
@@ -83,6 +84,7 @@ class _BodyState extends State<Body>
     _categoryPresenter = CategoryPresenter(this);
     _imagePresenter = LoadImagePresenter(this);
     _postProductPresenter = PostProductPresenter(this);
+    getSharedPrefs();
     if (Fake.categoryFake.isEmpty) {
       setState(() {
         _isLoading = true;
@@ -145,53 +147,32 @@ class _BodyState extends State<Body>
                         text: "Post Product",
                         press: () async {
                           //check validate
-                          if (imageList.isEmpty) {
+                          if (_files.isEmpty) {
                             addError(error: pPictures);
-                            return;
-                          } else if (imageList.isNotEmpty) {
+                          } else if (_files.isNotEmpty) {
                             removeError(error: pPictures);
                           }
                           if (categoryID == null) {
                             addError(error: pCategoryError);
-                            return;
                           } else {
                             removeError(error: pCategoryError);
                           }
                           if (!Fake.status.contains("SELL") &&
                               categoryChangeID == null) {
                             addError(error: pCategoryTrade);
-                            return;
                           } else {
                             removeError(error: pCategoryTrade);
                           }
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-                            //thêm user
-                            final prefs = await SharedPreferences.getInstance();
-                            User a;
-                            String user = prefs.get('User');
-                            if (user != null) {
-                              a = User.fromJson(json.decode(user));
-                            }
-                            if (Fake.status == "SELL") {
-                              categoryChangeID = 0;
-                            }
-                            ProductPost productPost = ProductPost(
-                                name: name,
-                                description: description,
-                                quantity: quantity,
-                                price: price,
-                                image: imageList,
-                                own: a.id,
-                                status: Fake.status,
-                                categoryID: categoryID,
-                                categoryChangeID: categoryChangeID);
-                            //
-
+                            if (errors.isNotEmpty) return;
                             setState(() {
                               _isLoading = true;
                             });
-                            _postProductPresenter.postProduct(productPost);
+                            for (var i = 0; i < _files.length; i++) {
+                              _imagePresenter.loadImage(File(_files[i].path));
+                            }
+
                             KeyboardUtil.hideKeyboard(context);
                           }
                         },
@@ -205,6 +186,15 @@ class _BodyState extends State<Body>
               ),
             ),
     );
+  }
+
+  Future<Null> getSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String user = prefs.get('User');
+
+    setState(() {
+      _a = User.fromJson(json.decode(user));
+    });
   }
 
   Future pickImage() async {
@@ -263,34 +253,34 @@ class _BodyState extends State<Body>
             )
           ],
         ),
-        _files.isEmpty
-            ? Text("Upload your Image (Maximun is 3)")
-            : Wrap(
-                children: [
-                  if (uploadImageLoading == false)
-                    OutlineButton(
-                        child: Text(
-                          "Load Image to Server",
-                          style: TextStyle(color: primaryColor),
-                        ),
-                        onPressed: () {
-                          if (_files == null) return;
-                          if (_files.length == imageList.length) {
-                            Fake.showErrorDialog(
-                                "Loading is Complete", "notification", context);
-                            return;
-                          }
-                          setState(() {
-                            uploadImageLoading = true;
-                          });
-                          for (var i = 0; i < _files.length; i++) {
-                            _imagePresenter.loadImage(File(_files[i].path));
-                          }
-                        }),
-                  if (uploadImageLoading)
-                    Text("Loading... (${imageList.length}/${_files.length})")
-                ],
-              ),
+        // _files.isEmpty
+        //     ? Text("Upload your Image (Maximun is 3)")
+        //     : Wrap(
+        //         children: [
+        //           if (uploadImageLoading == false)
+        //             OutlineButton(
+        //                 child: Text(
+        //                   "Load Image to Server",
+        //                   style: TextStyle(color: primaryColor),
+        //                 ),
+        //                 onPressed: () {
+        //                   if (_files == null) return;
+        //                   if (_files.length == imageList.length) {
+        //                     Fake.showErrorDialog(
+        //                         "Loading is Complete", "notification", context);
+        //                     return;
+        //                   }
+        //                   // setState(() {
+        //                   //   uploadImageLoading = true;
+        //                   // });
+        //                   // for (var i = 0; i < _files.length; i++) {
+        //                   //   _imagePresenter.loadImage(File(_files[i].path));
+        //                   // }
+        //                 }),
+        //           if (uploadImageLoading)
+        //             Text("Loading... (${imageList.length}/${_files.length})")
+        //         ],
+        //       ),
         _files.isEmpty
             ? const Text("")
             : GridView.builder(
@@ -407,7 +397,7 @@ class _BodyState extends State<Body>
         //   addError(error: pQuantityIFError);
         //   return "";
         // }
-        if (value.length == 0) {
+        if (value.isEmpty) {
           addError(error: pQuantityIFError);
           return "";
         }
@@ -581,16 +571,29 @@ class _BodyState extends State<Body>
     setState(() {
       imageList.add(ImageP(url: result.url));
       if (imageList.length == _files.length) {
-        uploadImageLoading = false;
+        if (Fake.status == "SELL") {
+          categoryChangeID = 0;
+        }
+        ProductPost productPost = ProductPost(
+            name: name,
+            description: description,
+            quantity: quantity,
+            price: price,
+            image: imageList,
+            own: _a.id,
+            status: Fake.status,
+            categoryID: categoryID,
+            categoryChangeID: categoryChangeID);
+        _postProductPresenter.postProduct(productPost);
       }
     });
   }
 
   @override
   void onLoadImageError(String error) {
-    Fake.showErrorDialog("Something wrong", "Notification Error", context);
+    Fake.showErrorDialog(error, "Notification Error", context);
     setState(() {
-      uploadImageLoading = false;
+      _isLoading = false;
     });
   }
 

@@ -5,6 +5,7 @@ import 'package:old_change_app/data/fake.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/fetch_user_presenter.dart';
 import 'package:old_change_app/screens/edit_profile/edit_profile_screen.dart';
+import 'package:old_change_app/screens/my_product/mu_product_screen.dart';
 import 'package:old_change_app/screens/purchase_order/purchase_order_screen.dart';
 import 'package:old_change_app/screens/sell_order/sell_order_srceen.dart';
 import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
@@ -20,7 +21,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> implements FetchUserContract {
   User _a;
-  User us;
+  Userr us;
   FetchUserPresenter _fetchUserPresenter;
   bool isLoading = true;
   Future<Null> getSharedPrefs() async {
@@ -108,9 +109,12 @@ class _BodyState extends State<Body> implements FetchUserContract {
                   },
                 ),
                 ProfileMenu(
-                  text: "Help Center",
-                  icon: "assets/icons/User Icon.svg",
-                  press: () {},
+                  text: "My Product",
+                  icon: "assets/icons/cabinet-svgrepo-com.svg",
+                  press: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyProduct()));
+                  },
                 ),
                 ProfileMenu(
                   text: "Log Out",
@@ -145,7 +149,7 @@ class _BodyState extends State<Body> implements FetchUserContract {
   }
 
   @override
-  void onFetchUserSuccess(User user) {
+  void onFetchUserSuccess(Userr user) {
     setState(() {
       us = user;
     });
