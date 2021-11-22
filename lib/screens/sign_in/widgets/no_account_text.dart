@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/screens/sign_up/sign_up_screen.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 
 class NoAccountText extends StatelessWidget {

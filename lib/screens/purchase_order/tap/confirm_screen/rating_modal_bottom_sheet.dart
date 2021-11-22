@@ -1,24 +1,20 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/data/fake.dart';
-import 'package:old_change_app/models/category.dart';
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/input/post_image_result.dart';
 import 'package:old_change_app/models/input/product_form.dart';
 import 'package:old_change_app/models/input/reviews_form.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/load_image_presenter.dart';
 import 'package:old_change_app/presenters/post_review.dart';
-import 'package:old_change_app/screens/category/widgets/fliter_list.dart';
 import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_select/smart_select.dart';
 
 class RatingModalBottomSheet extends StatefulWidget {
   final int idOrderDetail;

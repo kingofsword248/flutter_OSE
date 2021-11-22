@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:old_change_app/constants/colors.dart';
+
 import 'package:old_change_app/models/category.dart';
-import 'package:old_change_app/screens/category/widgets/fliter_list.dart';
+import 'package:old_change_app/utilities/colors.dart';
+
 import 'package:smart_select/smart_select.dart';
 
 class FilterModalBottomSheet extends StatelessWidget {

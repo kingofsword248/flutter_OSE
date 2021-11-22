@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/data/fake.dart';
-import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/models/purchase_dto.dart';
 import 'package:old_change_app/screens/purchase_order/tap/confirm_screen/rating_modal_bottom_sheet.dart';
-
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/size_config.dart';
-import 'package:provider/provider.dart';
 
 class ConfirmBody extends StatelessWidget {
   final PurchaseDTO dto;

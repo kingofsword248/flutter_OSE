@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/screens/cart/cart_screen.dart';

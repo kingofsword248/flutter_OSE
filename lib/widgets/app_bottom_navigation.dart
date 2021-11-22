@@ -5,14 +5,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/data/fake.dart';
+
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/providers/menu_bottom.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/screens/cart/cart_screen.dart';
 import 'package:old_change_app/screens/home/home_screen.dart';
 import 'package:old_change_app/screens/my_profile/my_profile_screens.dart';
 import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

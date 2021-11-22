@@ -1,4 +1,4 @@
-import 'package:old_change_app/data/dependency_injection.dart';
+import 'package:old_change_app/utilities/dependency_injection.dart';
 import 'package:old_change_app/data/repositories/cancel_order_detail_reponsitory.dart';
 
 abstract class CancelOrderDetailContract {

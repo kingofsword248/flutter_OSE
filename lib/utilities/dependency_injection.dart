@@ -3,9 +3,12 @@ import 'package:old_change_app/data/repositories/cancel_order_detail_reponsitory
 import 'package:old_change_app/data/repositories/categories_reponsitory.dart';
 import 'package:old_change_app/data/repositories/check_out_reponsitory.dart';
 import 'package:old_change_app/data/repositories/confirm_purchase_repository.dart';
+import 'package:old_change_app/data/repositories/exchang_product_repository.dart';
 import 'package:old_change_app/data/repositories/fetch_user_repository.dart';
+import 'package:old_change_app/data/repositories/get_list_exchange_repository.dart';
 import 'package:old_change_app/data/repositories/load_category_reponsitory.dart';
 import 'package:old_change_app/data/repositories/load_image_reponsitory.dart';
+import 'package:old_change_app/data/repositories/load_my_product_repository.dart';
 import 'package:old_change_app/data/repositories/login_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_product_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_review_repository.dart';
@@ -36,4 +39,7 @@ class Injector {
   ConfirmPurchaseRepository confirmPurchase() => ConfirmPurchaseRepositoryIml();
   FetchUserRepositoty fetchUser() => FetchUserRepositotyIml();
   PostReviewRepository postReview() => PostReviewRepositoryIml();
+  LoadMyProductRepository loadMyProduct() => LoadMyProductRepositoryIml();
+  ExchangeProductRepository exchangeProduct() => ExchangeProductRepositoryIml();
+  GetExchangeRequestRepository getList() => GetExchangeRequestRepositoryIml();
 }

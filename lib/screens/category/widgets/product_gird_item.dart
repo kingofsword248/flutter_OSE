@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/models/item.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:intl/intl.dart';
+import 'package:old_change_app/utilities/colors.dart';
 
 class ProductGirdItem extends StatefulWidget {
   final Product item;

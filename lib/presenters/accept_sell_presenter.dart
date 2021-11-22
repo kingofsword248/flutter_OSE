@@ -1,4 +1,4 @@
-import 'package:old_change_app/data/dependency_injection.dart';
+import 'package:old_change_app/utilities/dependency_injection.dart';
 import 'package:old_change_app/data/repositories/accept_request_sell_reponsitory.dart';
 
 abstract class AcceptReuqestContract {

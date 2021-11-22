@@ -1,4 +1,4 @@
-import 'package:old_change_app/data/dependency_injection.dart';
+import 'package:old_change_app/utilities/dependency_injection.dart';
 import 'package:old_change_app/data/repositories/sign_up_reponsitory.dart';
 import 'package:old_change_app/models/input/sign_up_form.dart';
 

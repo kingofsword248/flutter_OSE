@@ -1,4 +1,4 @@
-import 'package:old_change_app/data/dependency_injection.dart';
+import 'package:old_change_app/utilities/dependency_injection.dart';
 import 'package:old_change_app/data/repositories/post_product_reponsitory.dart';
 import 'package:old_change_app/models/input/post_product_result.dart';
 import 'package:old_change_app/models/input/product_form.dart';

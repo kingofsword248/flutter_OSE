@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/user.dart';
+import 'package:old_change_app/utilities/colors.dart';
 
 class CardOwner extends StatelessWidget {
   final User user;

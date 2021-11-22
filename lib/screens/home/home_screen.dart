@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/presenters/load_category_presenter.dart';
-
-import 'package:old_change_app/screens/category/category_screens.dart';
 import 'package:old_change_app/screens/category/test/test.dart';
-
 import 'package:old_change_app/screens/home/widgets/category_card.dart';
 import 'package:old_change_app/screens/home/widgets/header.dart';
 import 'package:old_change_app/screens/home/widgets/image_card.dart';
 import 'package:old_change_app/screens/home/widgets/section.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/app_bottom_navigation.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 

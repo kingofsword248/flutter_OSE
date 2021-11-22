@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/screens/purchase_order/tap/delivery_screen/delivery_tap.dart';
 import 'package:old_change_app/screens/purchase_order/tap/return_tap.dart';
-import 'package:old_change_app/screens/sell_order/tap/cofirm_sell_tap.dart';
+import 'package:old_change_app/screens/sell_order/tap/cofirm_sell_buy.dart';
+import 'package:old_change_app/screens/sell_order/tap/confirm_sell_trade.dart';
+import 'package:old_change_app/utilities/colors.dart';
 
 class SellOrderScreen extends StatefulWidget {
   const SellOrderScreen({Key key}) : super(key: key);
@@ -24,7 +25,7 @@ class _SellOrderScreenState extends State<SellOrderScreen>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 7,
       child: Scaffold(
         appBar: AppBar(
           title: const Padding(
@@ -50,7 +51,11 @@ class _SellOrderScreenState extends State<SellOrderScreen>
             labelColor: primaryColor,
             tabs: [
               Tab(
-                child: Text("Waiting for confirmation",
+                child: Text("Purchase request",
+                    style: TextStyle(color: Colors.black, fontSize: 18.0)),
+              ),
+              Tab(
+                child: Text("Exchange request",
                     style: TextStyle(color: Colors.black, fontSize: 18.0)),
               ),
               Tab(
@@ -81,6 +86,7 @@ class _SellOrderScreenState extends State<SellOrderScreen>
             ConfirmSell(
               index: "1",
             ),
+            ConfirmTrade(),
             ConfirmSell(
               index: "2",
             ),

@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/purchase_dto.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/accept_sell_presenter.dart';
 import 'package:old_change_app/presenters/purchase_presenter.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

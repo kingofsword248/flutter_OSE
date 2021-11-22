@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:old_change_app/constants/colors.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 
 class DefaultButton extends StatelessWidget {

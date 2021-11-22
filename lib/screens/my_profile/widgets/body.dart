@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/fetch_user_presenter.dart';
 import 'package:old_change_app/screens/edit_profile/edit_profile_screen.dart';
@@ -37,7 +37,7 @@ class _BodyState extends State<Body> implements FetchUserContract {
   void initState() {
     _fetchUserPresenter = FetchUserPresenter(this);
     super.initState();
-    _a = null;
+
     getSharedPrefs().then((value) => _fetchUserPresenter.onFetch(_a.token));
   }
 
@@ -51,23 +51,25 @@ class _BodyState extends State<Body> implements FetchUserContract {
               children: [
                 if (us != null)
                   ProfilePic(
-                    address: us.avatar ?? null,
+                    address: us.avatar,
                   ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 if (us != null)
                   Text(
-                    _a.fullName,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    us.fullName,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 if (us != null)
                   Text(
                     "Balance: " +
                         NumberFormat.simpleCurrency(locale: 'vi')
                             .format(us.balance),
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w600),
                   ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ProfileMenu(
                   text: "My Account",
                   icon: "assets/icons/User Icon.svg",

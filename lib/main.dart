@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/models/providers/menu_bottom.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import '../screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
-import "constants/colors.dart";
+
 import 'models/providers/cart_item.dart';
 
 void main() {

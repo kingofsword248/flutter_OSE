@@ -1,20 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:old_change_app/constants/colors.dart';
-import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/input/post_image_result.dart';
-import 'package:old_change_app/models/input/sign_up_form.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/load_image_presenter.dart';
-import 'package:old_change_app/presenters/sign_up_presenter.dart';
 import 'package:old_change_app/screens/cart/widgets/default_button.dart';
-
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/form_error.dart';
 import 'package:old_change_app/widgets/size_config.dart';
-import 'package:smart_select/smart_select.dart';
 
 class EditUpForm extends StatefulWidget {
   final Userr user;
@@ -134,7 +129,9 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
           CircleAvatar(
             backgroundImage: avatar != null
                 ? FileImage(File(avatar))
-                : NetworkImage(avatar2),
+                : avatar2 != null
+                    ? NetworkImage(avatar2)
+                    : const AssetImage("assets/images/user.png"),
           ),
           Positioned(
             right: -16,
@@ -263,19 +260,19 @@ class _SignUpFormState extends State<EditUpForm> implements LoadImageContract {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1930, 8),
-        lastDate: DateTime.now());
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-      removeError(error: pYOBNullError);
-    }
-  }
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime picked = await showDatePicker(
+  //       context: context,
+  //       initialDate: DateTime.now(),
+  //       firstDate: DateTime(1930, 8),
+  //       lastDate: DateTime.now());
+  //   if (picked != null && picked != selectedDate) {
+  //     setState(() {
+  //       selectedDate = picked;
+  //     });
+  //     removeError(error: pYOBNullError);
+  //   }
+  // }
 
   OutlineInputBorder ui() {
     return OutlineInputBorder(

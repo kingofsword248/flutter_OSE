@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:old_change_app/constants/colors.dart';
-
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/screens/detail_page/widgets/add_cart.dart';
 import 'package:old_change_app/screens/detail_page/widgets/owner_card.dart';
 import 'package:old_change_app/screens/feedback/feedback.dart';
+import 'package:old_change_app/utilities/colors.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductInfo extends StatelessWidget {

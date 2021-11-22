@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:old_change_app/constants/colors.dart';
 import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/presenters/product_category_list_presentes.dart';

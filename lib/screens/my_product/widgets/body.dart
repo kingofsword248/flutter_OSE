@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:old_change_app/models/providers/cart_item.dart';
 import 'package:old_change_app/screens/cart/widgets/cart_card.dart';
 import 'package:old_change_app/widgets/size_config.dart';
-import 'package:old_change_app/data/fake.dart';
+import 'package:old_change_app/utilities/fake.dart';
 import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
