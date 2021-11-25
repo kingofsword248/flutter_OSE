@@ -13,10 +13,10 @@ class GetExchangeRequestPresenter {
   GetExchangeRequestPresenter(this._view) {
     _repository = Injector().getList();
   }
-  void onLoad(String myID) {
+  void onLoad(String myID, String type) {
     assert(_view != null && _repository != null);
     _repository
-        .getList(myID)
+        .getList(myID, type)
         .then((value) => _view.onLoadExchangesSuccess(value))
         .catchError(
             (onError) => _view.onLoadExchangesError(onError.toString()));

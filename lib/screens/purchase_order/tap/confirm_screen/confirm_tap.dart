@@ -24,6 +24,7 @@ class _ConfirmTapState extends State<ConfirmTap>
     implements PurchaseContract, CancelOrderDetailContract {
   PurchasePresenter _purchasePresenter;
   CancelOrderDetailPresenter _cancelOrderDetailPresenter;
+
   bool isLoading = true;
   // User _user;
   List<PurchaseDTO> _list = [];
@@ -39,6 +40,7 @@ class _ConfirmTapState extends State<ConfirmTap>
     super.initState();
     _cancelOrderDetailPresenter = CancelOrderDetailPresenter(this);
     _purchasePresenter = PurchasePresenter(this);
+
     getSharedPrefs().then((value) => {
           _purchasePresenter.loadPurchaseList(
               value.id, widget.indexPage, "purchase")

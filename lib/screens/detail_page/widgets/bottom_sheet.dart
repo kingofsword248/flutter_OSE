@@ -137,7 +137,7 @@ class _BottomSheetExchangeState extends State<BottomSheetExchange>
                           return;
                         }
                         _exchangeProductPresenter.onLoad(_a.id,
-                            widget.product.idProduct, int.parse(idProduct));
+                            int.parse(idProduct), widget.product.idProduct);
                         setState(() {
                           _isLoading = true;
                         });

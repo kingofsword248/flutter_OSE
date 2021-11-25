@@ -38,7 +38,7 @@ class ConfirmBody extends StatelessWidget {
               ),
             ),
             Text(
-              "Quantity : " + dto.quantity.toString(),
+              "x" + dto.quantity.toString(),
               style: TextStyle(fontSize: 16),
             ),
             Text(
@@ -73,7 +73,9 @@ class ConfirmBody extends StatelessWidget {
             color: Color(0xFFF5F6F9),
             borderRadius: BorderRadius.circular(15),
           ),
-          child: Image.network(dto.product[0].images[0].address),
+          child: dto.product[0].images.isNotEmpty
+              ? Image.network(dto.product[0].images[0].address)
+              : const AssetImage("assets/images/not.png"),
         ),
       ),
     );

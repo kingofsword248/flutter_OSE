@@ -353,7 +353,8 @@ class _RatingModalBottomSheetState extends State<RatingModalBottomSheet>
             content: content,
             image: imageList,
             star: rateScore,
-            productId: widget.productID);
+            productId: widget.productID,
+            orderDetailId: widget.idOrderDetail);
         getSharedPrefs().then(
             (_) => _postReviewPresenter.onPostReview(reviewsForm, _a.token));
       }

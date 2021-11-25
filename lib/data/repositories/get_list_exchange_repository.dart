@@ -4,7 +4,7 @@ import 'package:old_change_app/models/input/exchange_result_list.dart';
 import 'package:http/http.dart' as http;
 
 abstract class GetExchangeRequestRepository {
-  Future<List<ExchangeForm>> getList(String myID);
+  Future<List<ExchangeForm>> getList(String myID, String type);
 }
 
 class GetExchangeRequestRepositoryIml implements GetExchangeRequestRepository {
@@ -16,9 +16,9 @@ class GetExchangeRequestRepositoryIml implements GetExchangeRequestRepository {
   }
 
   @override
-  Future<List<ExchangeForm>> getList(String myID) async {
+  Future<List<ExchangeForm>> getList(String myID, String type) async {
     String url =
-        "https://old-stuff-exchange-api.herokuapp.com/api/exchange/listRequestWantChangeSeller/$myID";
+        "https://old-stuff-exchange-api.herokuapp.com/api/exchange/$type/$myID";
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

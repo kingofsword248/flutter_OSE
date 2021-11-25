@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:old_change_app/models/feedback.dart';
+import 'package:old_change_app/widgets/size_config.dart';
 
 class FeedBack extends StatefulWidget {
   const FeedBack({Key key}) : super(key: key);
@@ -54,7 +55,12 @@ class _FeedBackState extends State<FeedBack> {
       star: 3,
     ),
   ];
-
+  List<String> hinhs = [
+    "assets/images/not.png",
+    "assets/images/not.png",
+    "assets/images/not.png",
+    "assets/images/not.png"
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,9 +109,31 @@ class _FeedBackState extends State<FeedBack> {
                     onRatingUpdate: null),
               ],
             ),
-            subtitle: Text(
-              _list[index].content,
-              overflow: TextOverflow.visible,
+            subtitle: Column(
+              children: [
+                Text(
+                  _list[index].content,
+                  overflow: TextOverflow.visible,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 150,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    itemBuilder: (context, index) => Container(
+                      height: 100,
+                      width: 100,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Image.asset(hinhs[index]),
+                        // height: 100,
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
             isThreeLine: true,
           ),

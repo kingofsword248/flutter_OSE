@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/screens/purchase_order/tap/confirm_screen/confirm_tap.dart';
+import 'package:old_change_app/screens/purchase_order/tap/confirm_screen/confirm_trade_tap.dart';
 import 'package:old_change_app/screens/purchase_order/tap/delivery_screen/delivery_tap.dart';
 import 'package:old_change_app/screens/purchase_order/tap/return_tap.dart';
 import 'package:old_change_app/utilities/colors.dart';
@@ -24,7 +25,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 7,
       child: Scaffold(
         appBar: AppBar(
           title: const Padding(
@@ -50,7 +51,11 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
             labelColor: primaryColor,
             tabs: [
               Tab(
-                child: Text("Waiting for confirmation",
+                child: Text("Purchase request",
+                    style: TextStyle(color: Colors.black, fontSize: 18.0)),
+              ),
+              Tab(
+                child: Text("Exchange request",
                     style: TextStyle(color: Colors.black, fontSize: 18.0)),
               ),
               Tab(
@@ -81,6 +86,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
             ConfirmTap(
               indexPage: "1",
             ),
+            ConfirmTrade(),
             DeliveryTap(
               indexPage: "2",
               mode: "purchase",

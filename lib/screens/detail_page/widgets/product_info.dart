@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/screens/detail_page/widgets/add_cart.dart';
@@ -17,31 +18,24 @@ class ProductInfo extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '${item.name}',
             overflow: TextOverflow.visible,
+            textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           SizedBox(
             height: 5,
           ),
-          Row(
-            children: [
-              const Text('Price ',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Colors.grey)),
-              Text(
-                NumberFormat.simpleCurrency(locale: 'vi').format(item.price),
-                style: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20),
-              ),
-            ],
+          Center(
+            child: Text(
+              NumberFormat.simpleCurrency(locale: 'vi').format(item.price),
+              style: const TextStyle(
+                  color: primaryColor,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 20),
+            ),
           ),
           const SizedBox(
             height: 5,
@@ -50,17 +44,23 @@ class ProductInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                children: const [
-                  Text(
-                    'Rating ',
-                    style: TextStyle(color: Colors.grey),
+                children: [
+                  RatingBar.builder(
+                    initialRating: 5,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: false,
+                    itemCount: 5,
+                    itemSize: 20,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 1.5),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: null,
                   ),
-                  Icon(
-                    Icons.star_border,
-                    color: Colors.yellow,
-                  ),
                   Text(
-                    '${0}',
+                    '(${5})',
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.grey),
                   ),
@@ -96,6 +96,13 @@ class ProductInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
+                  "Quantity : " + item.quantity.toString(),
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
                   'Description ',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -104,7 +111,7 @@ class ProductInfo extends StatelessWidget {
                 ),
                 ReadMoreText(
                   item.description,
-                  trimLines: 3,
+                  trimLines: 6,
                   textAlign: TextAlign.justify,
                   trimMode: TrimMode.Line,
                   trimCollapsedText: 'Read more',
@@ -120,6 +127,7 @@ class ProductInfo extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.black.withOpacity(0.7),
                       fontSize: 15,
+                      letterSpacing: 1,
                       height: 1),
                 ),
               ],

@@ -37,8 +37,8 @@ class _ConfirmTradeState extends State<ConfirmTrade>
   @override
   void initState() {
     _exchangeRequestPresenter = GetExchangeRequestPresenter(this);
-    getSharedPrefs()
-        .then((_) => _exchangeRequestPresenter.onLoad(_user.id.toString()));
+    getSharedPrefs().then((_) => _exchangeRequestPresenter.onLoad(
+        _user.id.toString(), "listRequestWantChangeSeller"));
     // TODO: implement initState
     super.initState();
   }
@@ -120,7 +120,13 @@ class _ConfirmTradeState extends State<ConfirmTrade>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Money difference "),
+                dto.priceDiff.isNegative
+                    ? Text(
+                        "Minus money",
+                        style: TextStyle(color: Colors.orange[900]),
+                      )
+                    : Text("receive money",
+                        style: TextStyle(color: Colors.green[900])),
                 Text(
                     " ${NumberFormat.simpleCurrency(locale: 'vi').format(dto.priceDiff)}",
                     style: Theme.of(context).textTheme.bodyText1),
