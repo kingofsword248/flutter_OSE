@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:old_change_app/models/input/product_detail.dart';
 
 import 'package:old_change_app/screens/detail_page/widgets/bottom_sheet.dart';
 import 'package:old_change_app/utilities/fake.dart';
@@ -11,18 +12,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddCart extends StatelessWidget {
-  final Product product;
+  final ProductDetail product;
   const AddCart({Key key, @required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartList>(context, listen: false);
-    // final prefs = await SharedPreferences.getInstance().then((value) => null)
-    //                         User a;
-    //                         String user = prefs.get('User');
-    //                         if (user != null) {
-    //                           a = User.fromJson(json.decode(user));
-    //                         }
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25),
       child: Column(
@@ -48,8 +44,20 @@ class AddCart extends StatelessWidget {
                         return;
                       }
                     }
-
-                    cart.addItem(product);
+                    Product product2 = Product(
+                        brandID: product.brandID,
+                        categoryID: product.categoryID,
+                        createdAt: product.createdAt,
+                        description: product.description,
+                        idProduct: product.idProduct,
+                        images: product.images,
+                        name: product.name,
+                        own: product.own,
+                        price: product.price,
+                        quantity: product.quantity,
+                        status: product.status,
+                        updatedAt: product.updatedAt);
+                    cart.addItem(product2);
                     Fake.showDiaglog(context, "Add to cart successfull");
                   },
                   child: Row(
@@ -60,9 +68,9 @@ class AddCart extends StatelessWidget {
                     ],
                   )),
             ),
-          const SizedBox(
-            height: 20,
-          ),
+          // const SizedBox(
+          //   height: 10,
+          // ),
           if (!product.status.contains("SELL"))
             Container(
               alignment: Alignment.center,
@@ -72,7 +80,18 @@ class AddCart extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15)),
                       elevation: 0,
                       primary: primaryColor),
-                  onPressed: () {
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    User a;
+                    String user = prefs.get('User');
+                    if (user != null) {
+                      a = User.fromJson(json.decode(user));
+                      if (a.id == product.own) {
+                        Fake.showErrorDialog("Can't buy your product",
+                            "Notification Error", context);
+                        return;
+                      }
+                    }
                     _showOption(context);
                   },
                   child: Row(
@@ -97,8 +116,21 @@ class AddCart extends StatelessWidget {
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         context: context,
         builder: (BuildContext bc) {
+          Product product2 = Product(
+              brandID: product.brandID,
+              categoryID: product.categoryID,
+              createdAt: product.createdAt,
+              description: product.description,
+              idProduct: product.idProduct,
+              images: product.images,
+              name: product.name,
+              own: product.own,
+              price: product.price,
+              quantity: product.quantity,
+              status: product.status,
+              updatedAt: product.updatedAt);
           return BottomSheetExchange(
-            product: product,
+            product: product2,
           );
         });
   }

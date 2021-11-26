@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:old_change_app/models/input/product_detail.dart';
 import 'package:old_change_app/models/product_real.dart';
 
 class DetailAppBar extends StatefulWidget {
-  final Product item;
+  final ProductDetail item;
   const DetailAppBar({Key key, this.item}) : super(key: key);
 
   @override

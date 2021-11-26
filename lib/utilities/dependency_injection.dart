@@ -8,13 +8,16 @@ import 'package:old_change_app/data/repositories/exchang_product_repository.dart
 import 'package:old_change_app/data/repositories/fetch_user_repository.dart';
 import 'package:old_change_app/data/repositories/get_list_exchange_repository.dart';
 import 'package:old_change_app/data/repositories/load_category_reponsitory.dart';
+import 'package:old_change_app/data/repositories/load_feedback_repository.dart';
 import 'package:old_change_app/data/repositories/load_image_reponsitory.dart';
 import 'package:old_change_app/data/repositories/load_my_product_repository.dart';
+import 'package:old_change_app/data/repositories/load_product_detail_repository.dart';
 import 'package:old_change_app/data/repositories/login_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_product_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_review_repository.dart';
 import 'package:old_change_app/data/repositories/product_list_reponsitory.dart';
 import 'package:old_change_app/data/repositories/purchase_order_reponsitory.dart';
+import 'package:old_change_app/data/repositories/send_refund_repository.dart';
 import 'package:old_change_app/data/repositories/sign_up_reponsitory.dart';
 
 class Injector {
@@ -44,4 +47,7 @@ class Injector {
   ExchangeProductRepository exchangeProduct() => ExchangeProductRepositoryIml();
   GetExchangeRequestRepository getList() => GetExchangeRequestRepositoryIml();
   CancelExchangeRepositpry cancelExchange() => CancelExchangeRepositpryIml();
+  LoadProductDetailRepository loadDetail() => LoadProductDetailRepositoryIml();
+  LoadFeedbackRepository loadFeedback() => LoadFeedbackRepositoryIml();
+  SendRefundRequestRepository sendRefund() => SendRefundRequestRepositoryIml();
 }

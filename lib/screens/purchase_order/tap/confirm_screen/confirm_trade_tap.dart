@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:old_change_app/models/input/exchange_result_list.dart';
 import 'package:old_change_app/presenters/cancel_exchange_presenter.dart';
 import 'package:old_change_app/presenters/get_exchange_request_presenter.dart';
+import 'package:old_change_app/screens/detail_page/detail_page.dart';
 import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/purchase_dto.dart';
 import 'package:old_change_app/models/user.dart';
@@ -182,6 +183,15 @@ class _ConfirmTradeState extends State<ConfirmTrade>
     );
   }
 
+  onProductSelected(int id) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailScreen(
+                  productID: id,
+                )));
+  }
+
   Widget imageR(ExchangeForm dto) {
     return SizedBox(
       width: 88,
@@ -193,7 +203,11 @@ class _ConfirmTradeState extends State<ConfirmTrade>
             color: Color(0xFFF5F6F9),
             borderRadius: BorderRadius.circular(15),
           ),
-          child: Image.network(dto.productExchange.images[0].address),
+          child: InkWell(
+              onTap: () {
+                onProductSelected(dto.productExchange.idProduct);
+              },
+              child: Image.network(dto.productExchange.images[0].address)),
         ),
       ),
     );

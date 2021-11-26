@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:old_change_app/models/input/product_detail.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/utilities/colors.dart';
 
 class CardOwner extends StatelessWidget {
-  final User user;
-  const CardOwner({Key key, this.user}) : super(key: key);
+  final ProductDetail product;
+  const CardOwner({Key key, this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,9 @@ class CardOwner extends StatelessWidget {
             Center(
               child: Padding(
                 padding: EdgeInsets.all(10),
-                child: Image.asset("assets/images/avatar.png"),
+                child: product.avatar == null
+                    ? Image.asset("assets/images/avatar.png")
+                    : Image.network(product.avatar),
               ),
             ),
             Expanded(
@@ -28,8 +31,7 @@ class CardOwner extends StatelessWidget {
                     Expanded(
                       flex: 5,
                       child: ListTile(
-                        title: Text("Shape Of You"),
-                        subtitle: Text("Phone : 0192491248"),
+                        title: Text(product.fullName),
                       ),
                     ),
                     Expanded(

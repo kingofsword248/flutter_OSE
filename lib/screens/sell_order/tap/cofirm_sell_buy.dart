@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:old_change_app/screens/detail_page/detail_page.dart';
 import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/purchase_dto.dart';
 import 'package:old_change_app/models/user.dart';
@@ -100,7 +101,11 @@ class _ConfirmSellState extends State<ConfirmSell>
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.network(dto.product[0].images[0].address),
+              child: InkWell(
+                  onTap: () {
+                    onProductSelected(dto.product[0].idProduct);
+                  },
+                  child: Image.network(dto.product[0].images[0].address)),
             ),
           ),
         ),
@@ -189,5 +194,14 @@ class _ConfirmSellState extends State<ConfirmSell>
           });
       Fake.showDiaglog(context, "Accept Success");
     }
+  }
+
+  onProductSelected(int id) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailScreen(
+                  productID: id,
+                )));
   }
 }

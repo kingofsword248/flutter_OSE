@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:old_change_app/models/purchase_dto.dart';
+import 'package:old_change_app/screens/detail_page/detail_page.dart';
 import 'package:old_change_app/screens/purchase_order/tap/confirm_screen/rating_modal_bottom_sheet.dart';
+import 'package:old_change_app/screens/purchase_order/tap/refund/refund_model_bottom.dart';
 import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 
@@ -23,7 +25,7 @@ class ConfirmBody extends StatelessWidget {
     // final cartList = Provider.of<CartList>(context, listen: false);
     return Row(
       children: [
-        image(),
+        image(context),
         SizedBox(width: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +40,7 @@ class ConfirmBody extends StatelessWidget {
               ),
             ),
             Text(
-              "x" + dto.quantity.toString(),
+              "X" + dto.quantity.toString(),
               style: TextStyle(fontSize: 16),
             ),
             Text(
@@ -62,7 +64,16 @@ class ConfirmBody extends StatelessWidget {
     );
   }
 
-  Widget image() {
+  onProductSelected(int id, BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailScreen(
+                  productID: id,
+                )));
+  }
+
+  Widget image(BuildContext context) {
     return SizedBox(
       width: 80,
       child: AspectRatio(
@@ -74,7 +85,11 @@ class ConfirmBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           child: dto.product[0].images.isNotEmpty
-              ? Image.network(dto.product[0].images[0].address)
+              ? InkWell(
+                  onTap: () {
+                    onProductSelected(dto.product[0].idProduct, context);
+                  },
+                  child: Image.network(dto.product[0].images[0].address))
               : const AssetImage("assets/images/not.png"),
         ),
       ),
@@ -101,7 +116,8 @@ class ConfirmBody extends StatelessWidget {
               textColor: Colors.white,
               padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
               color: Colors.red,
-              onPressed: () {}),
+              onPressed: () =>
+                  _settingRefundModalBottomSheet(context, dto.idOrderDetail)),
         if (dto.timeLimitAccept != null)
           RaisedButton(
               child: Text("Confirm"),
@@ -124,6 +140,21 @@ class ConfirmBody extends StatelessWidget {
         builder: (BuildContext bc) {
           return RatingModalBottomSheet(
             productID: id,
+            idOrderDetail: idOrderDetail,
+          );
+        });
+  }
+
+  void _settingRefundModalBottomSheet(context, int idOrderDetail) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        context: context,
+        builder: (BuildContext bc) {
+          return RefundModalBottomSheet(
             idOrderDetail: idOrderDetail,
           );
         });

@@ -14,7 +14,7 @@ class ImageCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => DetailScreen(
-                      item: item,
+                      productID: item.idProduct,
                     )));
       },
       child: Container(

@@ -65,9 +65,13 @@ class _TestState extends State<Test> implements ProductListViewContrat {
   }
 
   _TestState(this.title);
-  onProductSelected(product) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => DetailScreen(item: product)));
+  onProductSelected(int id) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailScreen(
+                  productID: id,
+                )));
   }
 
   @override
@@ -116,7 +120,7 @@ class _TestState extends State<Test> implements ProductListViewContrat {
                 builderDelegate: PagedChildBuilderDelegate<Product>(
                   itemBuilder: (context, item, index) => InkWell(
                     onTap: () {
-                      onProductSelected(item);
+                      onProductSelected(item.idProduct);
                     },
                     child: ProductGirdItem(
                         item: item,
