@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void onLoadError(String onError) {
     Fake.showErrorDialog("No Internet", "An Error occur", context);
-    _loadCategoryPresenter.onLoad();
   }
 
   @override

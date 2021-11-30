@@ -1,3 +1,4 @@
+import 'package:old_change_app/data/repositories/accept_echange_request.dart';
 import 'package:old_change_app/data/repositories/accept_request_sell_reponsitory.dart';
 import 'package:old_change_app/data/repositories/cancel_exchange_request_repository.dart';
 import 'package:old_change_app/data/repositories/cancel_order_detail_reponsitory.dart';
@@ -50,4 +51,6 @@ class Injector {
   LoadProductDetailRepository loadDetail() => LoadProductDetailRepositoryIml();
   LoadFeedbackRepository loadFeedback() => LoadFeedbackRepositoryIml();
   SendRefundRequestRepository sendRefund() => SendRefundRequestRepositoryIml();
+  AcceptExchangeReuqestRepository acceptExchangRequest() =>
+      AcceptExchangeReuqestRepositoryIml();
 }

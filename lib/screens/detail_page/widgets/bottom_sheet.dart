@@ -51,6 +51,11 @@ class _BottomSheetExchangeState extends State<BottomSheetExchange>
 
   @override
   Widget build(BuildContext context) {
+    for (var i = 0; i < listP.length; i++) {
+      if (listP[i].status.contains("SELL") || listP[i].quantity == 0) {
+        listP.remove(listP[i]);
+      }
+    }
     List<S2Choice<String>> options = listP
         .map((e) =>
             S2Choice<String>(value: e.idProduct.toString(), title: e.name))

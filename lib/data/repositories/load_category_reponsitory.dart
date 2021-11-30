@@ -15,12 +15,16 @@ class LoadCategoryRepositoryIml implements LoadCategoryRepository {
 
   @override
   Future<List<Category>> loadCategory() async {
-    String url = "https://old-stuff-exchange-api.herokuapp.com/api/brand";
-    final reponse = await http.get(Uri.parse(url));
-    if (reponse.statusCode == 200) {
-      return parseProducts(reponse.body);
-    } else {
-      throw Exception("Error");
+    try {
+      String url = "https://old-stuff-exchange-api.herokuapp.com/api/brand";
+      final reponse = await http.get(Uri.parse(url));
+      if (reponse.statusCode == 200) {
+        return parseProducts(reponse.body);
+      } else {
+        throw Exception("Error");
+      }
+    } on Exception catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

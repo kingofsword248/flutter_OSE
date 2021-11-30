@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:old_change_app/models/input/exchange_result_list.dart';
+import 'package:old_change_app/presenters/accept_exchange_request.dart';
+import 'package:old_change_app/presenters/cancel_exchange_presenter.dart';
 import 'package:old_change_app/presenters/get_exchange_request_presenter.dart';
 
 import 'package:old_change_app/models/purchase_dto.dart';
@@ -23,10 +25,15 @@ class ConfirmTrade extends StatefulWidget {
 }
 
 class _ConfirmTradeState extends State<ConfirmTrade>
-    implements GetExchangeRequestContract {
+    implements
+        GetExchangeRequestContract,
+        CancelExchangeContract,
+        AcceptExchangeReuqestContract {
   bool isLoading = true;
   List<ExchangeForm> _list = [];
   GetExchangeRequestPresenter _exchangeRequestPresenter;
+  CancelEchangePresenter _cancelEchangePresenter;
+  AcceptExchangeReuqestPresenter _acceptExchangeReuqestPresenter;
   User _user;
 
   Future<Null> getSharedPrefs() async {
@@ -37,6 +44,8 @@ class _ConfirmTradeState extends State<ConfirmTrade>
 
   @override
   void initState() {
+    _acceptExchangeReuqestPresenter = AcceptExchangeReuqestPresenter(this);
+    _cancelEchangePresenter = CancelEchangePresenter(this);
     _exchangeRequestPresenter = GetExchangeRequestPresenter(this);
     getSharedPrefs().then((_) => _exchangeRequestPresenter.onLoad(
         _user.id.toString(), "listRequestWantChangeSeller"));
@@ -144,8 +153,10 @@ class _ConfirmTradeState extends State<ConfirmTrade>
                     borderSide: BorderSide(color: primaryColor),
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     onPressed: () {
-                      // _acceptReuqestContract
-                      //     .onLoad(dto.idOrderDetail.toString());
+                      getSharedPrefs().then((_) =>
+                          _acceptExchangeReuqestPresenter.onLoad(
+                              dto.idRequest, _user.token));
+
                       setState(() {
                         isLoading = true;
                       });
@@ -155,7 +166,12 @@ class _ConfirmTradeState extends State<ConfirmTrade>
                     textColor: Colors.red,
                     borderSide: BorderSide(color: Colors.red),
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    onPressed: () {})
+                    onPressed: () {
+                      _cancelEchangePresenter.onCancel(dto.idRequest);
+                      setState(() {
+                        isLoading = true;
+                      });
+                    })
               ],
             )
           ],
@@ -209,6 +225,42 @@ class _ConfirmTradeState extends State<ConfirmTrade>
         _list = list;
         isLoading = false;
       });
+    }
+  }
+
+  @override
+  void onCancelError(String error) {
+    Fake.showErrorDialog(error, "Error", context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void onCancelSuccess(bool success) {
+    if (success) {
+      getSharedPrefs().then((_) => _exchangeRequestPresenter.onLoad(
+          _user.id.toString(), "listRequestWantChangeSeller"));
+    } else {
+      Fake.showDiaglog(context, "ERROR");
+    }
+  }
+
+  @override
+  void onAcceptError(String error) {
+    Fake.showErrorDialog(error, "Error", context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void onAcceptSuccess(bool success) {
+    if (success) {
+      getSharedPrefs().then((_) => _exchangeRequestPresenter.onLoad(
+          _user.id.toString(), "listRequestWantChangeSeller"));
+    } else {
+      Fake.showDiaglog(context, "ERROR");
     }
   }
 }

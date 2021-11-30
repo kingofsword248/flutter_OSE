@@ -18,6 +18,6 @@ class LoadCategoryPresenter {
     _repository
         .loadCategory()
         .then((value) => _view.onLoadSuccess(value))
-        .catchError((onError) => _view.onLoadError(onError));
+        .catchError((onError) => _view.onLoadError(onError.toString()));
   }
 }
