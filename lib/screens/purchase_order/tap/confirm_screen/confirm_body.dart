@@ -90,7 +90,7 @@ class ConfirmBody extends StatelessWidget {
                     onProductSelected(dto.product[0].idProduct, context);
                   },
                   child: Image.network(dto.product[0].images[0].address))
-              : const AssetImage("assets/images/not.png"),
+              : Image.asset("assets/images/not.png"),
         ),
       ),
     );

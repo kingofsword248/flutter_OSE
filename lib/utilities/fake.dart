@@ -4,6 +4,7 @@ import 'package:old_change_app/models/item.dart';
 
 import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/models/user.dart';
+import 'package:old_change_app/screens/detail_page/detail_page.dart';
 
 class Fake {
   static int numberOfItemsInCart = 2;
@@ -109,6 +110,15 @@ class Fake {
   static void showDiaglog(BuildContext context, String mess) {
     final snackbar = SnackBar(content: Text(mess));
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
+  static onProductSelected(int id, BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailScreen(
+                  productID: id,
+                )));
   }
 
   static String status = "BOTH";

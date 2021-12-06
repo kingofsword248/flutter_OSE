@@ -75,7 +75,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
                     style: TextStyle(color: Colors.black, fontSize: 18.0)),
               ),
               Tab(
-                child: Text("Return",
+                child: Text("Refund",
                     style: TextStyle(color: Colors.black, fontSize: 18.0)),
               ),
             ],
