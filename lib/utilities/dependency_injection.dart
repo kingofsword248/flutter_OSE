@@ -7,11 +7,14 @@ import 'package:old_change_app/data/repositories/check_out_reponsitory.dart';
 import 'package:old_change_app/data/repositories/circle_home_repository.dart';
 import 'package:old_change_app/data/repositories/circle_one_repository.dart';
 import 'package:old_change_app/data/repositories/confirm_purchase_repository.dart';
+import 'package:old_change_app/data/repositories/delivery_buttom_repository.dart';
+import 'package:old_change_app/data/repositories/delivery_success_repository.dart';
 import 'package:old_change_app/data/repositories/exchang_product_repository.dart';
 import 'package:old_change_app/data/repositories/fetch_user_repository.dart';
 import 'package:old_change_app/data/repositories/get_list_exchange_repository.dart';
 import 'package:old_change_app/data/repositories/join_exchange_repository.dart';
 import 'package:old_change_app/data/repositories/load_category_reponsitory.dart';
+import 'package:old_change_app/data/repositories/load_delivery_repository.dart';
 import 'package:old_change_app/data/repositories/load_feedback_repository.dart';
 import 'package:old_change_app/data/repositories/load_image_reponsitory.dart';
 import 'package:old_change_app/data/repositories/load_my_product_repository.dart';
@@ -24,6 +27,7 @@ import 'package:old_change_app/data/repositories/purchase_order_reponsitory.dart
 import 'package:old_change_app/data/repositories/reject_exchange_repository.dart';
 import 'package:old_change_app/data/repositories/send_refund_repository.dart';
 import 'package:old_change_app/data/repositories/sign_up_reponsitory.dart';
+import 'package:old_change_app/data/repositories/update_status_repository.dart';
 
 class Injector {
   static final Injector _singleton = new Injector._internal();
@@ -61,4 +65,8 @@ class Injector {
   CircleOneRepository getCircleOne() => CircleOneRepositoryIml();
   joinExchangeRepository joinExchange() => joinExchangeRepositoryIml();
   RejectCircleRepository rejectCircle() => RejectCircleRepositoryIml();
+  LoadDeliveryRepository getDelivery() => LoadDeliveryPositoryIml();
+  DeliveryButtomRepository delivery() => DeliveryButtomRepositoryIml();
+  DeliverySuccessRepository deliverySuccess() => DeliverySuccessRepositoryIml();
+  UpdateStatusRepository updateStatus() => UpdateStatusRepositoryIml();
 }

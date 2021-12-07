@@ -6,6 +6,7 @@ import 'package:old_change_app/models/input/cicle_screen1.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/circle_home_presenter.dart';
 import 'package:old_change_app/screens/circle_exchange/circle_card.dart';
+import 'package:old_change_app/screens/delivery/delivery_screen.dart';
 import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/category.dart';
 import 'package:old_change_app/presenters/load_category_presenter.dart';
@@ -45,8 +46,20 @@ class _HomeScreenState extends State<HomeScreen>
     _circleHomePresenter = CircleHomePresenter(this);
     _loadCategoryPresenter = LoadCategoryPresenter(this);
     _loadCategoryPresenter.onLoad();
+
     getSharedPrefs().then((value) => {
-          if (value) {_circleHomePresenter.onLoad(_a.token)}
+          if (value)
+            {
+              if (_a.role == "shipper")
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DeliveryScreen()),
+                  )
+                }
+              else
+                _circleHomePresenter.onLoad(_a.token)
+            }
         });
     super.initState();
   }

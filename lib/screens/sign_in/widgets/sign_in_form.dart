@@ -4,6 +4,7 @@ import 'package:old_change_app/models/providers/menu_bottom.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/login_presenter.dart';
 import 'package:old_change_app/screens/cart/widgets/default_button.dart';
+import 'package:old_change_app/screens/delivery/delivery_screen.dart';
 import 'package:old_change_app/screens/home/home_screen.dart';
 import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/widgets/custom_surfix_icon.dart';
@@ -206,12 +207,19 @@ class _SignFormState extends State<SignForm> implements LoginContract {
       // user = us;
       // print("login thanh cong");
       _isLoading = false;
-      final value = Provider.of<MenuBottomDT>(context, listen: false);
-      value.setSelectedIndex(0);
-
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => HomeScreen()), (_) => false);
     });
+    if (us.role == "shipper") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DeliveryScreen()),
+      );
+      return;
+    }
+    final value = Provider.of<MenuBottomDT>(context, listen: false);
+    value.setSelectedIndex(0);
+
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) => HomeScreen()), (_) => false);
   }
 
   @override

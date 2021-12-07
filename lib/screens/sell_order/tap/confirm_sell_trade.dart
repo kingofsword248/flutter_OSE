@@ -7,11 +7,8 @@ import 'package:old_change_app/models/input/exchange_result_list.dart';
 import 'package:old_change_app/presenters/accept_exchange_request.dart';
 import 'package:old_change_app/presenters/cancel_exchange_presenter.dart';
 import 'package:old_change_app/presenters/get_exchange_request_presenter.dart';
-
-import 'package:old_change_app/models/purchase_dto.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/screens/detail_page/detail_page.dart';
-
 import 'package:old_change_app/utilities/colors.dart';
 import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/widgets/size_config.dart';
