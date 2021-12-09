@@ -66,6 +66,7 @@ class Header extends StatelessWidget {
                           Consumer<CartList>(builder: (context, value, child) {
                         return Cart(numberOfItemsInCart: value.itemCount);
                       })),
+
                       ActionButton(
                         onTap: () {
                           _settingModalBottomSheet(context, list);

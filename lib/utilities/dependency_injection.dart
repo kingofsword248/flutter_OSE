@@ -1,4 +1,5 @@
 import 'package:old_change_app/data/repositories/accept_echange_request.dart';
+import 'package:old_change_app/data/repositories/accept_refund_seller_repository.dart';
 import 'package:old_change_app/data/repositories/accept_request_sell_reponsitory.dart';
 import 'package:old_change_app/data/repositories/cancel_exchange_request_repository.dart';
 import 'package:old_change_app/data/repositories/cancel_order_detail_reponsitory.dart';
@@ -10,6 +11,7 @@ import 'package:old_change_app/data/repositories/complain_refund_repository.dart
 import 'package:old_change_app/data/repositories/confirm_purchase_repository.dart';
 import 'package:old_change_app/data/repositories/delivery_buttom_repository.dart';
 import 'package:old_change_app/data/repositories/delivery_success_repository.dart';
+import 'package:old_change_app/data/repositories/disagree_refund_seller_repository.dart';
 import 'package:old_change_app/data/repositories/exchang_product_repository.dart';
 import 'package:old_change_app/data/repositories/fetch_user_repository.dart';
 import 'package:old_change_app/data/repositories/get_list_exchange_repository.dart';
@@ -75,4 +77,7 @@ class Injector {
   RefundPurchaseRepository loadRefundP() => RefundPurchaseRepositoryIml();
   ComplainRefundRepository complainRefund() => ComplainRefundRepositoryIml();
   RefundSellRepository loadRefundS() => RefundSellRepositoryIml();
+  AcceptRefundSellerRepository acceptRefundSellerRepository() =>
+      AcceptRefundSellerRepositoryIml();
+  DisagreeRefundRepository disagreeRefund() => DisagreeRefundRepositoryIml();
 }

@@ -8,6 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import 'package:old_change_app/models/refund.dart';
+import 'package:old_change_app/presenters/accept_refund_seller_presenter.dart';
+import 'package:old_change_app/presenters/disagree_refund_seller_presenter.dart';
 
 import 'package:old_change_app/presenters/load_refund_sell_presenter.dart';
 
@@ -26,12 +28,18 @@ class RefundSell extends StatefulWidget {
   _RefundSellState createState() => _RefundSellState();
 }
 
-class _RefundSellState extends State<RefundSell> implements RefundSellContract {
+class _RefundSellState extends State<RefundSell>
+    implements
+        RefundSellContract,
+        AcceptRefundSellerContract,
+        DisagreeRefundContract {
   bool isLoading = true;
   List<RefundDTO> _list = [];
 
 // part 1
+  DisagreeRefundPresenter _disagreeRefundPresenter;
   RefundSellPresenter _refundSellPresenter;
+  AcceptRefundSellerPresenter _acceptRefundSellerPresenter;
   // part 2
 
   final _formKey = GlobalKey<FormState>();
@@ -39,7 +47,9 @@ class _RefundSellState extends State<RefundSell> implements RefundSellContract {
 
   @override
   void initState() {
+    _disagreeRefundPresenter = DisagreeRefundPresenter(this);
     _refundSellPresenter = RefundSellPresenter(this);
+    _acceptRefundSellerPresenter = AcceptRefundSellerPresenter(this);
     super.initState();
     getSharedPrefs().then((value) => _refundSellPresenter.onLoad(value.id));
   }
@@ -243,7 +253,8 @@ class _RefundSellState extends State<RefundSell> implements RefundSellContract {
                                     context,
                                     // rootNavigator: true,
                                   ).pop();
-                                  // _complainPresenter.onLoad(dto.idOrderDetail);
+                                  _acceptRefundSellerPresenter
+                                      .onLoad(dto.idOrderDetail);
                                   setState(() {
                                     isLoading = true;
                                   });
@@ -262,42 +273,7 @@ class _RefundSellState extends State<RefundSell> implements RefundSellContract {
                     borderSide: BorderSide(color: primaryColor),
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Disagree to refund'),
-                            content: Text('Do you want to Disagree to refund?'),
-                            actions: <Widget>[
-                              FlatButton(
-                                onPressed: () {
-                                  // Navigator.pop(context, false);
-                                  Navigator.of(
-                                    context,
-                                    // rootNavigator: true,
-                                  ).pop();
-                                },
-                                child: Text('No'),
-                              ),
-                              FlatButton(
-                                onPressed: () {
-                                  // Navigator.pop(context, true);
-
-                                  Navigator.of(
-                                    context,
-                                    // rootNavigator: true,
-                                  ).pop();
-                                  // _complainPresenter.onLoad(dto.idOrderDetail);
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                },
-                                child: Text('Yes'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      _settingDisagreeModalBottomSheet(dto.idOrderDetail);
                     }),
               OutlineButton(
                   child: Text("Return reason"),
@@ -458,29 +434,155 @@ class _RefundSellState extends State<RefundSell> implements RefundSellContract {
         });
   }
 
-  // Widget submitButtom(BuildContext context, int idTranport) {
-  //   return Container(
-  //     width: double.infinity,
-  //     margin: EdgeInsets.symmetric(vertical: 20),
-  //     child: RaisedButton(
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-  //       textColor: Colors.white,
-  //       color: primaryColor,
-  //       padding: EdgeInsets.all(20),
-  //       child: Text(
-  //         'Submit',
-  //         style: TextStyle(fontSize: 16),
-  //       ),
-  //       onPressed: () {
-  //         if (_formKey.currentState.validate()) {
-  //           _formKey.currentState.save();
-  //         }
+  void _settingDisagreeModalBottomSheet(int idOrderDetail) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        context: context,
+        builder: (BuildContext bc) {
+          var size = MediaQuery.of(context).size;
+          return Container(
+            padding: EdgeInsets.all(28),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 100,
+                      alignment: Alignment.centerLeft,
+                      child: InkWell(
+                        child: Icon(Icons.close),
+                        onTap: () {
+                          if (Navigator.canPop(context)) Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Text(
+                      'Reason',
+                      textAlign: TextAlign.center,
+                    ),
+                    Container(
+                      width: 100,
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Text(
+                          '',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    'Input Reason',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(top: 20),
+                  child: isLoading == true
+                      ? CircularProgressIndicator()
+                      : Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: MediaQuery.of(bc).viewInsets.bottom),
+                              child: contentForm2(),
+                            ),
 
-  //         // close(context);
-  //       },
-  //     ),
-  //   );
-  // }
+                            // imageWidgets()
+                          ],
+                        ),
+                ),
+                if (isLoading == false) submitButtom(idOrderDetail)
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget contentForm2() {
+    return Form(
+      key: _formKey,
+      child: TextFormField(
+        maxLines: 4,
+        keyboardType: TextInputType.text,
+        onSaved: (newValue) => reason = newValue,
+        onChanged: (value) {
+          // if (value.isNotEmpty) {
+          //   removeError(error: kEmailNullError);
+          // } else if (emailValidatorRegExp.hasMatch(value)) {
+          //   removeError(error: kInvalidEmailError);
+          // }
+          // return null;
+        },
+        validator: (value) {
+          if (value.isEmpty) {
+            return "Reason is empty";
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: "Reason",
+          hintText: "Enter your Reason",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding: EdgeInsets.symmetric(horizontal: 42, vertical: 20),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: primaryColor),
+              gapPadding: 10),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: primaryFocusColor),
+              gapPadding: 10),
+        ),
+      ),
+    );
+  }
+
+  Widget submitButtom(int idTranport) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(vertical: 20),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+        textColor: Colors.white,
+        color: primaryColor,
+        padding: EdgeInsets.all(20),
+        child: Text(
+          'Submit',
+          style: TextStyle(fontSize: 16),
+        ),
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+            _disagreeRefundPresenter.onLoad(reason, idTranport);
+            setState(() {
+              isLoading = true;
+            });
+          }
+
+          // close(context);
+        },
+      ),
+    );
+  }
 
   Widget statusComponent(String content, Color color) {
     return Row(
@@ -535,5 +637,34 @@ class _RefundSellState extends State<RefundSell> implements RefundSellContract {
       _list = list;
       isLoading = false;
     });
+  }
+
+  @override
+  void onAcceptError(String er) {
+    Fake.showErrorDialog(er, "Error", context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void onAcceptSuccess(String ss) {
+    Fake.showErrorDialog(ss, "Notification", context);
+    getSharedPrefs().then((value) => _refundSellPresenter.onLoad(value.id));
+  }
+
+  @override
+  void onDisagreeError(String er) {
+    Fake.showErrorDialog(er, "Error", context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void onDisagreeSuccess(String success) {
+    Navigator.pop(context);
+    Fake.showErrorDialog(success, "Notification", context);
+    getSharedPrefs().then((value) => _refundSellPresenter.onLoad(value.id));
   }
 }

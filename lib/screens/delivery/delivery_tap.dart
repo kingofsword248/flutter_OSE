@@ -383,9 +383,8 @@ class _DeliveryTap2State extends State<DeliveryTap2>
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom),
+                                    bottom:
+                                        MediaQuery.of(bc).viewInsets.bottom),
                                 child: contentForm(),
                               ),
                               SizedBox(

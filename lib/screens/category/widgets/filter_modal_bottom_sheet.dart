@@ -161,7 +161,7 @@ class FilterModalBottomSheet extends StatelessWidget {
                 style: TextStyle(fontSize: 20),
               ),
             ),
-            categoryForm(),
+            if (list != null) categoryForm(),
             SizedBox(
               height: 10,
             ),

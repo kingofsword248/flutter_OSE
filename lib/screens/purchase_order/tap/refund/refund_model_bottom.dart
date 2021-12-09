@@ -119,7 +119,11 @@ class _RefundModalBottomSheetState extends State<RefundModalBottomSheet>
                       crossAxisAlignment: WrapCrossAlignment.center,
                       alignment: WrapAlignment.center,
                       children: [
-                        contentForm(),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: contentForm(),
+                        ),
                         SizedBox(
                           height: 70,
                         ),
