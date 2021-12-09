@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:old_change_app/screens/category/test/test_search.dart';
 
 class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String search = "";
     return Container(
       margin: EdgeInsets.only(top: 24, bottom: 28),
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -15,8 +17,29 @@ class SearchBar extends StatelessWidget {
         )
       ]),
       child: TextFormField(
+        initialValue: search,
+        onSaved: (newValue) {
+          search = newValue;
+        },
+        onChanged: (value) {
+          search = value;
+        },
+        onFieldSubmitted: (value) {
+          search = value;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TestSearch(
+                        title: "Search",
+                        keyword: search,
+                        list: null,
+                      )));
+        },
         decoration: InputDecoration(
-          icon: SvgPicture.asset('assets/icons/search.svg'),
+          icon: InkWell(
+            child: SvgPicture.asset('assets/icons/search.svg'),
+            onTap: () {},
+          ),
           hintText: 'Search product ....',
           hintStyle: TextStyle(
             color: Colors.black26,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:old_change_app/models/input/product_detail.dart';
 import 'package:old_change_app/models/user.dart';
+import 'package:old_change_app/screens/shop/shop_screen.dart';
 import 'package:old_change_app/utilities/colors.dart';
 
 class CardOwner extends StatelessWidget {
@@ -44,7 +45,15 @@ class CardOwner extends StatelessWidget {
                               "View Shop",
                               style: TextStyle(color: primaryColor),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ShopScreen(
+                                            id: product.own,
+                                            title: "Shop",
+                                          )));
+                            },
                           ),
                           SizedBox(
                             width: 8,

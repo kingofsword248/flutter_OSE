@@ -4,7 +4,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:old_change_app/models/input/feedback_form.dart';
 import 'package:old_change_app/models/input/product_detail.dart';
-import 'package:old_change_app/models/product_real.dart';
 import 'package:old_change_app/presenters/load_feedback_presenter.dart';
 import 'package:old_change_app/screens/detail_page/widgets/add_cart.dart';
 import 'package:old_change_app/screens/detail_page/widgets/owner_card.dart';

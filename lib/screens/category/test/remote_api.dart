@@ -22,4 +22,18 @@ class RemoteApi {
       throw Exception("error");
     }
   }
+
+  static Future<List<Product>> getSearch(
+      int page, int limit, String key) async {
+    print(page);
+    String url =
+        "https://old-stuff-exchange-api.herokuapp.com/api/products/search/?page=$page&limit=$limit";
+    Map data = {"keySearch": key};
+    final reponse = await http.post(Uri.parse(url), body: data);
+    if (reponse.statusCode == 200) {
+      return parseProducts(reponse.body);
+    } else {
+      throw Exception("error");
+    }
+  }
 }

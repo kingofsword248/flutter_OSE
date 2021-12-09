@@ -11,18 +11,22 @@ import 'package:old_change_app/screens/category/widgets/product_gird_item.dart';
 import 'package:old_change_app/screens/detail_page/detail_page.dart';
 import 'package:old_change_app/widgets/app_bottom_navigation.dart';
 
-class Test extends StatefulWidget {
+class TestSearch extends StatefulWidget {
   final String title;
   final List<Categories> list;
-
-  const Test({Key key, this.title, this.list}) : super(key: key);
+  final String keyword;
+  const TestSearch({Key key, this.title, this.list, this.keyword})
+      : super(key: key);
   @override
   // ignore: no_logic_in_create_state
-  _TestState createState() => _TestState(title);
+  _TestSearchState createState() => _TestSearchState(title, keyword);
 }
 
-class _TestState extends State<Test> implements ProductListViewContrat {
+class _TestSearchState extends State<TestSearch>
+    implements ProductListViewContrat {
   final String title;
+  final String keyword;
+  _TestSearchState(this.title, this.keyword);
   ProductListPresenters _listPresenters;
   List<Product> products = [];
   bool _isLoadingData = false;
@@ -32,11 +36,10 @@ class _TestState extends State<Test> implements ProductListViewContrat {
   final PagingController<int, Product> _pagingController =
       PagingController(firstPageKey: 0);
   StreamSubscription _blocListingStateSubscription;
-
-  final CharacterSliverGridBloc _bloc = CharacterSliverGridBloc();
-
+  CharacterSliverGridBloc2 _bloc;
   @override
   void initState() {
+    _bloc = CharacterSliverGridBloc2(keyword);
     _pagingController.addPageRequestListener((pageKey) {
       _bloc.onPageRequestSink.add(pageKey);
     });
@@ -56,7 +59,6 @@ class _TestState extends State<Test> implements ProductListViewContrat {
     super.initState();
   }
 
-  _TestState(this.title);
   onProductSelected(int id) {
     Navigator.push(
         context,
