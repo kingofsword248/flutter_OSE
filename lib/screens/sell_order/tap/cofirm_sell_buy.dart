@@ -105,7 +105,9 @@ class _ConfirmSellState extends State<ConfirmSell>
                   onTap: () {
                     onProductSelected(dto.product[0].idProduct);
                   },
-                  child: Image.network(dto.product[0].images[0].address)),
+                  child: dto.product[0].images.isNotEmpty
+                      ? Image.network(dto.product[0].images[0].address)
+                      : Image.asset("assets/images/not.png")),
             ),
           ),
         ),

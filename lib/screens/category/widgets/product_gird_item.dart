@@ -38,7 +38,8 @@ class _ProductGirdItemState extends State<ProductGirdItem> {
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(top: 30),
-                  child: widget.item.images.isEmpty
+                  child: widget.item.images == null ||
+                          widget.item.images.isEmpty
                       ? Image.asset("assets/images/not.png", fit: BoxFit.cover)
                       : Image.network(
                           widget.item.images[0].address,

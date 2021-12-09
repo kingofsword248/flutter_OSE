@@ -201,7 +201,9 @@ class _ConfirmTradeState extends State<ConfirmTrade>
               onTap: () {
                 onProductSelected(dto.productExchange.idProduct);
               },
-              child: Image.network(dto.productExchange.images[0].address)),
+              child: dto.productExchange.images.isNotEmpty
+                  ? Image.network(dto.productExchange.images[0].address)
+                  : Image.asset("assets/images/not.png")),
         ),
       ),
     );

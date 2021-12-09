@@ -1,21 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:convert';
-import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:old_change_app/models/input/feedback_request.dart';
-import 'package:old_change_app/presenters/send_request_presenter.dart';
+
 import 'package:old_change_app/presenters/update_status_presenter.dart';
 import 'package:old_change_app/utilities/fake.dart';
-import 'package:old_change_app/models/input/post_image_result.dart';
-import 'package:old_change_app/models/input/product_form.dart';
-import 'package:old_change_app/models/input/reviews_form.dart';
+
 import 'package:old_change_app/models/user.dart';
-import 'package:old_change_app/presenters/load_image_presenter.dart';
-import 'package:old_change_app/presenters/post_review.dart';
-import 'package:old_change_app/screens/sign_in/sign_in_screen.dart';
+
 import 'package:old_change_app/utilities/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,20 +27,12 @@ class DeliveryModalBottomSheet extends StatefulWidget {
 
 class _DeliveryModalBottomSheetState extends State<DeliveryModalBottomSheet>
     implements UpdateStatusContract {
-  void close(context) {
-    if (Navigator.canPop(context)) {
-      Navigator.pop(context);
-    }
-  }
-
   //hinh
   UpdateStatusPresenter _presenter;
   bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
   String reason;
-
-  User _a;
 
   @override
   void initState() {
@@ -58,7 +43,6 @@ class _DeliveryModalBottomSheetState extends State<DeliveryModalBottomSheet>
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(28),
@@ -75,7 +59,7 @@ class _DeliveryModalBottomSheetState extends State<DeliveryModalBottomSheet>
                   child: InkWell(
                     child: Icon(Icons.close),
                     onTap: () {
-                      close(context);
+                      if (Navigator.canPop(context)) Navigator.pop(context);
                     },
                   ),
                 ),
@@ -163,15 +147,6 @@ class _DeliveryModalBottomSheetState extends State<DeliveryModalBottomSheet>
     );
   }
 
-  Future<Null> getSharedPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String user = prefs.get('User');
-
-    setState(() {
-      _a = User.fromJson(json.decode(user));
-    });
-  }
-
   Widget contentForm() {
     return Form(
       key: _formKey,
@@ -211,99 +186,6 @@ class _DeliveryModalBottomSheetState extends State<DeliveryModalBottomSheet>
     );
   }
 
-  // Widget imageWidgets() {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     children: [
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //         children: [
-  //           Text("Choice image"),
-  //           Container(
-  //             child: Wrap(
-  //               children: [
-  //                 RaisedButton(
-  //                     child: Text(
-  //                       "Choice",
-  //                       style: TextStyle(
-  //                           color: primaryColor, fontWeight: FontWeight.w600),
-  //                     ),
-  //                     onPressed: () {
-  //                       pickImage();
-  //                     }),
-  //                 SizedBox(
-  //                   width: 5,
-  //                 ),
-  //                 RaisedButton(
-  //                     child: Text(
-  //                       "Reset",
-  //                       style: TextStyle(
-  //                           color: primaryColor, fontWeight: FontWeight.w600),
-  //                     ),
-  //                     onPressed: () {
-  //                       setState(() {
-  //                         _files.clear();
-  //                         imageList.clear();
-  //                       });
-  //                     }),
-  //               ],
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //       // _files.isEmpty
-  //       //     ? Text("Upload your Image (Maximun is 3)")
-  //       //     : Wrap(
-  //       //         children: [
-  //       //           if (uploadImageLoading == false)
-  //       //             OutlineButton(
-  //       //                 child: Text(
-  //       //                   "Load Image to Server",
-  //       //                   style: TextStyle(color: primaryColor),
-  //       //                 ),
-  //       //                 onPressed: () {}),
-  //       //           if (uploadImageLoading)
-  //       //             Text("Loading... (${imageList.length}/${_files.length})")
-  //       //         ],
-  //       //       ),
-  //       _files.isEmpty
-  //           ? const Text("")
-  //           : GridView.builder(
-  //               scrollDirection: Axis.vertical,
-  //               shrinkWrap: true,
-  //               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //                   crossAxisCount: 3),
-  //               itemCount: _files.length,
-  //               itemBuilder: (BuildContext context, int index) {
-  //                 return Padding(
-  //                   padding: const EdgeInsets.all(8.0),
-  //                   child: Image.file(
-  //                     File(_files[index].path),
-  //                     // height: 100,
-  //                     fit: BoxFit.cover,
-  //                   ),
-  //                 );
-  //               }),
-  //     ],
-  //   );
-  // }
-
-  // Future pickImage() async {
-  //   final image = await ImagePicker().pickMultiImage(imageQuality: 50);
-  //   // if (image == null) return;
-  //   if (image.length >= 4) {
-  //     Fake.showErrorDialog("Maximun is 3", "Notification", context);
-  //     return;
-  //   }
-  //   setState(() {
-  //     _files = image;
-  //     imageList.clear();
-  //   });
-  //   try {} on PlatformException catch (e) {
-  //     // print(e.toString());
-  //   }
-  // }
-
   @override
   void onUpdateError(String e) {
     Fake.showErrorDialog(e, "Error", context);
@@ -314,10 +196,11 @@ class _DeliveryModalBottomSheetState extends State<DeliveryModalBottomSheet>
 
   @override
   void onUpdateSuccess(String success) {
-    Fake.showErrorDialog(success, "Notification", context);
+    Fake.showDiaglog(context, "Success");
     setState(() {
       isLoading = false;
     });
-    close(context);
+    Navigator.pop(context);
+    // widget.function();
   }
 }

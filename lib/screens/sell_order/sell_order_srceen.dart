@@ -3,6 +3,7 @@ import 'package:old_change_app/screens/purchase_order/tap/delivery_screen/delive
 import 'package:old_change_app/screens/purchase_order/tap/refund/return_tap.dart';
 import 'package:old_change_app/screens/sell_order/tap/cofirm_sell_buy.dart';
 import 'package:old_change_app/screens/sell_order/tap/confirm_sell_trade.dart';
+import 'package:old_change_app/screens/sell_order/tap/return_sell_tap.dart';
 import 'package:old_change_app/utilities/colors.dart';
 
 class SellOrderScreen extends StatefulWidget {
@@ -81,7 +82,7 @@ class _SellOrderScreenState extends State<SellOrderScreen>
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             ConfirmSell(
               index: "1",
@@ -102,7 +103,7 @@ class _SellOrderScreenState extends State<SellOrderScreen>
               indexPage: "5",
               mode: "sell",
             ),
-            ReturnTap(),
+            RefundSell(),
           ],
         ),
       ),

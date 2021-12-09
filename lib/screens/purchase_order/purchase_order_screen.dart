@@ -81,7 +81,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             ConfirmTap(
               indexPage: "1",
@@ -103,7 +103,7 @@ class _PurchaseOrderScreenState extends State<PurchaseOrderScreen>
               indexPage: "5",
               mode: "purchase",
             ),
-            ReturnTap(),
+            RefundPurchase(),
           ],
         ),
       ),

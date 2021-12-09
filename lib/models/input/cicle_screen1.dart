@@ -45,9 +45,9 @@ class Product {
     quantity = json['quantity'];
     price = json['price'];
     status = json['status'];
-    if (json['Images'] != null) {
+    if (json['images'] != null) {
       images = new List<Images>();
-      json['Images'].forEach((v) {
+      json['images'].forEach((v) {
         images.add(new Images.fromJson(v));
       });
     }
@@ -62,7 +62,7 @@ class Product {
     data['price'] = this.price;
     data['status'] = this.status;
     if (this.images != null) {
-      data['Images'] = this.images.map((v) => v.toJson()).toList();
+      data['images'] = this.images.map((v) => v.toJson()).toList();
     }
     return data;
   }

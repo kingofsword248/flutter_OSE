@@ -6,9 +6,6 @@ class Product {
   int price;
   String status;
   int own;
-  String createdAt;
-  String updatedAt;
-  int brandID;
   int categoryID;
   List<Images> images;
 
@@ -20,9 +17,6 @@ class Product {
       this.price,
       this.status,
       this.own,
-      this.createdAt,
-      this.updatedAt,
-      this.brandID,
       this.categoryID,
       this.images});
 
@@ -34,13 +28,10 @@ class Product {
     price = json['price'];
     status = json['status'];
     own = json['own'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    brandID = json['brandID'];
     categoryID = json['categoryID'];
-    if (json['Images'] != null) {
+    if (json['images'] != null) {
       images = new List<Images>();
-      json['Images'].forEach((v) {
+      json['images'].forEach((v) {
         images.add(new Images.fromJson(v));
       });
     }
@@ -55,12 +46,9 @@ class Product {
     data['price'] = this.price;
     data['status'] = this.status;
     data['own'] = this.own;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['brandID'] = this.brandID;
     data['categoryID'] = this.categoryID;
     if (this.images != null) {
-      data['Images'] = this.images.map((v) => v.toJson()).toList();
+      data['images'] = this.images.map((v) => v.toJson()).toList();
     }
     return data;
   }

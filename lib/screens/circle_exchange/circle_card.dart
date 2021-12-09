@@ -38,7 +38,7 @@ class CircleCard extends StatelessWidget {
                         blurRadius: 15),
                   ],
                   image: DecorationImage(
-                      image: item.product.images.isNotEmpty
+                      image: item.product.images != null
                           ? NetworkImage(item.product.images[0].address)
                           : AssetImage("assets/images/not.png"),
                       fit: BoxFit.cover)),

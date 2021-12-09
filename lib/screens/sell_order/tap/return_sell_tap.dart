@@ -8,8 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 import 'package:old_change_app/models/refund.dart';
-import 'package:old_change_app/presenters/complain_refund_presenter.dart';
-import 'package:old_change_app/presenters/load_refund_purchase_presenter.dart';
+
+import 'package:old_change_app/presenters/load_refund_sell_presenter.dart';
 
 import 'package:old_change_app/screens/detail_page/detail_page.dart';
 import 'package:old_change_app/utilities/colors.dart';
@@ -17,23 +17,21 @@ import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/widgets/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RefundPurchase extends StatefulWidget {
-  RefundPurchase({
+class RefundSell extends StatefulWidget {
+  RefundSell({
     Key key,
   }) : super(key: key);
 
   @override
-  _RefundPurchaseState createState() => _RefundPurchaseState();
+  _RefundSellState createState() => _RefundSellState();
 }
 
-class _RefundPurchaseState extends State<RefundPurchase>
-    implements RefundPurchaseContract, ComplainRefundContract {
+class _RefundSellState extends State<RefundSell> implements RefundSellContract {
   bool isLoading = true;
   List<RefundDTO> _list = [];
 
 // part 1
-  RefundPurchasePresenter _loadPresenter;
-  ComplainPresenter _complainPresenter;
+  RefundSellPresenter _refundSellPresenter;
   // part 2
 
   final _formKey = GlobalKey<FormState>();
@@ -41,10 +39,9 @@ class _RefundPurchaseState extends State<RefundPurchase>
 
   @override
   void initState() {
-    _loadPresenter = RefundPurchasePresenter(this);
-    _complainPresenter = ComplainPresenter(this);
+    _refundSellPresenter = RefundSellPresenter(this);
     super.initState();
-    getSharedPrefs().then((value) => _loadPresenter.onLoad(value.id));
+    getSharedPrefs().then((value) => _refundSellPresenter.onLoad(value.id));
   }
 
   Future<User> getSharedPrefs() async {
@@ -126,13 +123,12 @@ class _RefundPurchaseState extends State<RefundPurchase>
                 // ),
                 if (dto.status.contains("6"))
                   statusComponent(
-                      "Waiting for the seller to confirm", Colors.orange[700]),
+                      "Waiting for you to confirm the return", Colors.red[700]),
                 if (dto.status.contains("12"))
                   statusComponent(
                       "Waiting for the admin to resolve", Colors.blue[600]),
                 if (dto.status.contains("11"))
-                  statusComponent(
-                      "The seller refused to return it", Colors.red[700]),
+                  statusComponent("Refund refused", Colors.red[800]),
                 if (dto.status.contains("8"))
                   statusComponent("Accepted returns", Colors.green[700]),
                 if (dto.status.contains("9"))
@@ -188,6 +184,7 @@ class _RefundPurchaseState extends State<RefundPurchase>
         if (dto.status.contains("11"))
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SvgPicture.asset(
                 "assets/icons/information-svgrepo-com.svg",
@@ -198,7 +195,7 @@ class _RefundPurchaseState extends State<RefundPurchase>
                 padding: EdgeInsets.only(right: 10),
                 // width: getProportionateScreenWidth(220),
                 child: Text(
-                  " Complaint before " + dto.timeLimitAccept,
+                  " Waiting for buyer's response before " + dto.timeLimitAccept,
                   overflow: TextOverflow.visible,
                   style: TextStyle(color: Colors.blueGrey, fontSize: 15),
                   maxLines: 2,
@@ -214,10 +211,10 @@ class _RefundPurchaseState extends State<RefundPurchase>
             direction: Axis.horizontal,
             alignment: WrapAlignment.end,
             children: [
-              if (dto.status.contains("11"))
+              if (dto.status.contains("6"))
                 OutlineButton(
-                    child: Text("Complain"),
-                    textColor: Colors.red[700],
+                    child: Text("Agree"),
+                    textColor: Colors.green[700],
                     borderSide: BorderSide(color: primaryColor),
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     onPressed: () {
@@ -225,8 +222,8 @@ class _RefundPurchaseState extends State<RefundPurchase>
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text('Complain'),
-                            content: Text('Do you want to complain to admin?'),
+                            title: Text('Agree to refund'),
+                            content: Text('Do you want to Agree to refund?'),
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: () {
@@ -246,7 +243,7 @@ class _RefundPurchaseState extends State<RefundPurchase>
                                     context,
                                     // rootNavigator: true,
                                   ).pop();
-                                  _complainPresenter.onLoad(dto.idOrderDetail);
+                                  // _complainPresenter.onLoad(dto.idOrderDetail);
                                   setState(() {
                                     isLoading = true;
                                   });
@@ -258,14 +255,58 @@ class _RefundPurchaseState extends State<RefundPurchase>
                         },
                       );
                     }),
-              // OutlineButton(
-              //     child: Text("Return reason"),
-              //     textColor: primaryColor,
-              //     borderSide: BorderSide(color: primaryColor),
-              //     padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              //     onPressed: () {
-              //       _settingRefundModalBottomSheet(context, dto);
-              //     })
+              if (dto.status.contains("6"))
+                OutlineButton(
+                    child: Text("Disagree"),
+                    textColor: Colors.red[700],
+                    borderSide: BorderSide(color: primaryColor),
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Disagree to refund'),
+                            content: Text('Do you want to Disagree to refund?'),
+                            actions: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  // Navigator.pop(context, false);
+                                  Navigator.of(
+                                    context,
+                                    // rootNavigator: true,
+                                  ).pop();
+                                },
+                                child: Text('No'),
+                              ),
+                              FlatButton(
+                                onPressed: () {
+                                  // Navigator.pop(context, true);
+
+                                  Navigator.of(
+                                    context,
+                                    // rootNavigator: true,
+                                  ).pop();
+                                  // _complainPresenter.onLoad(dto.idOrderDetail);
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                },
+                                child: Text('Yes'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }),
+              OutlineButton(
+                  child: Text("Return reason"),
+                  textColor: primaryColor,
+                  borderSide: BorderSide(color: primaryColor),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  onPressed: () {
+                    _settingRefundModalBottomSheet(context, dto);
+                  })
             ],
           ),
         )
@@ -370,15 +411,28 @@ class _RefundPurchaseState extends State<RefundPurchase>
                       crossAxisAlignment: WrapCrossAlignment.center,
                       alignment: WrapAlignment.center,
                       children: [
+                        Row(
+                          children: [
+                            if (dto.user[0].avatar != null)
+                              CircleAvatar(
+                                child: Image.network(dto.user[0].avatar),
+                              ),
+                            Text(
+                              " " + dto.user[0].fullName,
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          padding: EdgeInsets.only(top: 10),
                           child: contentForm(dto.reasonRefund),
                         ),
+
                         SizedBox(
                           height: 70,
                         ),
-                        dto.imageRefund == null
+                        dto.imageRefund.isEmpty
                             ? const Text("No picture")
                             : GridView.builder(
                                 scrollDirection: Axis.vertical,
@@ -481,19 +535,5 @@ class _RefundPurchaseState extends State<RefundPurchase>
       _list = list;
       isLoading = false;
     });
-  }
-
-  @override
-  void onComplainError(String e) {
-    Fake.showErrorDialog(e, "Notification", context);
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  @override
-  void onComplainSuccess(String mess) {
-    Fake.showErrorDialog(mess, "Notification", context);
-    getSharedPrefs().then((value) => _loadPresenter.onLoad(value.id));
   }
 }

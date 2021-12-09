@@ -52,9 +52,9 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     idProduct = json['idProduct'];
     name = json['name'];
-    if (json['Images'] != null) {
+    if (json['images'] != null) {
       images = new List<Images>();
-      json['Images'].forEach((v) {
+      json['images'].forEach((v) {
         images.add(new Images.fromJson(v));
       });
     }
@@ -65,7 +65,7 @@ class Product {
     data['idProduct'] = this.idProduct;
     data['name'] = this.name;
     if (this.images != null) {
-      data['Images'] = this.images.map((v) => v.toJson()).toList();
+      data['images'] = this.images.map((v) => v.toJson()).toList();
     }
     return data;
   }

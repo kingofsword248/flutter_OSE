@@ -45,18 +45,16 @@ class AddCart extends StatelessWidget {
                       }
                     }
                     Product product2 = Product(
-                        brandID: product.brandID,
-                        categoryID: product.categoryID,
-                        createdAt: product.createdAt,
-                        description: product.description,
-                        idProduct: product.idProduct,
-                        images: product.images,
-                        name: product.name,
-                        own: product.own,
-                        price: product.price,
-                        quantity: product.quantity,
-                        status: product.status,
-                        updatedAt: product.updatedAt);
+                      categoryID: product.categoryID,
+                      description: product.description,
+                      idProduct: product.idProduct,
+                      images: product.images,
+                      name: product.name,
+                      own: product.own,
+                      price: product.price,
+                      quantity: product.quantity,
+                      status: product.status,
+                    );
                     cart.addItem(product2);
                     Fake.showDiaglog(context, "Add to cart successfull");
                   },
@@ -117,18 +115,16 @@ class AddCart extends StatelessWidget {
         context: context,
         builder: (BuildContext bc) {
           Product product2 = Product(
-              brandID: product.brandID,
-              categoryID: product.categoryID,
-              createdAt: product.createdAt,
-              description: product.description,
-              idProduct: product.idProduct,
-              images: product.images,
-              name: product.name,
-              own: product.own,
-              price: product.price,
-              quantity: product.quantity,
-              status: product.status,
-              updatedAt: product.updatedAt);
+            categoryID: product.categoryID,
+            description: product.description,
+            idProduct: product.idProduct,
+            images: product.images,
+            name: product.name,
+            own: product.own,
+            price: product.price,
+            quantity: product.quantity,
+            status: product.status,
+          );
           return BottomSheetExchange(
             product: product2,
           );

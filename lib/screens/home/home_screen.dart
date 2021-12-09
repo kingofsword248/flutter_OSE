@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:old_change_app/models/delivery.dart';
 import 'package:old_change_app/models/input/cicle_screen1.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/circle_home_presenter.dart';
@@ -52,10 +53,10 @@ class _HomeScreenState extends State<HomeScreen>
             {
               if (_a.role == "shipper")
                 {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DeliveryScreen()),
-                  )
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => DeliveryScreen()),
+                      (_) => false)
                 }
               else
                 _circleHomePresenter.onLoad(_a.token)

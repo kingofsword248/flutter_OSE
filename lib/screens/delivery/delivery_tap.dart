@@ -5,6 +5,7 @@ import 'package:old_change_app/models/delivery.dart';
 import 'package:old_change_app/presenters/deliveru_presenter.dart';
 import 'package:old_change_app/presenters/delivery_success_presenter.dart';
 import 'package:old_change_app/presenters/load_delivery_presenter.dart';
+import 'package:old_change_app/presenters/update_status_presenter.dart';
 import 'package:old_change_app/screens/delivery/delivery_bottom.dart';
 import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/screens/detail_page/detail_page.dart';
@@ -22,23 +23,26 @@ class DeliveryTap2 extends StatefulWidget {
 }
 
 class _DeliveryTap2State extends State<DeliveryTap2>
-    implements LoadDeliveryContract, DeliveryContract, DeliverySuccessContract {
+    implements
+        LoadDeliveryContract,
+        DeliveryContract,
+        DeliverySuccessContract,
+        UpdateStatusContract {
   bool isLoading = true;
   List<Delivery> _list = [];
   LoadDeliveryPresenter _loadDeliveryPresenter;
   DeliveryPresenter _deliveryPresenter;
   DeliverySuccessPresenter _successPresenter;
-  // User _user;
 
-  // Future<Null> getSharedPrefs() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String user = prefs.get('User');
-  //   _user = User.fromJson(json.decode(user));
-  // }
+  // part 2
+  UpdateStatusPresenter _presenter;
+  final _formKey = GlobalKey<FormState>();
+  String reason;
 
   @override
   void initState() {
     // TODO: implement initState
+    _presenter = UpdateStatusPresenter(this);
     _successPresenter = DeliverySuccessPresenter(this);
     _deliveryPresenter = DeliveryPresenter(this);
     _loadDeliveryPresenter = LoadDeliveryPresenter(this);
@@ -260,6 +264,9 @@ class _DeliveryTap2State extends State<DeliveryTap2>
   @override
   void onLoadDeliveryError(String error) {
     Fake.showErrorDialog(error, "Error", context);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -300,18 +307,182 @@ class _DeliveryTap2State extends State<DeliveryTap2>
     });
   }
 
+  Function reload() {
+    _loadDeliveryPresenter.onLoad(widget.url);
+    setState(() {
+      isLoading = true;
+    });
+  }
+
   void _settingRefundModalBottomSheet(context, int idTranport) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20))),
         context: context,
         builder: (BuildContext bc) {
-          return DeliveryModalBottomSheet(
-            idTransport: idTranport,
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(28),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 100,
+                        alignment: Alignment.centerLeft,
+                        child: InkWell(
+                          child: Icon(Icons.close),
+                          onTap: () {
+                            if (Navigator.canPop(context))
+                              Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      Text(
+                        'Update Status',
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        width: 100,
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Text(
+                            '',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Text(
+                      'Input Status',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: 20),
+                    child: isLoading == true
+                        ? CircularProgressIndicator()
+                        : Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: contentForm(),
+                              ),
+                              SizedBox(
+                                height: 70,
+                              ),
+                              // imageWidgets()
+                            ],
+                          ),
+                  ),
+                  if (isLoading == false) submitButtom(context, idTranport)
+                ],
+              ),
+            ),
           );
-        });
+        }).then((_) => reload);
+  }
+
+  Widget submitButtom(BuildContext context, int idTranport) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(vertical: 20),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+        textColor: Colors.white,
+        color: primaryColor,
+        padding: EdgeInsets.all(20),
+        child: Text(
+          'Submit',
+          style: TextStyle(fontSize: 16),
+        ),
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+
+            _presenter.onLoad(idTranport, reason);
+            setState(() {
+              isLoading = true;
+            });
+          }
+
+          // close(context);
+        },
+      ),
+    );
+  }
+
+  Widget contentForm() {
+    return Form(
+      key: _formKey,
+      child: TextFormField(
+        maxLines: 4,
+        keyboardType: TextInputType.text,
+        onSaved: (newValue) => reason = newValue,
+        onChanged: (value) {
+          // if (value.isNotEmpty) {
+          //   removeError(error: kEmailNullError);
+          // } else if (emailValidatorRegExp.hasMatch(value)) {
+          //   removeError(error: kInvalidEmailError);
+          // }
+          // return null;
+        },
+        validator: (value) {
+          if (value.isEmpty) {
+            return "Content is empty";
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: "Status",
+          hintText: "Enter your Content",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding: EdgeInsets.symmetric(horizontal: 42, vertical: 20),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: primaryColor),
+              gapPadding: 10),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: primaryFocusColor),
+              gapPadding: 10),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void onUpdateError(String e) {
+    Fake.showErrorDialog(e, "Error", context);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  @override
+  void onUpdateSuccess(String success) {
+    Fake.showDiaglog(context, "Success");
+    Navigator.pop(context);
+    _loadDeliveryPresenter.onLoad(widget.url);
   }
 }

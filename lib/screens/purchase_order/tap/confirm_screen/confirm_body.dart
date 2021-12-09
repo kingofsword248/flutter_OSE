@@ -33,16 +33,16 @@ class ConfirmBody extends StatelessWidget {
             Container(
               width: getProportionateScreenWidth(220),
               child: Text(
-                dto.product[0].name,
+                dto.product[0].name + " x" + dto.quantity.toString(),
                 overflow: TextOverflow.visible,
                 style: TextStyle(color: Colors.black, fontSize: 18),
                 maxLines: 2,
               ),
             ),
-            Text(
-              "X" + dto.quantity.toString(),
-              style: TextStyle(fontSize: 16),
-            ),
+            // Text(
+            //   "X" + dto.quantity.toString(),
+            //   style: TextStyle(fontSize: 16),
+            // ),
             Text(
                 "Total : ${NumberFormat.simpleCurrency(locale: 'vi').format(dto.price)}",
                 style: Theme.of(context).textTheme.bodyText1),

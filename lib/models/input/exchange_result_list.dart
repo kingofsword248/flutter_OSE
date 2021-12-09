@@ -1,8 +1,8 @@
 class ExchangeForm {
   int idRequest;
-  UserSub user;
+  UserE user;
   Myproduct myproduct;
-  Myproduct productExchange;
+  ProductExchange productExchange;
   int priceDiff;
 
   ExchangeForm(
@@ -14,12 +14,12 @@ class ExchangeForm {
 
   ExchangeForm.fromJson(Map<String, dynamic> json) {
     idRequest = json['idRequest'];
-    user = json['user'] != null ? new UserSub.fromJson(json['user']) : null;
+    user = json['user'] != null ? new UserE.fromJson(json['user']) : null;
     myproduct = json['myproduct'] != null
         ? new Myproduct.fromJson(json['myproduct'])
         : null;
     productExchange = json['productExchange'] != null
-        ? new Myproduct.fromJson(json['productExchange'])
+        ? new ProductExchange.fromJson(json['productExchange'])
         : null;
     priceDiff = json['priceDiff'];
   }
@@ -41,14 +41,14 @@ class ExchangeForm {
   }
 }
 
-class UserSub {
+class UserE {
   int id;
   String fullName;
   String avatar;
 
-  UserSub({this.id, this.fullName, this.avatar});
+  UserE({this.id, this.fullName, this.avatar});
 
-  UserSub.fromJson(Map<String, dynamic> json) {
+  UserE.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     fullName = json['fullName'];
     avatar = json['avatar'];
@@ -75,9 +75,9 @@ class Myproduct {
     idProduct = json['idProduct'];
     name = json['name'];
     price = json['price'];
-    if (json['Images'] != null) {
+    if (json['images'] != null) {
       images = new List<Images>();
-      json['Images'].forEach((v) {
+      json['images'].forEach((v) {
         images.add(new Images.fromJson(v));
       });
     }
@@ -89,7 +89,39 @@ class Myproduct {
     data['name'] = this.name;
     data['price'] = this.price;
     if (this.images != null) {
-      data['Images'] = this.images.map((v) => v.toJson()).toList();
+      data['images'] = this.images.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ProductExchange {
+  int idProduct;
+  String name;
+  int price;
+  List<Images> images;
+
+  ProductExchange({this.idProduct, this.name, this.price, this.images});
+
+  ProductExchange.fromJson(Map<String, dynamic> json) {
+    idProduct = json['idProduct'];
+    name = json['name'];
+    price = json['price'];
+    if (json['images'] != null) {
+      images = new List<Images>();
+      json['images'].forEach((v) {
+        images.add(new Images.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['idProduct'] = this.idProduct;
+    data['name'] = this.name;
+    data['price'] = this.price;
+    if (this.images != null) {
+      data['images'] = this.images.map((v) => v.toJson()).toList();
     }
     return data;
   }

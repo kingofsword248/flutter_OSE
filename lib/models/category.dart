@@ -14,9 +14,9 @@ class Category {
   Category.fromJson(Map<String, dynamic> json) {
     idbrand = json['idbrand'];
     brandname = json['brandname'];
-    if (json['Categories'] != null) {
+    if (json['categories'] != null) {
       categories = new List<Categories>();
-      json['Categories'].forEach((v) {
+      json['categories'].forEach((v) {
         categories.add(new Categories.fromJson(v));
       });
     }
@@ -27,7 +27,7 @@ class Category {
     data['idbrand'] = this.idbrand;
     data['brandname'] = this.brandname;
     if (this.categories != null) {
-      data['Categories'] = this.categories.map((v) => v.toJson()).toList();
+      data['categories'] = this.categories.map((v) => v.toJson()).toList();
     }
     return data;
   }

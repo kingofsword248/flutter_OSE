@@ -6,6 +6,7 @@ import 'package:old_change_app/data/repositories/categories_reponsitory.dart';
 import 'package:old_change_app/data/repositories/check_out_reponsitory.dart';
 import 'package:old_change_app/data/repositories/circle_home_repository.dart';
 import 'package:old_change_app/data/repositories/circle_one_repository.dart';
+import 'package:old_change_app/data/repositories/complain_refund_repository.dart';
 import 'package:old_change_app/data/repositories/confirm_purchase_repository.dart';
 import 'package:old_change_app/data/repositories/delivery_buttom_repository.dart';
 import 'package:old_change_app/data/repositories/delivery_success_repository.dart';
@@ -19,6 +20,8 @@ import 'package:old_change_app/data/repositories/load_feedback_repository.dart';
 import 'package:old_change_app/data/repositories/load_image_reponsitory.dart';
 import 'package:old_change_app/data/repositories/load_my_product_repository.dart';
 import 'package:old_change_app/data/repositories/load_product_detail_repository.dart';
+import 'package:old_change_app/data/repositories/load_refund_purchase_repository.dart';
+import 'package:old_change_app/data/repositories/load_refund_sell.dart';
 import 'package:old_change_app/data/repositories/login_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_product_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_review_repository.dart';
@@ -69,4 +72,7 @@ class Injector {
   DeliveryButtomRepository delivery() => DeliveryButtomRepositoryIml();
   DeliverySuccessRepository deliverySuccess() => DeliverySuccessRepositoryIml();
   UpdateStatusRepository updateStatus() => UpdateStatusRepositoryIml();
+  RefundPurchaseRepository loadRefundP() => RefundPurchaseRepositoryIml();
+  ComplainRefundRepository complainRefund() => ComplainRefundRepositoryIml();
+  RefundSellRepository loadRefundS() => RefundSellRepositoryIml();
 }

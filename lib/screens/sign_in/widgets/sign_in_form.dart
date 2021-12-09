@@ -209,10 +209,10 @@ class _SignFormState extends State<SignForm> implements LoginContract {
       _isLoading = false;
     });
     if (us.role == "shipper") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => DeliveryScreen()),
-      );
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => DeliveryScreen()),
+          (_) => false);
       return;
     }
     final value = Provider.of<MenuBottomDT>(context, listen: false);

@@ -17,6 +17,6 @@ class UpdateStatusPresenter {
     _repository
         .updateStatus(id, status)
         .then((value) => _view.onUpdateSuccess(value))
-        .catchError((onError) => _view.onUpdateError(onError));
+        .catchError((onError) => _view.onUpdateError(onError.toString()));
   }
 }
