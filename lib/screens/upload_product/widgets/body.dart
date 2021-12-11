@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:old_change_app/presenters/suggest_price_presenter.dart';
 import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/input/category_request.dart';
 import 'package:old_change_app/models/input/post_image_result.dart';
@@ -28,12 +30,17 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body>
-    implements CategoryContract, LoadImageContract, PostProductContract {
+    implements
+        CategoryContract,
+        LoadImageContract,
+        PostProductContract,
+        SuggestPriceContract {
   //Postproduct
   PostProductPresenter _postProductPresenter;
   //catefory
   CategoryPresenter _categoryPresenter;
   List<CategoryRequest> listCategories;
+  SuggestPricePresenter _suggestPricePresenter;
   // List<Map<String, dynamic>> data;
   var _isLoading = false;
   //load image
@@ -53,6 +60,7 @@ class _BodyState extends State<Body>
   int price;
   int categoryID;
   int categoryChangeID;
+  String suggestPrice;
   //validate
   final List<String> errors = [];
   void addError({String error}) {
@@ -81,6 +89,7 @@ class _BodyState extends State<Body>
   void initState() {
     // TODO: implement initState
     super.initState();
+    _suggestPricePresenter = SuggestPricePresenter(this);
     _categoryPresenter = CategoryPresenter(this);
     _imagePresenter = LoadImagePresenter(this);
     _postProductPresenter = PostProductPresenter(this);
@@ -126,15 +135,27 @@ class _BodyState extends State<Body>
                       const SizedBox(
                         height: 20,
                       ),
-                      priceForm(),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       statusForm(),
                       const SizedBox(
                         height: 20,
                       ),
                       if (Fake.categoryFake.isNotEmpty) categoryForm(),
+                      if (suggestPrice != null)
+                        Text(
+                          suggestPrice.contains("cho")
+                              ? suggestPrice
+                              : ("Average price :" +
+                                  NumberFormat.simpleCurrency(locale: 'vi')
+                                      .format(int.parse(suggestPrice))),
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      priceForm(),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -491,8 +512,10 @@ class _BodyState extends State<Body>
       title: 'Category',
       placeholder: 'Choose one',
       value: categoryID.toString(),
-      onChange: (selected) =>
-          setState(() => categoryID = int.parse(selected.value)),
+      onChange: (selected) {
+        setState(() => categoryID = int.parse(selected.value));
+        _suggestPricePresenter.onLoad(int.parse(selected.value));
+      },
       choiceItems: S2Choice.listFrom<String, Map>(
         source: Fake.categoryFake,
         value: (index, item) => item['idcategory'].toString(),
@@ -610,6 +633,18 @@ class _BodyState extends State<Body>
     Fake.showErrorDialog(error, "Notification Error", context);
     setState(() {
       _isLoading = false;
+    });
+  }
+
+  @override
+  void onSuggestError(String er) {
+    print(er);
+  }
+
+  @override
+  void onSuggestSuccess(String price) {
+    setState(() {
+      suggestPrice = price;
     });
   }
 }

@@ -169,15 +169,16 @@ class _DeliveryTap2State extends State<DeliveryTap2>
                       color: Colors.green[800],
                       height: 20,
                     ),
-                    Container(
-                      width: getProportionateScreenWidth(200),
-                      child: Text(
-                        " " + dto.status,
-                        overflow: TextOverflow.visible,
-                        style: TextStyle(color: Colors.black, fontSize: 18),
-                        maxLines: 2,
+                    if (dto.status != null)
+                      Container(
+                        width: getProportionateScreenWidth(200),
+                        child: Text(
+                          " " + dto.status,
+                          overflow: TextOverflow.visible,
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          maxLines: 2,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ],

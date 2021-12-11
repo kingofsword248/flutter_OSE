@@ -24,7 +24,9 @@ class Header2 extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           image: const DecorationImage(
-              image: AssetImage("assets/images/22k.jpg"), fit: BoxFit.cover),
+              image: AssetImage(
+                  "assets/images/joanna-kosinska-7ACuHoezUYk-unsplash.jpg"),
+              fit: BoxFit.cover),
           // color: primaryColor,
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(5)),
           boxShadow: [

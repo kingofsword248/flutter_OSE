@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:old_change_app/models/product_real.dart';
+import 'package:old_change_app/models/trending.dart';
 import 'package:old_change_app/screens/detail_page/detail_page.dart';
+import 'package:old_change_app/utilities/colors.dart';
 
 class ImageCard extends StatelessWidget {
-  final Product item;
+  final Trending item;
   const ImageCard({Key key, @required this.item}) : super(key: key);
 
   @override
@@ -35,7 +38,9 @@ class ImageCard extends StatelessWidget {
                         blurRadius: 15),
                   ],
                   image: DecorationImage(
-                      image: AssetImage(this.item.images[0].address),
+                      image: item.images.isNotEmpty
+                          ? NetworkImage(item.images[0].address)
+                          : const AssetImage("assets/images/not.png"),
                       fit: BoxFit.cover)),
             ),
             Center(
@@ -50,10 +55,10 @@ class ImageCard extends StatelessWidget {
             ),
             Center(
               child: Text(
-                '\$${item.price}',
+                NumberFormat.simpleCurrency(locale: 'vi').format(item.price),
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Colors.blue.shade800,
+                    color: primaryColor,
                     fontSize: 20),
               ),
             )

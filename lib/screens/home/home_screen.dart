@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'package:old_change_app/models/delivery.dart';
 import 'package:old_change_app/models/input/cicle_screen1.dart';
+import 'package:old_change_app/models/product_real.dart';
+import 'package:old_change_app/models/trending.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/circle_home_presenter.dart';
+import 'package:old_change_app/presenters/load_trending_presenter.dart';
 import 'package:old_change_app/screens/circle_exchange/circle_card.dart';
 import 'package:old_change_app/screens/delivery/delivery_screen.dart';
 import 'package:old_change_app/utilities/fake.dart';
@@ -27,13 +27,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    implements LoadCategoryContract, CircleHomeContrat {
+    implements LoadCategoryContract, CircleHomeContrat, LoadTrendingContract {
   LoadCategoryPresenter _loadCategoryPresenter;
   CircleHomePresenter _circleHomePresenter;
+  LoadTrendingPresenter _loadTrendingPresenter;
   List<CircleHome> circleList = [];
   List<Category> _list = [];
+  List<Trending> _trending = [];
   User _a;
   bool __isLoading = true;
+  bool _isTrending = true;
   List<Widget> ww = [
     const Center(
       child: CircularProgressIndicator(
@@ -44,10 +47,11 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     // TODO: implement initState
+    _loadTrendingPresenter = LoadTrendingPresenter(this);
     _circleHomePresenter = CircleHomePresenter(this);
     _loadCategoryPresenter = LoadCategoryPresenter(this);
     _loadCategoryPresenter.onLoad();
-
+    _loadTrendingPresenter.onLoad();
     getSharedPrefs().then((value) => {
           if (value)
             {
@@ -117,13 +121,15 @@ class _HomeScreenState extends State<HomeScreen>
                                   c.brandname, context, c.categories);
                             });
                       }).toList()),
-              Section(
-                  'Trending',
-                  Fake.product2
-                      .map((imagePath) => ImageCard(
-                            item: imagePath,
-                          ))
-                      .toList()),
+              _isTrending == true
+                  ? Section("New Product", ww)
+                  : Section(
+                      'New Product',
+                      _trending
+                          .map((imagePath) => ImageCard(
+                                item: imagePath,
+                              ))
+                          .toList()),
               circleList.isNotEmpty
                   ? Section(
                       'Recommended for you',
@@ -170,6 +176,19 @@ class _HomeScreenState extends State<HomeScreen>
       setState(() {
         circleList = list;
       });
+  }
+
+  @override
+  void onTrendingError(String er) {
+    // TODO: implement onTrendingError
+  }
+
+  @override
+  void onTrendingSuccess(List<Trending> list) {
+    setState(() {
+      _trending = list;
+      _isTrending = false;
+    });
   }
 }
 

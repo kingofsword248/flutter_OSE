@@ -25,6 +25,7 @@ import 'package:old_change_app/data/repositories/load_product_detail_repository.
 import 'package:old_change_app/data/repositories/load_refund_purchase_repository.dart';
 import 'package:old_change_app/data/repositories/load_refund_sell.dart';
 import 'package:old_change_app/data/repositories/load_shop_repository.dart';
+import 'package:old_change_app/data/repositories/load_trending_repository.dart';
 import 'package:old_change_app/data/repositories/login_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_product_reponsitory.dart';
 import 'package:old_change_app/data/repositories/post_review_repository.dart';
@@ -33,6 +34,7 @@ import 'package:old_change_app/data/repositories/purchase_order_reponsitory.dart
 import 'package:old_change_app/data/repositories/reject_exchange_repository.dart';
 import 'package:old_change_app/data/repositories/send_refund_repository.dart';
 import 'package:old_change_app/data/repositories/sign_up_reponsitory.dart';
+import 'package:old_change_app/data/repositories/suggest_price_repository.dart';
 import 'package:old_change_app/data/repositories/update_status_repository.dart';
 
 class Injector {
@@ -82,4 +84,8 @@ class Injector {
       AcceptRefundSellerRepositoryIml();
   DisagreeRefundRepository disagreeRefund() => DisagreeRefundRepositoryIml();
   LoadShopRepository loadShopRepository() => LoadShopRepositoryIml();
+  SuggestPriceRepository suggestPriceRepository() =>
+      SuggestPriceRepositoryIml();
+  LoadTrendingRepository loadTrendingRepository() =>
+      LoadTrendingRepositoryIml();
 }

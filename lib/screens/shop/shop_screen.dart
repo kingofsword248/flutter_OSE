@@ -50,47 +50,45 @@ class _ShopScreenState extends State<ShopScreen> implements LoadShopContract {
     return Scaffold(
       bottomNavigationBar: AppBottomNavigation(),
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: _isLoadingData
-            ? Center(
-                child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
-              ))
-            : _info.listProduct.isEmpty
-                ? OutlineButton(
-                    child: Text("List is empty, Back"),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })
-                : CustomScrollView(
-                    slivers: [
-                      SliverPersistentHeader(
-                        pinned: false,
-                        floating: false,
-                        delegate: HeaderSliver2(_info,
-                            minExtent: 200, maxExtent: 200, content: title),
-                      ),
-                      SliverGrid.count(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.65,
-                        mainAxisSpacing: 16,
-                        crossAxisSpacing: 16,
-                        children: _info.listProduct.asMap().entries.map((f) {
-                          return InkWell(
-                            onTap: () {
-                              onProductSelected(f.value.idProduct);
-                            },
-                            child: ProductGirdItem(
-                                item: f.value,
-                                margin: EdgeInsets.only(
-                                    left: f.key.isEven ? 16 : 0,
-                                    right: f.key.isOdd ? 16 : 0)),
-                          );
-                        }).toList(),
-                      )
-                    ],
-                  ),
-      ),
+      body: _isLoadingData
+          ? Center(
+              child: CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(primaryColor),
+            ))
+          : _info.listProduct.isEmpty
+              ? OutlineButton(
+                  child: Text("List is empty, Back"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  })
+              : CustomScrollView(
+                  slivers: [
+                    SliverPersistentHeader(
+                      pinned: false,
+                      floating: false,
+                      delegate: HeaderSliver2(_info,
+                          minExtent: 200, maxExtent: 200, content: title),
+                    ),
+                    SliverGrid.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.65,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      children: _info.listProduct.asMap().entries.map((f) {
+                        return InkWell(
+                          onTap: () {
+                            onProductSelected(f.value.idProduct);
+                          },
+                          child: ProductGirdItem(
+                              item: f.value,
+                              margin: EdgeInsets.only(
+                                  left: f.key.isEven ? 16 : 0,
+                                  right: f.key.isOdd ? 16 : 0)),
+                        );
+                      }).toList(),
+                    )
+                  ],
+                ),
     );
   }
 
