@@ -142,11 +142,11 @@ class _BodyState extends State<Body>
                       if (Fake.categoryFake.isNotEmpty) categoryForm(),
                       if (suggestPrice != null)
                         Text(
-                          suggestPrice.contains("cho")
-                              ? suggestPrice
-                              : ("Average price :" +
+                          suggestPrice == "0"
+                              ? "The product has no price recommendation yet"
+                              : ("This item costs about " +
                                   NumberFormat.simpleCurrency(locale: 'vi')
-                                      .format(int.parse(suggestPrice))),
+                                      .format(double.parse(suggestPrice))),
                           style: TextStyle(fontSize: 18),
                         ),
                       const SizedBox(

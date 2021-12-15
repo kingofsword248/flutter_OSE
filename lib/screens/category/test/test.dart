@@ -14,8 +14,9 @@ import 'package:old_change_app/widgets/app_bottom_navigation.dart';
 class Test extends StatefulWidget {
   final String title;
   final List<Categories> list;
-
-  const Test({Key key, this.title, this.list}) : super(key: key);
+  final int brandID;
+  const Test({Key key, this.title, this.list, @required this.brandID})
+      : super(key: key);
   @override
   // ignore: no_logic_in_create_state
   _TestState createState() => _TestState(title);
@@ -32,11 +33,10 @@ class _TestState extends State<Test> implements ProductListViewContrat {
   final PagingController<int, Product> _pagingController =
       PagingController(firstPageKey: 0);
   StreamSubscription _blocListingStateSubscription;
-
-  final CharacterSliverGridBloc _bloc = CharacterSliverGridBloc();
-
+  CharacterSliverGridBloc _bloc;
   @override
   void initState() {
+    _bloc = CharacterSliverGridBloc(widget.brandID);
     _pagingController.addPageRequestListener((pageKey) {
       _bloc.onPageRequestSink.add(pageKey);
     });

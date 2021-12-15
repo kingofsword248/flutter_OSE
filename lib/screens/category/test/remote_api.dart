@@ -11,10 +11,12 @@ class RemoteApi {
     return parsed.map<Product>((json) => Product.fromJson(json)).toList();
   }
 
-  static Future<List<Product>> getCharacterList(int page, int limit) async {
+  static Future<List<Product>> getCharacterList(
+      int page, int limit, int brandid) async {
     print(page);
+
     String url =
-        "https://old-stuff-exchange-api.herokuapp.com/api/products/web/?page=$page&limit=$limit";
+        "https://old-stuff-exchange-api.herokuapp.com/api/products/web/$brandid/?page=$page&limit=$limit";
     final reponse = await http.get(Uri.parse(url));
     if (reponse.statusCode == 200) {
       return parseProducts(reponse.body);

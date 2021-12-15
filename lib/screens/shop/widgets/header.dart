@@ -12,6 +12,7 @@ import 'package:old_change_app/screens/cart/cart_screen.dart';
 import 'package:old_change_app/screens/category/widgets/action_button.dart';
 import 'package:old_change_app/screens/category/widgets/filter_modal_bottom_sheet.dart';
 import 'package:old_change_app/widgets/cart.dart';
+import 'package:old_change_app/widgets/size_config.dart';
 import 'package:provider/provider.dart';
 
 class Header2 extends StatelessWidget {
@@ -117,13 +118,17 @@ class Header2 extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                  Text(
-                    "Adress : " + info.address,
-                    overflow: TextOverflow.visible,
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                  Container(
+                    width: getProportionateScreenWidth(220),
+                    child: Text(
+                      "Adress : " + info.address,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
                   RatingBar.builder(
                       initialRating: double.parse(info.starUser),

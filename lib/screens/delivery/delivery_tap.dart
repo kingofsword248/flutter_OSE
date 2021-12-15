@@ -141,6 +141,7 @@ class _DeliveryTap2State extends State<DeliveryTap2>
                   ),
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SvgPicture.asset(
                       "assets/icons/home-svgrepo-com.svg",
@@ -156,7 +157,7 @@ class _DeliveryTap2State extends State<DeliveryTap2>
                                 : dto.addressReceive),
                         overflow: TextOverflow.visible,
                         style: TextStyle(color: Colors.black, fontSize: 18),
-                        maxLines: 2,
+                        maxLines: 3,
                       ),
                     ),
                   ],

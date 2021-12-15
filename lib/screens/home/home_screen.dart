@@ -117,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen>
                                 ? Fake.laptop
                                 : Fake.phone,
                             onTap: () {
-                              onCategoryOnSeleted(
-                                  c.brandname, context, c.categories);
+                              onCategoryOnSeleted(c.brandname, context,
+                                  c.categories, c.idbrand);
                             });
                       }).toList()),
               _isTrending == true
@@ -155,13 +155,14 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   onCategoryOnSeleted(
-      String title, BuildContext context, List<Categories> list) {
+      String title, BuildContext context, List<Categories> list, int id) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => Test(
                   title: title,
                   list: list,
+                  brandID: id,
                 )));
   }
 

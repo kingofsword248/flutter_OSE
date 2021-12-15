@@ -4,7 +4,8 @@ import 'package:rxdart/rxdart.dart';
 import 'dart:async';
 
 class CharacterSliverGridBloc {
-  CharacterSliverGridBloc() {
+  final int brandid;
+  CharacterSliverGridBloc(this.brandid) {
     _onPageRequest.stream
         .flatMap(_fetchCharacterSummaryList)
         .listen(_onNewListingStateController.add)
@@ -47,10 +48,8 @@ class CharacterSliverGridBloc {
   Stream<CharacterListingState> _fetchCharacterSummaryList(int pageKey) async* {
     final lastListingState = _onNewListingStateController.value;
     try {
-      final newItems = await RemoteApi.getCharacterList(
-        pageKey + 1,
-        _pageSize,
-      );
+      final newItems =
+          await RemoteApi.getCharacterList(pageKey + 1, _pageSize, brandid);
       final isLastPage = newItems.length < _pageSize;
       final nextPageKey = isLastPage ? null : pageKey + 1;
       yield CharacterListingState(

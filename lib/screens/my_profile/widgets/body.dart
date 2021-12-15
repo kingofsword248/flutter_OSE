@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:old_change_app/screens/shop/shop_screen.dart';
 import 'package:old_change_app/utilities/fake.dart';
 import 'package:old_change_app/models/user.dart';
 import 'package:old_change_app/presenters/fetch_user_presenter.dart';
@@ -114,8 +115,13 @@ class _BodyState extends State<Body> implements FetchUserContract {
                   text: "My Product",
                   icon: "assets/icons/cabinet-svgrepo-com.svg",
                   press: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyProduct()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShopScreen(
+                                  id: _a.id,
+                                  title: "Shop",
+                                )));
                   },
                 ),
                 ProfileMenu(
